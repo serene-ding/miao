@@ -58,9 +58,87 @@
   <dl>
       <dt>coffee</dt>
       <dd>black hot coffee</dd>
+      <dt>milk</dt>
+      <dd>white cold milk</dd>
+      <dt>tea</dt>
+      <dd>green mild tea</dd>
   </dl>
+  <h3>google search</h3>
+  <form target="_blank"" action="https://google.com.hk/search">
+    <input type="text" required name="q" >
+    <input type="hidden" name="ie" value="UTF-8">
+    <input type="hidden" name="sourceid" value="chrome">
+    <button>open_in_a_new_tab</button>
+</form>
+
+
+
+<hr>
+<form>
+<p>your information</p>
+<dl>
+    <dt>gender</dt>
+    <dd>
+        <label><input type="radio" name="gender" value="male">male</label>
+        <label><input type="radio" name="gender" value="female">female</label>
+        <label><input type="radio" name="gender" value="nonbianry">nonbinary</label>
+        
+    </dd>
+    
+    
+    <dt>age</dt>
+    <dd><select name="age" id="">
+            <option hidden value="">enter your age</option>
+            <optgroup label="child">
+                <option value="">0-6</option>
+                <option value="">7-12</option>
+            </optgroup>
+            <optgroup label="teenager">
+                <option value="">13-15</option>
+                <option value="">16-17</option>
+            </optgroup>
+            <optgroup label="adult">
+                <option value="">18-21</option>
+                <option value="">21-25</option>
+                <option value="">26-30</option>
+            </optgroup>
+
+    </select>
+    </dd>
+    <dt>birthday</dt>
+    <dd>
+        <input type="date" name="birthday">
+    </dd>
+    <dt>birth_time </dt>
+    <dd>
+        <input type="time" name="birth_time">
+    </dd>
+    <dt>photo</dt>
+    <dd>
+        <label><input hidden type="file">i am better_looking 
+            than file button</label>
+    </dd>
+    <dt>color</dt>
+    <dd>
+        <input type="color" name="" id="">
+    </dd>
+    <dt>self_introduction</dt>
+    <textarea cols=30 rows=10 >&lt;/textarea></textarea>
+</dl>
+
+    <fieldset disabled>
+        <legend>all of the below are disabled</legend>
+        <input type="text">
+        <input type="text">
+        <input type="text">
+        <input type="text">
+
+    </fieldset>
+
+    <button>submit</button>
+    <button type="reset">reset</button>
   
-  
+</form>
 
 
 
