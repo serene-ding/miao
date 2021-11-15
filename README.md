@@ -1,2 +1,2 @@
 # miao
-my practice at miao boocamp :fox_face:
+my practice at miao bootcamp :fox_face:
