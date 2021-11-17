@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/5447/5447716.png">
+    <title>Document</title>
+</head>
+<style>
+
+    header.b {
+        background-color:aquamarine;
+        width:600px;
+        padding:0 calc(50% - 300px);
+    }
+    div{
+        width:600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    ul.first {
+        list-style: none;
+        padding:0px;
+    }
+    ul.first li {
+        background-color: lightcoral;
+        box-sizing: border-box;
+        border: 3px solid ;
+        width:180px;
+        height:40px;
+        margin-bottom: 15px;
+    }
+
+    ul.first li:nth-child(n+5){
+        margin-left: 210px;
+        
+    }
+    ul.first li:nth-child(n+9){
+        margin-left: 420px;
+    }
+    ul.first li:nth-child(5) {
+        margin-top: -220px;
+    }
+    ul.first li:nth-child(9){
+        margin-top: -220px;
+    } 
+    /* ul.first li:last-child{
+        margin-bottom: 0px;
+    } */
+    ul.first{
+        background-color: lightgreen;
+        margin-bottom: 0px;
+    }
+    ul.second {
+        background-color: lightgoldenrodyellow;
+        margin-top: 0px;
+        padding-left: 0px;
+        list-style: none;
+        overflow: hidden; 
+    }
+    ul.second li{
+        border-bottom:1px dotted;
+        margin-top: -1px;
+        margin-bottom: 1px; 
+        padding-top:1px;
+        
+    }
+    footer {
+        background-color: hotpink;
+</style>
+<body>
+    <header>
+        <div></div>
+    </header>
+    <header class="b">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis inventore, expedita officiis, hic asperiores voluptatibus ratione perferendis, perspiciatis explicabo eum ab? Harum maiores, blanditiis saepe beatae fugit at ipsa odit.
+    </header>
+    <div>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex molestias facere nam fugit debitis, dolorem fugiat ipsa iusto. Corporis enim maiores id voluptatem mollitia natus. Harum doloremque enim maxime! Ducimus.
+        </p>
+        <ul class="first">
+            <li>product</li>
+            <li>product</li>
+            <li>product</li>
+            <li>product</li>
+            <li>product</li>
+            <li>product</li>
+            <li>product</li>
+            <li>product</li>
+            <li>product</li>
+            <li>product</li>
+            <li>product</li>
+            <li>product</li>
+
+        </ul>
+        <ul class="second">
+            <li>link</li>
+            <li>link</li>
+            <li>link</li>
+            <li>link</li>
+            <li>link</li>
+        </ul>
+    </div>
+    <footer>
+        <div>&copy;the copyright is reserved;
+        the layout is achieved using block-level element;</div>
+    </footer>
+</body>
+</html>
