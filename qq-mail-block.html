@@ -8,8 +8,13 @@
     <title>Document</title>
 </head>
 <style>
+    html{
+        height: 100%;
+    }
     body{
         margin:0px;
+        font-size: 0px;
+        height: 100%;
     }
     header{
         background-color: rgb(159, 178, 236);
@@ -19,8 +24,9 @@
         height: 60px;
     }
     div.nav {
+        font-size: 30px;
         display: inline-block;
-        height: 550px;
+        height: calc(100vh - 60px);
         overflow: auto;
         width: 250px;
     }
@@ -47,10 +53,11 @@
         text-align: center;
     }
     div.inbox {
+        font-size: 30px;
         display: inline-block;
-        height: 550px;
+        height: calc(100% - 60px);
         overflow: auto;
-        width: 943px;
+        width: calc(100% - 250px);
         margin-right:0px;
         
         
