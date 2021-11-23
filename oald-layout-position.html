@@ -12,12 +12,14 @@
         
     }
     body {
-        font-size: 0;
+        xfont-size: 0;
         height: 100%;
         margin: 0px;
     }
     div{
+        min-width: 940px;
         height: 100%;
+        position: relative;
     }
     
     aside.a {
@@ -51,19 +53,27 @@
         overflow: auto;
         word-wrap: break-word;
     }
+   
     main {
         overflow: auto;
         position: absolute;
-        top:0;
+        top: 40px;;
         left:250px;
+        right:500px;
+        bottom: 0px;
         font-size: 50px;
-        height:100%;
+        xheight:100%;
         width: calc(100% - 750px);
         background-color: rgba(104, 189, 93, 0.842);
     }
     h2 {
+        margin-top: 0px;
+        position: absolute;
+        height: 40px;
         background-color: rgb(218, 214, 26);
-        margin-top: 0;
+        top: 0px;
+        left:250px;
+        right:500px;
     }
 </style>
 <body>
@@ -75,8 +85,9 @@
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit, facere odio. Harum vitae iusto assumenda labore excepturi, veniam dignissimos debitis incidunt facilis maxime optio. At laborum earum voluptatibus officia quidem!
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi eaque fuga non molestias animi architecto, omnis consectetur facilis amet deleniti recusandae quisquam laborum sunt doloribus eum! Accusantium perferendis repudiandae amet?
         </aside>
+        <h2>fantasy</h2>
         <main>
-            <h2>fantasy</h2>
+            
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto. Odio sit voluptatem a? Officia perferendis eveniet dolorem quae quasi officiis a itaque, minima laborum at, reiciendis, distinctio ipsa ullam.
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore, porro necessitatibus magni officiis voluptatibus ex consectetur quisquam error in cumque ab facilis nulla iusto esse totam nihil id beatae officia.
         </main>
