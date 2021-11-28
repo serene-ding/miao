@@ -5,57 +5,51 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
+    <style type="text/scss">
         body{
-            
-            margin:0;
+            margin: 0;
+            background-color: #323232;
         }
-        ul {
-            padding:0px;
-            margin:0px;
-            list-style-type:none;
-        }
-        ul.menu {
-            background-color: bisque;
-            min-width: 900px;
-        }
-        ul.menu > li {
+     ul {
+         padding: 0;
+         list-style: none;
+        }   
+
+    ul.menu {
+        min-width: 900px;
+        margin-top: 0;
+        background-color:#323233;
+        color:#cccccc;
+        
+        > li {
             display: inline-block;
-            text-align: center;
             width:100px;
             
-            xborder-right: rgb(211, 140, 34) solid 2px;
-        }
-        ul.menu  ul{
-            display: none;
-            position: absolute;
-            background-color: bisque;
-        }
-        ul.menu li:hover {
-            background-color: coral;
-        }
-        li:hover > ul {
-            display: block;
-            width:150px;
-            
-        }
-        .menu li {
-            position: relative;
-        }
-        ul ul ul{
-            top:0px;
-            left:100%
-        }
-        ul.menu > li li {
-            box-sizing: border-box;
-            padding: 2px 10px;
-            margin-bottom:2px;
-            text-align: center;
-            box-shadow:coral 0 0 1px;
-            border: 1px rgb(194, 122, 122) solid;
         }
 
-       
+        li {
+            position: relative;
+            white-space:nowrap;
+            ul {
+                display: none;
+                position: absolute;
+            }
+            &:hover{
+                background-color:#474748 ;
+                > ul {
+                display: block;
+                
+                }
+            }
+            ul li {
+                padding-right:1em;
+            }
+            ul ul {
+                left:100%;
+                top:0;
+            }
+        }
+    }
         
         
         
@@ -63,7 +57,7 @@
     </style>
 </head>
 <body>
-    <header>
+    
         <ul class="menu">
          <li>Edit
              
@@ -154,6 +148,7 @@
             </ul>
         </li>
     </ul>
-    </header>
+    
 </body>
+<script src="sass.link.min.js"></script>
 </html>
