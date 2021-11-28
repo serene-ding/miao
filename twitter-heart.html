@@ -6,27 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        div {
-            
-            height:104px;
-            width: 104px;
+        label {
+            display: block;
+            position: relative;
+            height:100px;
+            width: 100px;
             overflow: hidden;
+            margin: auto;
         }
         img {
-            margin-left:0px;
+            position: absolute;
+            left:0px;
+            transition: left 1s  steps(28);
             
         }
-        div:hover img{
-            margin-left:-2800px;
-            transition: margin-left 2s steps(28);
+        input:checked + label img{
+            left:-2800px;
+            
+            
             
         }
     </style>
 </head>
 <body>
-    <div tabindex="1">
-    <img src="web_heart_animation.png" alt="">
-</div>
+    
+    <input type="checkbox" name="" id="heart" hidden>
+    <label for="heart"><img src="web_heart_animation.png" alt=""></label>
 </div>
 </body>
 </html>

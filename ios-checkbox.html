@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+div.out {
+  position:relative;
+  height:100px;
+  width:200px;
+  border:2px solid grey;
+  border-radius:50px;
+  
+}
+div.background-green{
+  position:relative;
+  height:100px;
+  width:0px;
+  border-radius:50px;
+  background-color:green;
+  
+}
+div.in {
+  background-color:white;
+  border:1px silver;
+  box-shadow:5px 5px 5px grey;
+  position:absolute;
+  xmargin-top:20px;
+  height:90px;
+  width:90px;
+  border-radius:45px;
+  top:5px;
+  right:0px;
+  left:10px;
+  bottom:0px;
+  xmargin:auto;
+}
+input:checked + div {
+    background-color: rgb(88, 244, 110);
+}
+
+input:checked + div label div {
+  
+  left:100px;
+  transition:left 0.8s linear;
+}
+    </style>
+</head>
+<body>
+    <input type="checkbox" id="iso-button" hidden >
+  <div class="out">
+    
+    <label for="iso-button">
+      <div class="in">
+        
+      </div>
+    </label>
+      
+  </div>
+</body>
+  
+</div>
+</body>
+</body>
+</html>
