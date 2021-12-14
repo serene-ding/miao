@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    div.container {
+      
+    perspective:800px;
+    margin: 200px;
+    transform-style: preserve-3d;
+    perspective-origin:450px -300px;
+    transform:rotate(40deg);
+    transition: 2s;
+}
+    .cube {
+        width: 300px;
+        height: 300px;
+        position: absolute;
+        backface-visibility: visible;
+        color:black;
+        text-align: center;
+        line-height: 300px;
+        opacity: 0.5;
+
+    }
+    .bottom {
+        transform: rotateX(90deg) translateZ(-150px);
+    }
+    .front {
+        background-color: rgba(209, 125, 0.1);
+        transform: translateZ(150px);
+    }
+    .back {
+        background-color:rgba(0,134,134,0.5);
+        transform: rotateY(180deg) translateZ(150px);
+    }
+    .right {
+        background-color: rgba(265, 0, 0.1);
+        transform:rotateY(90deg) translateZ(150px);
+    }
+    .left {
+        background-color: rgba(77, 172, 0.5);
+        transform: rotateY(90deg) translateZ(-150px);
+    }
+    .top {
+        background-color: rgba(4, 63, 53, 0.5);
+        transform: rotateX(90deg) translateZ(150px);
+    }
+    .bottom {
+        background-color:rgba(123,123,123,0.5) ;
+    }
+
+</style>
+</head>
+<body>
+    <div class="container">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore consectetur repudiandae autem nostrum distinctio excepturi suscipit enim delectus dolorem. Et numquam fuga rerum inventore magni porro hic delectus perspiciatis vitae?
+        <div class="cube front">front</div>
+        <div class="cube back">back</div>
+        <div class="cube right">right</div>
+        <div class="cube left">left</div>
+        <div class="cube top">top</div>
+        <div class="cube bottom">bottom
+        </div>
+        
+    </div>
+</body>
+</html>

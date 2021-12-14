@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img {
+            width: 100px;
+            transform-origin: left top;
+            transition: 2s;
+            animation-name: rotate_img;
+            animation-duration: 2s;
+            animation-iteration-count: 3;
+        }
+        div {
+            
+            margin-top: 200px;
+            width: 500px;
+            height: 180px;
+            border: 2px solid aqua;
+            transition: 2s;
+            animation-name: rotate_div;
+            animation-duration: 2s;
+            animation-iteration-count: 3;
+        }
+        @keyframes rotate_div {
+            from {
+                
+            }
+            to {
+                transform:rotate(360deg);
+            }
+        }
+        @keyframes rotate_img {
+            from {
+                
+            }
+            to {
+                transform:rotate(-360deg);
+            }
+        }
+        
+    </style>
+</head>
+<body>
+   
+    <div>
+        <img src="https://images.unsplash.com/photo-1638861269151-b38eac100885?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMnx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=60" alt="">
+    </div>
+</body>
+</html>
