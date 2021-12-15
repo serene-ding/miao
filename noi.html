@@ -1,6 +1,7 @@
 
 
 <script type="no"  id="ch0103/01">
+    debugger
     var A = Number(prompt("A = "))
     var B = Number(prompt("B = "))
     console.log(A + B)
@@ -95,7 +96,7 @@
     var one = A % 10
     var hundred = parseInt(A / 100) 
     var ten = parseInt((A - 100 * hundred) / 10 )
-    console.log(one,ten,hundred);
+    console.log(String(one)+String(ten)+String(hundred));
 </script>
 <script type="no" id="ch0103/14">
     
@@ -150,7 +151,7 @@
     console.log(res);
 
 </script>
-<script id="ch0103/20">
+<script type="no" id="ch0103/20">
     var n = Number(prompt("n = "))
     var res = Math.pow(2, n)
     console.log(res);
