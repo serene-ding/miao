@@ -461,10 +461,11 @@
         counter -= 1
     }
     var average = sum / x
+    average = average.toFixed(2)
     console.log(average)
 </script>
     
-<script  id="ch0105/02">
+<script type="no" id="ch0105/02">
     
     var counter = 12 
     var sum = 0
@@ -480,15 +481,51 @@
 </script>
 
 <script type="no" id="ch0105/03">
+    var x = Number(prompt("x = "))
+    var sum = 0
+    var counter = x 
+    while (counter > 0) {
+        var age = Number(prompt("age = "))
+        sum = sum + age
+        counter -= 1
+    }
+    var average = sum / x
+    average = average.toFixed(4)
+    console.log(average)
+</script> 
 
+<script  type="no" id="ch0105/04">
+    var x = Number(prompt("x = "))
+    var sum = 0
+    var counter = x 
+    while (counter > 0) {
+        var num = Number(prompt("num = "))
+        sum = sum + num
+        counter -= 1
+    }
+    var average = sum / x
+    average = average.toFixed(5)
+   
+    console.log(sum)
+    console.log(average)
 </script>
 
-<script type="no" id="ch0105/04">
-
-</script>
-
-<script type="no" id="ch0105/05">
-
+<script id="ch0105/05">
+    var x = Number(prompt("x = "))
+    var max = -1
+    var counter = x 
+    while (counter > 0) {
+        var num = Number(prompt("num = "))
+        if (num > max ){
+            max = num
+        }
+        counter -= 1
+    }
+    
+    
+   
+    console.log(max)
+    
 </script>
 
 <script type="no" id="ch0105/06">
