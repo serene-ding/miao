@@ -510,7 +510,7 @@
     console.log(average)
 </script>
 
-<script id="ch0105/05">
+<script type="no" id="ch0105/05">
     var x = Number(prompt("x = "))
     var max = -1
     var counter = x 
@@ -529,23 +529,95 @@
 </script>
 
 <script type="no" id="ch0105/06">
-
+    var x = Number(prompt("x = "))
+    var max = -1
+    var min = Infinity
+    var counter = x 
+    while (counter > 0) {
+        var num = Number(prompt("num = "))
+        if (num > max ){
+            max = num
+        }
+        if (num < min){
+            min = num
+        }
+        counter -= 1
+    }
+    var diff = max - min
+    console.log(diff)
 </script>
 
 <script type="no" id="ch0105/07">
-
+    var x = Number(prompt("x ="))
+    var count = x
+    var sum_a = 0
+    var sum_b = 0
+    var sum_c = 0
+    while (count > 0){
+        var a = Number(prompt("a ="))
+        var b = Number(prompt("b ="))
+        var c = Number(prompt("c ="))
+        sum_a += a
+        sum_b += b
+        sum_c += c
+        count -= 1
+    }
+    sum = sum_a + sum_b + sum_c
+    console.log(sum_a,sum_b,sum_c,sum)
 </script>
 
 <script type="no" id="ch0105/08">
-
+    var x = Number(prompt("x =")) 
+    var sum = (x - 2) * 180
+    var counter = x - 1
+    var angle
+    while (counter > 0 ){
+        angle = Number(prompt("angle ="))
+        sum -= angle
+        counter -= 1
+    }
+    console.log(sum)
 </script>
 
 <script type="no" id="ch0105/09">
-
+    var x = Number(prompt("x =")) 
+    var y = Number(prompt("y =")) 
+    var start 
+    var sum = 0
+    if (x % 2 == 0){
+        start = x + 1
+    }else {
+        start = x
+    }
+    while (start < y){
+        sum += start
+        start += 2
+    }
+    if (y % 2 != 0){
+        sum += y
+    }
+    console.log(sum)
 </script>
 
-<script type="no" id="ch0105/10">
-
+<script  id="ch0105/10">
+    var x = Number(prompt("x =")) 
+    var y = Number(prompt("y =")) 
+    var start 
+    var sum = 0
+    if (x % 17 == 0){
+        start = x
+    }else {
+        start = x - x % 17 + 17                                                  
+    }
+    
+    while (start < y){
+        sum += start
+        start += 17
+    }
+    if (y % 17 == 0){
+        sum += y
+    }
+    console.log(sum)
 </script>
 
 <script type="no" id="ch0105/11">
