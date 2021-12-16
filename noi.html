@@ -454,7 +454,7 @@
 <script type="no" id="ch0105/01">
     var x = Number(prompt("x = "))
     var sum = 0
-    var counter = 2 
+    var counter = x 
     while (counter > 0) {
         var age = Number(prompt("age = "))
         sum = sum + age
@@ -473,7 +473,7 @@
         sum = sum + left
         counter -= 1
     }
-    var average = left / 12
+    var average = sum / 12
     average = average.toFixed(2)
 
     console.log("$"+average)
