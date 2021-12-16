@@ -599,7 +599,7 @@
     console.log(sum)
 </script>
 
-<script  id="ch0105/10">
+<script type="no" id="ch0105/10">
     var x = Number(prompt("x =")) 
     var y = Number(prompt("y =")) 
     var start 
@@ -621,23 +621,78 @@
 </script>
 
 <script type="no" id="ch0105/11">
-
+    var x = Number(prompt("x =")) 
+    var counter = x
+    var num 
+    var five = 0
+    var one = 0
+    var ten = 0
+    while (counter > 0) {
+        num = Number(prompt("num =")) 
+        if (num == 1){
+            one += 1
+        } else if(num == 5){
+            five += 1
+        } else if(num == 10){
+            ten += 1
+        }
+        counter -= 1
+    }
+    console.log(one,five,ten)
 </script>
 
 <script type="no" id="ch0105/12">
-
+    var x = Number(prompt("x =")) 
+    var y = Number(prompt("y =")) 
+    var counter = x
+    var num 
+    var y_times = 0
+    while (counter > 0) {
+        num = Number(prompt("num =")) 
+        if (num == y){
+            y_times += 1
+        }
+        counter -= 1
+    }
+    console.log(y_times)
 </script>
 
 <script type="no" id="ch0105/13">
-
+    var x = Number(prompt("x =")) 
+    var y = Number(prompt("y =")) 
+    var counter = y
+    var product = 1
+    while (counter > 0) {
+        product = product * x
+        counter -= 1
+    }
+    console.log(product)
 </script>
 
 <script type="no" id="ch0105/14">
-
+    var people = Number(prompt("people =")) 
+    var year = Number(prompt("y =")) 
+    var counter = year
+    var product = people
+    while (counter > 0) {
+        product = product * (1 + 0.001)
+        counter -= 1
+    }
+    console.log(product.toFixed(4))
 </script>
 
-<script type="no" id="ch0105/15">
-
+<script  id="ch0105/15">
+    var r = Number(prompt("r =")) 
+    var m = Number(prompt("m =")) 
+    var y = Number(prompt("y =")) 
+    
+    var counter = y
+    var product = m
+    while (counter > 0) {
+        product = product * (1 + r * 0.01)
+        counter -= 1
+    }
+    console.log(Math.trunc(product))
 </script>
 
 <script type="no" id="ch0105/16">
