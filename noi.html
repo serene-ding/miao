@@ -239,31 +239,23 @@
         console.log("NO")
     }
 </script>
-<script type="no" id="ch0104/09">
+<script  id="ch0104/09">
      var a1 = Number(prompt("a1 = "))
-     if (a1 % 105 == 0) {
-        console.log("3 5 7")
+     flag = true
+     if (a1 % 3 == 0) {
+        console.log(3)
+        flag = false
      }
-     else if (a1 % 15 == 0) {
-         console.log("3 5")
+     if (a1 % 5 == 0) {
+        console.log(5)
+        flag = false
      }
-     else if (a1 % 21 == 0) {
-         console.log("3 7")
+     if (a1 % 7 == 0) {
+        console.log(7)
+        flag = false
      }
-     else if (a1 % 35 == 0) {
-         console.log("5 7")
-     }
-     else if (a1 % 3 == 0) {
-         console.log(3)
-     }
-     else if (a1 % 5 == 0) {
-         console.log(5)
-     }
-     else if (a1 % 7 == 0) {
-         console.log(7)
-     }
-     else {
-         console.log("n")
+     if (flag) {
+        console.log("n")
      }
 </script>
 <script type="no" id="ch0104/10">
