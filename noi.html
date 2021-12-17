@@ -681,7 +681,7 @@
     console.log(product.toFixed(4))
 </script>
 
-<script  id="ch0105/15">
+<script type="no" id="ch0105/15">
     var r = Number(prompt("r =")) 
     var m = Number(prompt("m =")) 
     var y = Number(prompt("y =")) 
@@ -696,26 +696,108 @@
 </script>
 
 <script type="no" id="ch0105/16">
+    
+     var n = Number(prompt("n =")) 
+     var k = Number(prompt("k =")) 
+     var salary = n
+     var price = 200
+     var year = 1
+     while (salary < price){
+        salary += n
+        price = price * (1 + k * 0.01)
+        year += 1
+     }
+     if (year <= 20){
+         console.log(year)
+     }else {
+         console.log("Impossible")
+     }
 
 </script>
 
 <script type="no" id="ch0105/17">
+    
+    var k = Number(prompt("k =")) 
+    var result
+    var first = 1
+    var second = 1
+    
+    var temp
+    
+    if (k == 1 || k == 2){
+        result = 1
+    } else {
+        while (k > 3) {
+            temp = first 
+            first = second
+            second = temp + second
+            k -= 1
+            
+    }
 
+        
+    }
+    console.log(first + second)
 </script>
 
 <script type="no" id="ch0105/18">
-
+    var n = Number(prompt("n = "))
+    var x = Number(prompt("x = "))
+    var y = Number(prompt("n = "))
+    var ratio = y / x
+    var counter = n - 1
+    while (counter > 0){
+        var x1 = Number(prompt("x1 = "))
+        var y1 = Number(prompt("y1 = "))
+        var ratio1 = y1 / x1
+        if (ratio1 - ratio > 0.05){
+            console.log("better")
+        }else if (ratio -ratio1 > 0.05){
+            console.log("worse")
+        }else {
+            console.log("same")
+        }
+        counter -= 1
+    }
 </script>
 
 <script type="no" id="ch0105/19">
-
+    var n = Number(prompt("n = ")) 
+    var counter = n
+    var distance
+    var time
+    var sum = 0
+    while (counter > 0){
+        var x = Number(prompt("x = ")) 
+        var y = Number(prompt("y = ")) 
+        var p = Number(prompt("p = "))  
+        distance = Math.sqrt(x*x + y*y)
+        time = distance / 50 * 2 + p * (1 + 0.5)
+        counter -= 1
+        sum += time
+    }
+    
+    console.log(Math.ceil(sum))
 </script>
-
+    
 <script type="no" id="ch0105/20">
-
+    var h = Number(prompt("h = ")) 
+    
+    var s = h
+    var temp
+    
+    counter = 9
+    while (counter > 0) {
+        
+        h = h / 2
+        s += h * 2
+        counter -= 1
+    }
+    var h_ten = (h/2).toFixed(7)
+    console.log(s.toFixed(4),h_ten)
 </script>
 
-<script type="no" id="ch0105/21">
+<script  id="ch0105/21">
 
 </script>
 
