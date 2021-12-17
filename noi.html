@@ -897,9 +897,10 @@
         for (var y = 0; y < 7; y = y + 1){
             for (var z = 1; z < 7; z = z + 1){
                 if ((x*49 + y*7 + z)==(z*81+y*9+x)){
+                    console.log(x*49 + y*7 + z)
                     console.log(String(x)+String(y)+String(z))
                     console.log(String(z)+String(y)+String(x))
-                    console.log(x*49 + y*7 + z)
+                    
                     break
                 }
             }
