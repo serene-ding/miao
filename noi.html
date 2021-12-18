@@ -909,27 +909,88 @@
 
 </script>
 
-<script  id="ch0105/26">
-
+<script type="no" id="ch0105/26">
+    var num_for_n = Number(prompt("num_for_n ="))
+    var one
+    var ten
+    var hundred
+    var thousand
+    var count = 0
+    while (num_for_n > 0){
+        var n = Number(prompt("n ="))
+        one = n % 10
+        thousand = Math.trunc(n/1000)
+        ten = ((n - one) % 100)/10
+        hundred = ((n - one - ten*10)%1000)/100
+        if ((one - ten - thousand - hundred)>0){
+            count += 1
+        }
+        num_for_n = num_for_n - 1
+    }
+    console.log(count)                                                                                            
 </script>
 
 <script type="no" id="ch0105/27">
+    var k = Number(prompt("k = "))
+    var Sn = 0
+    var n = 0
+    
+    while (Sn <= k ) {
+        n = n + 1
+        Sn += 1/n
+        
+    }
+    console.log(n)
 
 </script>
 
 <script type="no" id="ch0105/28">
-
+    var n = Number(prompt("n ="))
+    var the_last_digit
+    while ((Math.trunc(n/10))>0){
+        the_last_digit = n % 10
+        n = (Math.trunc(n/10))
+        console.log(the_last_digit)
+    }
+    console.log(n)
+    
 </script>
 
 <script type="no" id="ch0105/29">
-
+    
+    var n = Number(prompt("n ="))
+    var res = 0
+    var the_last_digit 
+    while (n != 0){
+        the_last_digit = n % 10
+        n = Math.trunc(n/10)
+        
+        res = res*10 + the_last_digit
+    }
+    console.log(res)
+    
 </script>
 
 <script type="no" id="ch0105/30">
-
+    var m = Number(prompt("m ="))
+    var k = Number(prompt("k ="))
+    var digit
+    var count_for_3 = 0
+    while (m!=0){
+        digit = m % 10
+        if (digit == 3){
+            count_for_3 += 1
+        }
+        m = Math.trunc(m / 10)
+    }
+    if ((m%19==0)&&(count_for_3==k)) {
+        console.log("YES")
+    }else {
+        console.log("NO")
+    }
 </script>
 
-<script type="no" id="ch0105/31">
+<script  id="ch0105/31">
 
 </script>
 
