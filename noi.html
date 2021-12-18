@@ -1129,7 +1129,7 @@
      console.log(sum)
 </script>
 
-<script  id="ch0105/40">
+<script type="no" id="ch0105/40">
     var n = Number(prompt("n = "))
     var counter = 1
     var count_for_one = 0
@@ -1148,23 +1148,105 @@
 </script>
 
 <script type="no" id="ch0105/41">
-
+    var l = Number(prompt("l = "))
+    var n = Number(prompt("n = "))
+    var counter = l
+    var count_for_two = 0
+    while (counter <= n){
+        var temp = counter
+        while (temp != 0) {
+            the_last_digit = temp % 10
+            if (the_last_digit == 2){
+                count_for_two += 1
+            }
+            temp = Math.trunc(temp/10)
+        }
+        counter += 1
+    }
+    console.log(count_for_two)
 </script>
 
 <script type="no" id="ch0105/42">
-
+    var height = Number(prompt("height = "))
+    var width = Number(prompt("width = "))
+    var symbol = prompt("symbol =")
+    var whether_solid = Number(prompt("w = "))
+    var str = ''
+    for (var i = 1 ; i <= height ; i = i + 1){
+        if (whether_solid){
+            for (var j = 1 ; j <= width ; j = j + 1){
+            str += symbol
+        }
+        str += "\n"
+        }else{
+            for (var j = 1 ; j <= width ; j = j + 1){
+            if (i == 1 || i == height ||j==1 || j==width ){
+                str += symbol
+            }
+            else{
+                str += ' '
+            }
+            
+        }
+        str += "\n"
+    }
+}
+    console.log(str)
 </script>
 
 <script type="no" id="ch0105/43">
+    var num = Number(prompt("num = "))
+    var small = 2 
+    while (num % small != 0){
 
+        small += 1
+    }
+    console.log(num/small)
 </script>
 
 <script type="no" id="ch0105/44">
-
+    
+    var num = Number(prompt("num = "))
+    var sqrt = Math.sqrt(num)
+    var is_composite 
+    var count = 0
+    for (var i = 2 ; ;i++){
+        is_composite = false
+        for (var divi = 2;divi<=Math.sqrt(i); divi++){
+            if (i%divi==0){
+                is_composite = true
+            }
+        }
+        if (!is_composite){
+            count += 1
+        }
+        if (count==num){
+            console.log(i)
+            break
+        }
+    }
 </script>
 
-<script type="no" id="ch0105/45">
+<script  id="ch0105/45">
+    
+    var days = Number(prompt("days = "))
+    var count = 0
+    var n_days = 1
+    var sum = 0
+    while (count < days){
+        for (var i = 1 ; i <= n_days ; i++){
+            sum += n_days
+            count ++
+            if (count == days){
+                console.log(sum)
+                days = -1
+                break
+            }
 
+        }
+        n_days += 1
+    }
+    
 </script>
 
 <script type="no" id="ch0105/46">
