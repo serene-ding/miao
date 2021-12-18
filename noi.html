@@ -1053,7 +1053,7 @@
     console.log(sum)
 </script>
 
-<script  id="ch0105/35">
+<script type="no" id="ch0105/35">
     var n = Number(prompt("n ="))
     var sum = 1
     for (var i = 1; i <= n; i++){
@@ -1067,23 +1067,84 @@
 </script>
 
 <script type="no" id="ch0105/36">
-
+    var x = Number(prompt("x ="))
+    var n = Number(prompt("n ="))
+    var sum = 1
+    for (var i = 1 ; i <= n ; i++){
+        sum += x ** i
+    }
+    console.log(sum.toFixed(2))
 </script>
 
 <script type="no" id="ch0105/37">
-
+    var M = Number(prompt("M ="))
+    var N = Number(prompt("N ="))
+    var X = Number(prompt("X ="))
+    var pieces_needed 
+    while (X > 0){
+        // RECOVER STRENGTH
+        var pieces_needed = Math.ceil(M / N)
+        X = X - pieces_needed
+        // FIGHT TIME 
+        N += Math.floor(M / N)
+    }
+    console.log(N)
 </script>
 
 <script type="no" id="ch0105/38">
+    var n = Number(prompt("n = "))
+    var deri_co
+    
+    while (n >= 0) {
+        var coefficient = Number(prompt("coefficient ="))
+        deri_co = coefficient * n
+        console.log(deri_co)
+        n -= 1
+    }
 
 </script>
 
 <script type="no" id="ch0105/39">
-
+     var n = Number(prompt("n = "))
+     var sum = 0
+     var flag_for_sev
+     var the_last_digit
+     var temp
+     while (n > 0) {
+        flag_for_sev = false
+        temp = n
+        while (temp != 0) {
+            the_last_digit = temp % 10
+            if (the_last_digit == 7){
+                flag_for_sev = true
+            }
+            temp = Math.trunc(temp/10)
+        }
+        if (n % 7 != 0 && !flag_for_sev ){
+            sum += n * n
+        }
+         n -= 1
+          
+     }
+     console.log(sum)
 </script>
 
-<script type="no" id="ch0105/40">
-
+<script  id="ch0105/40">
+    var n = Number(prompt("n = "))
+    var counter = 1
+    var count_for_one = 0
+    while (counter <= n){
+        var temp = counter
+        while (temp != 0) {
+            the_last_digit = temp % 10
+            if (the_last_digit == 1){
+                count_for_one += 1
+            }
+            temp = Math.trunc(temp/10)
+        }
+        counter += 1
+    }
+    console.log(count_for_one)
 </script>
 
 <script type="no" id="ch0105/41">
