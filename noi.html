@@ -1,5 +1,135 @@
 
+<script type="no" id="narcissistic">
+    var num = Number(prompt("num = "))
+    var how_many_digits = 0
+    var digit
+    var sum = 0
+    for (var n = num ; n != 0 ; n = Math.trunc(n/10)){
+        how_many_digits  += 1
 
+    }
+    for (var n = num ; n != 0 ; n = Math.trunc(n/10)){
+        digit = n % 10
+        sum += digit ** how_many_digits 
+    }
+    if (sum == num){
+        console.log('YES')
+    }else{
+        console.log('NO')
+    }
+</script>
+<script type="no" id="narcissistics">
+   
+    var how_many_digits = 0
+    var digit
+    var sum = 0
+    var counter = 0
+    for(var num = 0; num <= 10000 ; num += 1){
+        for (var n = num ; n != 0 ; n = Math.trunc(n/10)){
+        how_many_digits  += 1
+
+        }
+        for (var n = num ; n != 0 ; n = Math.trunc(n/10)){
+            digit = n % 10
+            sum += digit ** how_many_digits 
+        }
+        if (sum == num){
+            console.log(num)
+            counter += 1
+        }
+        how_many_digits = 0
+        sum = 0
+    }
+    
+</script>
+<script type="no" id="palindrom">
+    var num = Number(prompt("num = "))
+    var the_last_digit 
+    var reverse = 0
+    for (var n = num ; n != 0 ; n = Math.trunc(n/10)){
+        the_last_digit = n % 10
+        reverse = reverse * 10 + the_last_digit
+        }
+    if (reverse == num ){
+        console.log('YES')
+    }else{
+        console.log('NO')
+    }
+</script>
+<script>
+
+</script>
+<script type="no" id="complete-number">
+    var num = Number(prompt("num = "))
+    var sum = 0
+    for (var i = 2 ; i * i <=  num; i += 1){
+        if (num % i == 0){
+            sum += i + num/i
+        }
+
+    }
+    sum += 1
+    if (sum == num){
+        console.log('YES')
+    }else{
+        console.log('NO')
+    }
+</script>
+<script type="no" id="complete-numbers">
+    for(var num = 2; num <= 1000 ; num += 1){
+        
+        var sum = 0
+        for (var i = 2 ; i * i <=  num; i += 1){
+            if (num % i == 0){
+                sum += i + num/i
+            }
+
+        }
+        sum += 1
+        if (sum == num){
+            console.log(num)
+        }
+    }
+</script>
+<script type="no" id="prime">
+    var num = Number(prompt("num = "))
+    var is_prime = true
+    for (var i = 2 ; i*i<=num; i++){
+        if (num%i==0){
+            is_prime = false
+            break
+        }
+    }
+    if (is_prime){
+        console.log('YES')
+    }else{
+        console.log('NO')
+    }
+    
+</script>
+<script id="primes">
+    for (var num = 2; num <= 100 ; num++){
+        var is_prime = true
+        for (var i = 2 ; i*i<=num; i++){
+            if (num%i==0){
+                is_prime = false
+                break
+            }
+        }
+        if (is_prime){
+            console.log(num)
+        }
+    }
+</script>
+<script>
+
+</script>
+<script>
+
+</script>
+<script>
+
+</script>
 <script type="no"  id="ch0103/01">
     
     var A = Number(prompt("A = "))
@@ -1227,7 +1357,7 @@
     }
 </script>
 
-<script  id="ch0105/45">
+<script type="no" id="ch0105/45">
     
     var days = Number(prompt("days = "))
     var count = 0
