@@ -24,7 +24,7 @@
     var digit
     var sum = 0
     var counter = 0
-    for(var num = 0; num <= 10000 ; num += 1){
+    for(var num = 100; num <= 10000 ; num += 1){
         for (var n = num ; n != 0 ; n = Math.trunc(n/10)){
         how_many_digits  += 1
 
@@ -107,7 +107,7 @@
     }
     
 </script>
-<script id="primes">
+<script type="no" id="primes">
     for (var num = 2; num <= 100 ; num++){
         var is_prime = true
         for (var i = 2 ; i*i<=num; i++){
@@ -121,14 +121,51 @@
         }
     }
 </script>
-<script>
-
+<script type="no" id="itoa">
+    
+    function itoa(x){
+    var zero = String.fromCharCode(48)
+    var string = ''
+    for(var i = x ; i > 0 ; i = Math.trunc(i/10) ){
+        var digit = i % 10
+        string = String.fromCharCode(48 + digit) + string
+    }
+    return string
+}
 </script>
-<script>
-
+<script  id='lcf&lcd'>
+    // gcd(a,b) 
+    // gcd(b,a mod b)
+    
+    function lcf_and_lcd(x,y){
+    var a
+    var b
+    if (x >= y){
+        a = x
+        b = y
+    }else{
+        a = y
+        b = x
+    }
+    while(b != 0){
+        var temp_a = a
+        a = b
+        b = temp_a%b
+    }
+    console.log(a)
+    console.log(x*y/a)
+    }
 </script>
-<script>
 
+<script type="no" id="sqrt">
+     var num = Number(prompt("num = "))
+     var num_used = num * 1000000
+     for (var i = 1 ; i <= num_used ; i++){
+         if (((num_used-i*i) <= 3000) && ((num_used - i*i)>= -3000)){
+             console.log((i/1000).toFixed(3))
+             break
+         }
+     }
 </script>
 <script type="no"  id="ch0103/01">
     
