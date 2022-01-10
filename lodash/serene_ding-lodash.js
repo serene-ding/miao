@@ -80,6 +80,40 @@ var serene_ding = {
             res[j] = array[i]
         }
         return res
-    }
+    },
+
+    dropRightwhile: function(array,f){
+        var n = 0
+        var i = 0
+        while (i < array.length){
+            if(!f(array[i])){
+                break
+            }
+            i++
+            n++
+        }
+        //drop_right
+        var res = []
+        for (var i = 0, j = 0; i < array.length - n; i++,j++){
+            res[j] = array[i]
+        }
+        return res
+    },
+
+    fill: function(array, value, start=0, end=array.length){
+        if (arguments.length == 2){
+            for (var i = 0; i < array.length; i++){
+                array[i] = value
+            }
+        }else if(arguments.length == 3){
+            for (var i = start; i < array.length; i++){
+                array[i] = value
+            }
+        }else{
+            for (var i = start; i < end; i++){
+                array[i] = value
+            }
+        }
+    },
 
 }
