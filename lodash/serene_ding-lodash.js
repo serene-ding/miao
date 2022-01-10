@@ -176,7 +176,7 @@ var serene_ding = {
             
             var temp = serene_ding.flattenDeep(item)
             for (var j = 0; j < temp.length; j++){
-                res.push (temp[i])
+                res.push (temp[j])
             }
         }else{
             res.push(item)
