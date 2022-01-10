@@ -153,5 +153,36 @@ var serene_ding = {
             
         }
     },
+    flatten: function(array){
+        var res = []
+        for (var i = 0; i < array.length; i++){
+            var item = array[i]
+            if (Array.isArray(item)){
+                
+                for (var j = 0; j < item.length; j++){
+                    res.push(item[j])
+                }
+            }else{
+                res.push(item)
+            }
+        }
+        return res
+    },
+    flattenDeep: function(array){
+        var res = []
+    for (var i = 0; i < array.length; i++){
+        var item = array[i]
+        if (Array.isArray(item)){
+            
+            var temp = serene_ding.flattenDeep(item)
+            for (var j = 0; j < temp.length; j++){
+                res.push (temp[i])
+            }
+        }else{
+            res.push(item)
+        }
+    }
+    return res
+    }
 
 }
