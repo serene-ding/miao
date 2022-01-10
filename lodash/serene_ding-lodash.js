@@ -26,14 +26,16 @@ var serene_ding = {
         return res
     },
 
-    difference: function(array,values){
+    difference: function(array,...values){
         var res = []
         for (var i = 0; i < array.length; i++){
             var item = array[i]
             var equal = false
             for (var j = 0; j < values.length; j++){
-                if (item == values[j]){
-                    equal = true
+                for (var k = 0; k < values[j].length; k++){
+                    if (item == values[j][k]){
+                        equal = true
+                    }
                 }
             }
             if (!equal){
@@ -42,6 +44,10 @@ var serene_ding = {
             
         }
         return res
+    },
+
+    concat: function(array,...values){
+
     }
 
 }
