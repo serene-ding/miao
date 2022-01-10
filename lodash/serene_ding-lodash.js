@@ -19,15 +19,29 @@ var serene_ding = {
     compact : function(array){
         var res = []
         for (var i = 0; i < array.length; i++){
-           if (array[i] === null || 
-            array[i] === "" || array[i] === NaN ||
-             array[i] === false || array[i] === 0 || 
-             array[i] === undefined){
-
-           }else {
+            if(array[i]){
                res.push(array[i])
-           }
+            }
+        }
+        return res
+    },
+
+    difference: function(array,values){
+        var res = []
+        for (var i = 0; i < array.length; i++){
+            var item = array[i]
+            var equal = false
+            for (var j = 0; j < values.length; j++){
+                if (item == values[j]){
+                    equal = true
+                }
+            }
+            if (!equal){
+                res.push(item)
+            }
+            
         }
         return res
     }
+
 }
