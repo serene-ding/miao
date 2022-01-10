@@ -47,7 +47,23 @@ var serene_ding = {
     },
 
     concat: function(array,...values){
-
+        //copy the array
+        var c_array = []
+        for (var k = 0; k < array.length; k++){
+            c_array[k] = array[k]
+        }
+        //concat
+        for (var i = 0; i < values.length; i++){
+            let item = values[i]
+            if (typeof(item) == 'number'){
+                c_array.push(item)
+            }else {
+                for (var j = 0; j < item.length; j++){
+                    c_array.push(item[j])
+                }
+            }
+        }
+        return c_array
     }
 
 }
