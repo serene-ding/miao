@@ -15,5 +15,19 @@ var serene_ding = {
             res.push(one_chunk)
         }
         return res      
+    },
+    compact : function(array){
+        var res = []
+        for (var i = 0; i < array.length; i++){
+           if (array[i] === null || 
+            array[i] === "" || array[i] === NaN ||
+             array[i] === false || array[i] === 0 || 
+             array[i] === undefined){
+
+           }else {
+               res.push(array[i])
+           }
+        }
+        return res
     }
 }
