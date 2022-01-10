@@ -115,5 +115,42 @@ var serene_ding = {
             }
         }
     },
+    //Array.isArray()
+    findIndex: function(array, f, fromIndex = 0){
+        if(typeof f == 'function'){
+            for (var i = fromIndex; i < array.length; i++){
+                var item = array[i]
+                if(f(item)){
+                    return i
+                }
+            }
+        }else if(typeof f == 'string'){
+            var property = f
+            var f = function(item){
+                return item[property]
+            }
+            for (var i = fromIndex; i < array.length; i++){
+                var item = array[i]
+                if(f(item)){
+                    return i
+                }
+            } 
+        }else if(Array.isArray(f)){
+            
+            var property = f[0]
+            var value = f[1]
+            var f = function(item){
+                return item[property] == value
+            }
+            for (var i = fromIndex; i < array.length; i++){
+                var item = array[i]
+                if(f(item)){
+                    return i
+                }
+            } 
+        }else{
+            
+        }
+    },
 
 }
