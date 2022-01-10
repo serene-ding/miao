@@ -64,6 +64,14 @@ var serene_ding = {
             }
         }
         return c_array
+    },
+
+    drop: function(array,n=1){
+        var res = []
+        for (var i = n, j = 0; i < array.length; i++,j++){
+            res[j] = array[i]
+        }
+        return res
     }
 
 }
