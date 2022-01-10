@@ -206,7 +206,7 @@ var serene_ding = {
     },
     fromPairs:function(pairs){
         var res = {}
-        for (var i = 0; i < array.length - 1; i++){
+        for (var i = 0; i < pairs.length; i++){
             var one_pair = pairs[i]
             var pro = one_pair[0]
             var value = one_pair[1]
@@ -220,9 +220,20 @@ var serene_ding = {
             if(i==array.length - 1){
                 res += array[i]
             }else{
+                array[i] += ''
                 res += array[i] + separator
             }
         }
         return res
+    },
+    last: function(array){
+        for(var i = 0; i < array.length; i++){
+            if (i == array.length - 1){
+                return array[i]
+            }
+        }
+    },
+    reverse: 
+        
     }
 }
