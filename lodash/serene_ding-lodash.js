@@ -114,6 +114,7 @@ var serene_ding = {
                 array[i] = value
             }
         }
+        return array
     },
     //Array.isArray()
     findIndex: function(array, f, fromIndex = 0){
