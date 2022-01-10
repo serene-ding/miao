@@ -72,6 +72,14 @@ var serene_ding = {
             res[j] = array[i]
         }
         return res
+    },
+
+    dropRight: function(array,n=1){
+        var res = []
+        for (var i = 0, j = 0; i < array.length - n; i++,j++){
+            res[j] = array[i]
+        }
+        return res
     }
 
 }
