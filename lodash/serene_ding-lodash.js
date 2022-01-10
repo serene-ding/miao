@@ -203,6 +203,26 @@ var serene_ding = {
             ini[i] = array[i]
         }
         return ini
+    },
+    fromPairs:function(pairs){
+        var res = {}
+        for (var i = 0; i < array.length - 1; i++){
+            var one_pair = pairs[i]
+            var pro = one_pair[0]
+            var value = one_pair[1]
+            res[pro] = value
+        }
+        return res
+    },
+    join: function(array, separator=','){
+        var res = ''
+        for (var i = 0; i < array.length; i++){
+            if(i==array.length - 1){
+                res += array[i]
+            }else{
+                res += array[i] + separator
+            }
+        }
+        return res
     }
-
 }
