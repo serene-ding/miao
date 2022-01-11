@@ -189,7 +189,7 @@ var serene_ding = {
     },
 
     indexOf: function(array, value, fromIndex = 0) {
-        for (var i = 0; i < array.length; i++) {
+        for (var i = fromIndex; i < array.length; i++) {
             if (array[i] == value) {
                 return i
             }
@@ -233,6 +233,24 @@ var serene_ding = {
             }
         }
     },
+    flattenDeepth: function(array, depth = 1) {
+        var res = []
+        for (var i = 0; i < array.length; i++) {
+            var item = array[i]
+            if (depth != 0 && Array.isArray(item)) {
+
+                var temp = serene_ding.flattenDeepth(item, depth - 1)
+                for (var j = 0; j < temp.length; j++) {
+                    res.push(temp[j])
+                }
+            } else if (depth == 0) {
+                res.push(item)
+            } else {
+                res.push(item)
+            }
+        }
+        return res
+    }
 
 
 
