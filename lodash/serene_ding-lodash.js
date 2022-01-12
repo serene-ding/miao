@@ -109,6 +109,7 @@ var serene_ding = {
                     return i
                 }
             }
+
         } else if (typeof f == 'string') {
             var property = f
 
@@ -136,6 +137,7 @@ var serene_ding = {
                 }
             }
         }
+
     },
     dropRightWhile: function(array, f) {
         var n = 0
@@ -282,7 +284,7 @@ var serene_ding = {
         }
         return res
     },
-    isEqual: function(value, other) {
+    isEqual: function(a, b) {
         if (a === b) {
             return true
         }
@@ -307,6 +309,19 @@ var serene_ding = {
         return propsInA == propsInB;
 
     },
+    differenceBy(array, values, f) {
+        var res = []
+        for (var i = 0; i < array.length; i++) {
+            var item = array[i]
+            var ok = true
+            for (var j = 0; j < values.length; j++) {
+                value = values[j]
+                if (item != f(value)) {
+
+                }
+            }
+        }
+    }
 
 
 
