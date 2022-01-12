@@ -309,18 +309,39 @@ var serene_ding = {
         return propsInA == propsInB;
 
     },
-    differenceBy(array, values, f) {
+    differenceBy: function(array, values, f) {
         var res = []
         for (var i = 0; i < array.length; i++) {
             var item = array[i]
             var ok = true
             for (var j = 0; j < values.length; j++) {
-                value = values[j]
-                if (item != f(value)) {
-
+                var value = values[j]
+                if (item == f(value)) {
+                    ok = false
                 }
             }
+            if (ok) {
+                res.push(item)
+            }
         }
+        return res
+    },
+    differenceWith: function(array, values, f) {
+        var res = []
+        for (var i = 0; i < array.length; i++) {
+            var item = array[i]
+            var ok = true
+            for (var j = 0; j < values.length; j++) {
+                var value = values[j]
+                if (f(item, value)) {
+                    ok = false
+                }
+            }
+            if (ok) {
+                res.push(item)
+            }
+        }
+        return res
     }
 
 
