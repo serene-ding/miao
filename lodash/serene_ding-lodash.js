@@ -120,11 +120,11 @@ var serene_ding = {
                 }
             }
         } else if (Array.isArray(f)) {
-            var array = f
+            var ary = f
 
             for (var i = fromIndex; i < array.length; i++) {
                 var item = array[i]
-                if (serene_ding.matchProperty(item, array)) {
+                if (serene_ding.matchProperty(item, ary)) {
                     return i
                 }
             }
@@ -177,9 +177,7 @@ var serene_ding = {
         return res
     },
     property: function(obj, str) {
-        if (str in obj) {
-            return true
-        }
+        return obj[str]
     },
     matchProperty: function(obj, array) {
         var property = array[0]
