@@ -250,6 +250,31 @@ var serene_ding = {
             }
         }
         return res
+    },
+    isEqual: function(value, other) {
+        if (a === b) {
+            return true
+        }
+        // a and b are of different type
+        if (a == null || typeof a != "object" ||
+            b == null || typeof b != "object") {
+            return false
+        }
+
+        var propsInA = 0,
+            propsInB = 0;
+
+        for (var prop in a)
+            propsInA += 1;
+
+        for (var prop in b) {
+            propsInB += 1;
+            if (!(prop in a) || !deepEqual(a[prop], b[prop]))
+                return false;
+        }
+
+        return propsInA == propsInB;
+
     }
 
 
