@@ -364,6 +364,27 @@ var serene_ding = {
             }
         }
         return res
+    },
+    reverse: function(array) {
+        for (var i = 0; i < Math.floor(array.length / 2); i++) {
+            var old = array[i]
+            array[i] = array[array.length - i - 1]
+            array[array.length - i - 1] = old
+        }
+        return array
+    },
+    uniq: function(array) {
+        var obj = {}
+        res = []
+        for (i of array) {
+            if (i in obj) {
+
+            } else {
+                obj[i] = 1
+                res.push(i)
+            }
+        }
+        return res
     }
 
 
