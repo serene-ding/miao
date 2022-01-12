@@ -127,31 +127,41 @@ var serene_ding = {
             }
         } else if (typeof f == 'string') {
             var property = f
-            var f = function(item) {
-                return item[property]
-            }
+
             for (var i = fromIndex; i < array.length; i++) {
                 var item = array[i]
-                if (f(item)) {
+                if (serene_ding.property(item, property)) {
                     return i
                 }
             }
         } else if (Array.isArray(f)) {
+            var array = f
 
-            var property = f[0]
-            var value = f[1]
-            var f = function(item) {
-                return item[property] == value
-            }
             for (var i = fromIndex; i < array.length; i++) {
                 var item = array[i]
-                if (f(item)) {
+                if (serene_ding.matchProperty(item, array)) {
                     return i
                 }
             }
         } else {
-
+            var obj = f
+            for (var i = fromIndex; i < array.length; i++) {
+                var item = array[i]
+                if (serene_ding.isEqual(item, obj)) {
+                    return i
+                }
+            }
         }
+    },
+    property: function(obj, str) {
+        if (str in obj) {
+            return true
+        }
+    },
+    matchProperty: function(obj, array) {
+        var property = array[0]
+        var value = array[1]
+        return serene_ding.isEqual(obj[property], value)
     },
     flatten: function(array) {
         var res = []
