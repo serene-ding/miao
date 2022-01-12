@@ -233,13 +233,13 @@ var serene_ding = {
             }
         }
     },
-    flattenDeepth: function(array, depth = 1) {
+    flattenDepth: function(array, depth = 1) {
         var res = []
         for (var i = 0; i < array.length; i++) {
             var item = array[i]
             if (depth != 0 && Array.isArray(item)) {
 
-                var temp = serene_ding.flattenDeepth(item, depth - 1)
+                var temp = serene_ding.flattenDepth(item, depth - 1)
                 for (var j = 0; j < temp.length; j++) {
                     res.push(temp[j])
                 }
