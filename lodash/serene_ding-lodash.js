@@ -385,7 +385,27 @@ var serene_ding = {
             }
         }
         return res
-    }
+    },
+    uniqBy: function(array, f) {
+        if (typeof f == 'string') {
+            var property = f
+            f = function(obj) {
+                return serene_ding.property(obj, property)
+            }
+        }
+        var obj = {}
+        res = []
+        for (i of array) {
+            if (f(i) in obj) {
+
+            } else {
+                obj[f(i)] = 1
+                res.push(i)
+            }
+        }
+        return res
+
+    },
 
 
 
