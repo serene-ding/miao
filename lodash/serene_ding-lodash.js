@@ -82,23 +82,7 @@ var serene_ding = {
         return res
     },
 
-    dropRightwhile: function(array, f) {
-        var n = 0
-        var i = 0
-        while (i < array.length) {
-            if (!f(array[i])) {
-                break
-            }
-            i++
-            n++
-        }
-        //drop_right
-        var res = []
-        for (var i = 0, j = 0; i < array.length - n; i++, j++) {
-            res[j] = array[i]
-        }
-        return res
-    },
+
 
     fill: function(array, value, start = 0, end = array.length) {
         if (arguments.length == 2) {
@@ -152,6 +136,43 @@ var serene_ding = {
                 }
             }
         }
+    },
+    dropRightWhile: function(array, f) {
+        var n = 0
+        var i = 0
+        if (typeof f == 'function') {
+
+        } else if (typeof f == 'string') {
+            var property = f
+
+            f = function(item) {
+                return serene_ding.property(item, property)
+            }
+        } else if (Array.isArray(f)) {
+            var array = f
+
+            f = function(item) {
+                return serene_ding.matchProperty(item, array)
+            }
+        } else {
+            var obj = f
+            f = function(item) {
+                return serene_ding.isEqual(item, obj)
+            }
+        }
+        while (i < array.length) {
+            if (!f(array[i])) {
+                break
+            }
+            i++
+            n++
+        }
+        //drop_right
+        var res = []
+        for (var i = 0, j = 0; i < array.length - n; i++, j++) {
+            res[j] = array[i]
+        }
+        return res
     },
     property: function(obj, str) {
         if (str in obj) {
@@ -285,7 +306,8 @@ var serene_ding = {
 
         return propsInA == propsInB;
 
-    }
+    },
+
 
 
 
