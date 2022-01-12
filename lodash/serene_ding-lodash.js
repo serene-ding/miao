@@ -309,12 +309,36 @@ var serene_ding = {
     },
     differenceBy: function(array, values, f) {
         var res = []
+        var all_array = true
+        for (item of arguments) {
+            if (!Array.isArray(item)) {
+                all_array = false
+            }
+        }
+        if (all_array) {
+
+            var values_haha = Array.prototype.slice.call(arguments).slice(1)
+            var values = []
+            for (i in values_haha) {
+                values = values.concat(values_haha[i])
+            }
+            f = function(i) {
+                return i
+            }
+        }
+        if (typeof f == 'string') {
+            var prop = f
+            f = function(obj) {
+                return serene_ding.property(obj, prop)
+            }
+
+        }
         for (var i = 0; i < array.length; i++) {
             var item = array[i]
             var ok = true
             for (var j = 0; j < values.length; j++) {
                 var value = values[j]
-                if (item == f(value)) {
+                if (f(item) == f(value)) {
                     ok = false
                 }
             }
