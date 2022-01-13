@@ -425,8 +425,23 @@ var serene_ding = {
             }
         }
         return res
-    }
+    },
+    zip: function(...arrays) {
+        var res = []
+        var rl = arrays[0].length
+        res.length = rl
 
+        var j = 0
+        while (j < rl) {
+            res[j] = []
+            for (i in arrays) {
+
+                res[j][i] = arrays[i][j]
+            }
+            j++
+        }
+        return res
+    }
 
 
 }
