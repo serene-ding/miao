@@ -456,7 +456,58 @@ var serene_ding = {
         return res
     },
     partition: function(collection, predicate) {
+        var res = []
+        for (var i = 0; i < 2; i++) {
+            res[i] = []
+        }
+        if (typeof predicate == 'string') {
+            var prop = predicate
+            predicate = function(obj) {
+                return serene_ding.property(obj, prop)
+            }
+        } else if (Array.isArray(predicate)) {
+            var ary = predicate
+            predicate = function(obj) {
+                return serene_ding.matchProperty(obj, ary)
+            }
+        } else if (typeof predicate == 'object') {
+            var obj1 = predicate
+            predicate = function(obj2) {
+                return serene_ding.isParitiallyEqual(obj1, obj2)
+            }
+        }
+        for (i in collection) {
+            var obj = collection[i]
+            if (predicate(obj)) {
+                res[0].push(obj)
+            } else {
+                res[1].push(obj)
+            }
+        }
+        return res
 
+    },
+    isParitiallyEqual: function(obj1, obj2) {
+        var l1 = Object.keys(obj1).length;
+        var l2 = Object.keys(obj2).length;
+        var l = Math.min(l1, l2)
+        if (l1 < l2) {
+            var less = obj1
+            var more = obj2
+        } else {
+            less = obj2
+            more = obj1
+        }
+        for (var i = 0; i < l; i++) {
+            for (entry in less) {
+                if (!(entry in more)) {
+                    return false
+                } else if (!serene_ding.isEqual(more[entry], less[entry])) {
+                    return false
+                }
+            }
+        }
+        return true
     }
 
 }
