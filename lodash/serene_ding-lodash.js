@@ -386,6 +386,7 @@ var serene_ding = {
         }
         return res
     },
+    // what is the optimal solution
     uniqBy: function(array, f) {
         if (typeof f == 'string') {
             var property = f
@@ -406,7 +407,25 @@ var serene_ding = {
         return res
 
     },
+    uniqWith: function(array, comparator) {
 
+        var res = []
+        for (i in array) {
+            var item = array[i]
+            ok = true
+            for (j in res) {
+                var r = res[j]
+                if (comparator(item, r)) {
+                    ok = false
+                }
+            }
+            if (ok) {
+
+                res.push(item)
+            }
+        }
+        return res
+    }
 
 
 
