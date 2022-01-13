@@ -508,6 +508,23 @@ var serene_ding = {
             }
         }
         return true
+    },
+    countBy: function(collection, f) {
+        var res = {}
+        if (typeof f == 'string') {
+            var prop = f
+            f = function(obj) {
+                return serene_ding.property(obj, prop)
+            }
+        }
+        for (item of collection) {
+            var p = f(item)
+            if (p in res) {
+                res[p]++
+            } else {
+                res[p] = 1
+            }
+        }
+        return res
     }
-
 }
