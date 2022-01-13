@@ -441,7 +441,22 @@ var serene_ding = {
             j++
         }
         return res
-    }
+    },
+    map: function(collection, f) {
+        var res = []
+        if (typeof f == 'string') {
+            var prop = f
+            f = function(obj) {
+                return serene_ding.property(obj, prop)
+            }
+        }
+        for (i in collection) {
+            res.push(f(collection[i]))
+        }
+        return res
+    },
+    partition: function(collection, predicate) {
 
+    }
 
 }
