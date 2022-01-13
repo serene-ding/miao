@@ -140,8 +140,8 @@ var serene_ding = {
 
     },
     dropRightWhile: function(array, f) {
-        var n = 0
-        var i = 0
+
+
         if (typeof f == 'function') {
 
         } else if (typeof f == 'string') {
@@ -162,19 +162,17 @@ var serene_ding = {
                 return serene_ding.isEqual(item, obj)
             }
         }
-        while (i < array.length) {
+        var i = array.length - 1
+        var n = 0
+        while (i >= 0) {
             if (!f(array[i])) {
                 break
             }
-            i++
+            i--
             n++
         }
         //drop_right
-        var res = []
-        for (var i = 0, j = 0; i < array.length - n; i++, j++) {
-            res[j] = array[i]
-        }
-        return res
+        return serene_ding.dropRight(array, n)
     },
     property: function(obj, str) {
         return obj[str]
@@ -526,5 +524,21 @@ var serene_ding = {
             }
         }
         return res
+    },
+    keyBy: function(collection, f) {
+        var res = {}
+        if (typeof f == 'string') {
+            var prop = f
+            f = function(obj) {
+                return serene_ding.property(obj, prop)
+            }
+        }
+        for (item of collection) {
+
+            var pName = f(item)
+            res[pName] = item
+        }
+        return res
     }
+
 }
