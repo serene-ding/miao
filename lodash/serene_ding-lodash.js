@@ -68,18 +68,13 @@ var serene_ding = function() {
     }
 
     function drop(array, n = 1) {
-        var res = []
-        for (var i = n, j = 0; i < array.length; i++, j++) {
-            res[j] = array[i]
-        }
+        var res = array.slice(n)
+
         return res
     }
 
     function dropRight(array, n = 1) {
-        var res = []
-        for (var i = 0, j = 0; i < array.length - n; i++, j++) {
-            res[j] = array[i]
-        }
+        var res = array.slice(0, array.length - n)
         return res
     }
 
@@ -141,40 +136,38 @@ var serene_ding = function() {
 
     }
 
-    function dropRightWhile(array, f) {
+    function dropRightWhile(array, predicate) {
 
-
-        if (typeof f == 'function') {
-
-        } else if (typeof f == 'string') {
-            var property = f
-
-            f = function(item) {
-                return serene_ding.property(item, property)
+        var len = array.length
+        var n = 0
+        var i = len - 1
+        if (typeof predicate == 'string') {
+            var p = predicate
+            predicate = function(obj) {
+                return property(obj, p)
             }
-        } else if (Array.isArray(f)) {
-            var array = f
-
-            f = function(item) {
-                return serene_ding.matchProperty(item, array)
+        } else if (isArray(predicate)) {
+            var a = predicate
+            predicate = function(obj) {
+                return matchProperty(obj, a)
             }
-        } else {
-            var obj = f
-            f = function(item) {
-                return serene_ding.isEqual(item, obj)
+        } else if (isObject(predicate)) {
+            var obj1 = predicate
+            predicate = function(obj2) {
+                return isEqual(obj1, obj2)
             }
         }
-        var i = array.length - 1
-        var n = 0
-        while (i >= 0) {
-            if (!f(array[i])) {
-                break
-            }
+        while (predicate(array[i]) && (i >= -1)) {
             i--
             n++
         }
-        //drop_right
-        return serene_ding.dropRight(array, n)
+        //i = len
+        if (i == -2) {
+            n = len
+        }
+        var res = array.slice(0, len - n)
+        return res
+
     }
 
     function property(obj, str) {
@@ -580,6 +573,10 @@ var serene_ding = function() {
     function isFunction(val) {
         return Object.prototype.toString.call(val) == '[object Function]'
     }
+
+    function isObject(val) {
+        return (typeof val) == "object"
+    }
     return {
         chunk: chunk,
         compact: compact,
@@ -618,6 +615,7 @@ var serene_ding = function() {
         isBoolean: isBoolean,
         isDate: isDate,
         isFunction: isFunction,
+        isObject: isObject,
     }
 
 
