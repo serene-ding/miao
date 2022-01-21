@@ -576,6 +576,10 @@ var serene_ding = function() {
     function isDate(val) {
         return val instanceof Date
     }
+
+    function isFunction(val) {
+        return Object.prototype.toString.call(val) == '[object Function]'
+    }
     return {
         chunk: chunk,
         compact: compact,
@@ -613,8 +617,9 @@ var serene_ding = function() {
         isArray: isArray,
         isBoolean: isBoolean,
         isDate: isDate,
-    }()
+        isFunction: isFunction,
+    }
 
 
 
-}
+}()
