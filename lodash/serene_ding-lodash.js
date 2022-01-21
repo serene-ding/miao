@@ -1,5 +1,5 @@
-var serene_ding = {
-    chunk: function(array, size = 1) {
+var serene_ding = function() {
+    function chunk(array, size = 1) {
         var res = []
         var j = 0
         while (j < array.length) {
@@ -15,8 +15,9 @@ var serene_ding = {
             res.push(one_chunk)
         }
         return res
-    },
-    compact: function(array) {
+    }
+
+    function compact(array) {
         var res = []
         for (var i = 0; i < array.length; i++) {
             if (array[i]) {
@@ -24,9 +25,9 @@ var serene_ding = {
             }
         }
         return res
-    },
+    }
 
-    difference: function(array, ...values) {
+    function difference(array, ...values) {
         var res = []
         for (var i = 0; i < array.length; i++) {
             var item = array[i]
@@ -44,9 +45,9 @@ var serene_ding = {
 
         }
         return res
-    },
+    }
 
-    concat: function(array, ...values) {
+    function concat(array, ...values) {
         //copy the array
         var c_array = []
         for (var k = 0; k < array.length; k++) {
@@ -64,27 +65,27 @@ var serene_ding = {
             }
         }
         return c_array
-    },
+    }
 
-    drop: function(array, n = 1) {
+    function drop(array, n = 1) {
         var res = []
         for (var i = n, j = 0; i < array.length; i++, j++) {
             res[j] = array[i]
         }
         return res
-    },
+    }
 
-    dropRight: function(array, n = 1) {
+    function dropRight(array, n = 1) {
         var res = []
         for (var i = 0, j = 0; i < array.length - n; i++, j++) {
             res[j] = array[i]
         }
         return res
-    },
+    }
 
 
 
-    fill: function(array, value, start = 0, end = array.length) {
+    function fill(array, value, start = 0, end = array.length) {
         if (arguments.length == 2) {
             for (var i = 0; i < array.length; i++) {
                 array[i] = value
@@ -99,9 +100,9 @@ var serene_ding = {
             }
         }
         return array
-    },
+    }
     //Array.isArray()
-    findIndex: function(array, f, fromIndex = 0) {
+    function findIndex(array, f, fromIndex = 0) {
         if (typeof f == 'function') {
             for (var i = fromIndex; i < array.length; i++) {
                 var item = array[i]
@@ -138,8 +139,9 @@ var serene_ding = {
             }
         }
 
-    },
-    dropRightWhile: function(array, f) {
+    }
+
+    function dropRightWhile(array, f) {
 
 
         if (typeof f == 'function') {
@@ -173,16 +175,19 @@ var serene_ding = {
         }
         //drop_right
         return serene_ding.dropRight(array, n)
-    },
-    property: function(obj, str) {
+    }
+
+    function property(obj, str) {
         return obj[str]
-    },
-    matchProperty: function(obj, array) {
+    }
+
+    function matchProperty(obj, array) {
         var property = array[0]
         var value = array[1]
         return serene_ding.isEqual(obj[property], value)
-    },
-    flatten: function(array) {
+    }
+
+    function flatten(array) {
         var res = []
         for (var i = 0; i < array.length; i++) {
             var item = array[i]
@@ -196,8 +201,9 @@ var serene_ding = {
             }
         }
         return res
-    },
-    flattenDeep: function(array) {
+    }
+
+    function flattenDeep(array) {
         var res = []
         for (var i = 0; i < array.length; i++) {
             var item = array[i]
@@ -212,12 +218,13 @@ var serene_ding = {
             }
         }
         return res
-    },
-    head: function(array) {
-        return array[0]
-    },
+    }
 
-    indexOf: function(array, value, fromIndex = 0) {
+    function head(array) {
+        return array[0]
+    }
+
+    function indexOf(array, value, fromIndex = 0) {
         for (var i = fromIndex; i < array.length; i++) {
             if (array[i] == value) {
                 return i
@@ -225,15 +232,17 @@ var serene_ding = {
         }
         return -1
 
-    },
-    initial: function(array) {
+    }
+
+    function initial(array) {
         var ini = []
         for (var i = 0; i < array.length - 1; i++) {
             ini[i] = array[i]
         }
         return ini
-    },
-    fromPairs: function(pairs) {
+    }
+
+    function fromPairs(pairs) {
         var res = {}
         for (var i = 0; i < pairs.length; i++) {
             var one_pair = pairs[i]
@@ -242,8 +251,9 @@ var serene_ding = {
             res[pro] = value
         }
         return res
-    },
-    join: function(array, separator = ',') {
+    }
+
+    function join(array, separator = ',') {
         var res = ''
         for (var i = 0; i < array.length; i++) {
             if (i == array.length - 1) {
@@ -254,15 +264,17 @@ var serene_ding = {
             }
         }
         return res
-    },
-    last: function(array) {
+    }
+
+    function last(array) {
         for (var i = 0; i < array.length; i++) {
             if (i == array.length - 1) {
                 return array[i]
             }
         }
-    },
-    flattenDepth: function(array, depth = 1) {
+    }
+
+    function flattenDepth(array, depth = 1) {
         var res = []
         for (var i = 0; i < array.length; i++) {
             var item = array[i]
@@ -279,8 +291,9 @@ var serene_ding = {
             }
         }
         return res
-    },
-    isEqual: function(a, b) {
+    }
+
+    function isEqual(a, b) {
         if (a === b) {
             return true
         }
@@ -304,8 +317,9 @@ var serene_ding = {
 
         return propsInA == propsInB;
 
-    },
-    differenceBy: function(array, values, f) {
+    }
+
+    function differenceBy(array, values, f) {
         var res = []
         var all_array = true
         for (item of arguments) {
@@ -345,8 +359,9 @@ var serene_ding = {
             }
         }
         return res
-    },
-    differenceWith: function(array, values, f) {
+    }
+
+    function differenceWith(array, values, f) {
         var res = []
         for (var i = 0; i < array.length; i++) {
             var item = array[i]
@@ -362,16 +377,18 @@ var serene_ding = {
             }
         }
         return res
-    },
-    reverse: function(array) {
+    }
+
+    function reverse(array) {
         for (var i = 0; i < Math.floor(array.length / 2); i++) {
             var old = array[i]
             array[i] = array[array.length - i - 1]
             array[array.length - i - 1] = old
         }
         return array
-    },
-    uniq: function(array) {
+    }
+
+    function uniq(array) {
         var obj = {}
         res = []
         for (i of array) {
@@ -383,9 +400,9 @@ var serene_ding = {
             }
         }
         return res
-    },
+    }
     // what is the optimal solution
-    uniqBy: function(array, f) {
+    function uniqBy(array, f) {
         if (typeof f == 'string') {
             var property = f
             f = function(obj) {
@@ -404,8 +421,9 @@ var serene_ding = {
         }
         return res
 
-    },
-    uniqWith: function(array, comparator) {
+    }
+
+    function uniqWith(array, comparator) {
 
         var res = []
         for (i in array) {
@@ -423,8 +441,9 @@ var serene_ding = {
             }
         }
         return res
-    },
-    zip: function(...arrays) {
+    }
+
+    function zip(...arrays) {
         var res = []
         var rl = arrays[0].length
         res.length = rl
@@ -439,8 +458,9 @@ var serene_ding = {
             j++
         }
         return res
-    },
-    map: function(collection, f) {
+    }
+
+    function map(collection, f) {
         var res = []
         if (typeof f == 'string') {
             var prop = f
@@ -452,8 +472,9 @@ var serene_ding = {
             res.push(f(collection[i]))
         }
         return res
-    },
-    partition: function(collection, predicate) {
+    }
+
+    function partition(collection, predicate) {
         var res = []
         for (var i = 0; i < 2; i++) {
             res[i] = []
@@ -484,8 +505,9 @@ var serene_ding = {
         }
         return res
 
-    },
-    isParitiallyEqual: function(obj1, obj2) {
+    }
+
+    function isParitiallyEqual(obj1, obj2) {
         var l1 = Object.keys(obj1).length;
         var l2 = Object.keys(obj2).length;
         var l = Math.min(l1, l2)
@@ -506,8 +528,9 @@ var serene_ding = {
             }
         }
         return true
-    },
-    countBy: function(collection, f) {
+    }
+
+    function countBy(collection, f) {
         var res = {}
         if (typeof f == 'string') {
             var prop = f
@@ -524,8 +547,9 @@ var serene_ding = {
             }
         }
         return res
-    },
-    keyBy: function(collection, f) {
+    }
+
+    function keyBy(collection, f) {
         var res = {}
         if (typeof f == 'string') {
             var prop = f
@@ -539,10 +563,58 @@ var serene_ding = {
             res[pName] = item
         }
         return res
-    },
-    isArray: function(val) {
+    }
+
+    function isArray(val) {
         return Object.prototype.toString.call(val) == '[object Array]'
     }
+
+    function isBoolean(val) {
+        return Object.prototype.toString.call(val) == '[object Boolean]'
+    }
+
+    function isDate(val) {
+        return val instanceof Date
+    }
+    return {
+        chunk: chunk,
+        compact: compact,
+        difference: difference,
+        concat: concat,
+        drop: drop,
+        dropRight: dropRight,
+        fill: fill,
+        findIndex: findIndex,
+        dropRightWhile: dropRightWhile,
+        property: property,
+        matchProperty: matchProperty,
+        flatten: flatten,
+        flattenDeep: flattenDeep,
+        head: head,
+        indexOf: indexOf,
+        initial: initial,
+        fromPairs: fromPairs,
+        join: join,
+        last: last,
+        flattenDepth: flattenDepth,
+        isEqual: isEqual,
+        differenceBy: differenceBy,
+        differenceWith: differenceWith,
+        reverse: reverse,
+        uniq: uniq,
+        uniqBy: uniqBy,
+        uniqWith: uniqWith,
+        zip: zip,
+        map: map,
+        partition: partition,
+        isParitiallyEqual: isParitiallyEqual,
+        countBy: countBy,
+        keyBy: keyBy,
+        isArray: isArray,
+        isBoolean: isBoolean,
+        isDate: isDate,
+    }()
+
 
 
 }
