@@ -590,6 +590,38 @@ var serene_ding = function() {
     function isObject(val) {
         return (typeof val) == "object"
     }
+
+    function dropWhile(array, predicate) {
+        var len = array.length
+        var n = 0
+        var i = 0
+        if (typeof predicate == 'string') {
+            var p = predicate
+            predicate = function(obj) {
+                return property(obj, p)
+            }
+        } else if (isArray(predicate)) {
+            var a = predicate
+            predicate = function(obj) {
+                return matchProperty(obj, a)
+            }
+        } else if (isObject(predicate)) {
+            var obj1 = predicate
+            predicate = function(obj2) {
+                return isEqual(obj1, obj2)
+            }
+        }
+        while ((i <= len - 1) && predicate(array[i])) {
+            i++
+            n++
+        }
+        //i = len
+
+        var res = array.slice(n, len)
+        return res
+
+
+    }
     return {
         chunk: chunk,
         compact: compact,
@@ -629,6 +661,7 @@ var serene_ding = function() {
         isDate: isDate,
         isFunction: isFunction,
         isObject: isObject,
+        dropWhile: dropWhile,
     }
 
 
