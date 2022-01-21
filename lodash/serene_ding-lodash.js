@@ -74,7 +74,11 @@ var serene_ding = function() {
     }
 
     function dropRight(array, n = 1) {
-        var res = array.slice(0, array.length - n)
+        if (n < array.length) {
+            var res = array.slice(0, array.length - n)
+        } else {
+            var res = []
+        }
         return res
     }
 
@@ -320,17 +324,26 @@ var serene_ding = function() {
                 all_array = false
             }
         }
+        var arguList = Array.prototype.slice.call(arguments)
         if (all_array) {
-
-            var values_haha = Array.prototype.slice.call(arguments).slice(1)
+            var pula = arguList.slice(1)
             var values = []
-            for (i in values_haha) {
-                values = values.concat(values_haha[i])
+            for (i in pula) {
+                values = values.concat(pula[i])
             }
             f = function(i) {
                 return i
             }
         }
+        if (isFunction(last(arguList))) {
+            var pula = arguList.slice(1, -1)
+            var values = []
+            for (i in pula) {
+                values = values.concat(pula[i])
+            }
+            f = last(arguList)
+        }
+
         if (typeof f == 'string') {
             var prop = f
             f = function(obj) {
