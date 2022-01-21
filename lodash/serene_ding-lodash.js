@@ -622,6 +622,45 @@ var serene_ding = function() {
 
 
     }
+
+    function findLastIndex(array, f, fromIndex) {
+        if (typeof f == 'function') {
+            for (var i = fromIndex; i >= 0; i++) {
+                var item = array[i]
+                if (f(item)) {
+                    return i
+                }
+            }
+
+        } else if (typeof f == 'string') {
+            var property = f
+
+            for (var i = fromIndex; i >= 0; i--) {
+                var item = array[i]
+                if (serene_ding.property(item, property)) {
+                    return i
+                }
+            }
+        } else if (Array.isArray(f)) {
+            var ary = f
+
+            for (var i = fromIndex; i >= 0; i--) {
+                var item = array[i]
+                if (serene_ding.matchProperty(item, ary)) {
+                    return i
+                }
+            }
+        } else {
+            var obj = f
+            for (var i = fromIndex; i >= 0; i--) {
+                var item = array[i]
+                if (serene_ding.isEqual(item, obj)) {
+                    return i
+                }
+            }
+        }
+
+    }
     return {
         chunk: chunk,
         compact: compact,
