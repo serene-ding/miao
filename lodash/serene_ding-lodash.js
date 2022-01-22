@@ -769,6 +769,26 @@ var serene_ding = function() {
     function pullAll(array, values) {
         return pull(array, ...values)
     }
+
+    function pullAllBy(array, values, iteratee) {
+        if (typeof iteratee == 'string') {
+            var str = iteratee
+            iteratee = function(obj) {
+                return property(obj, str)
+            }
+        }
+        for (var i = 0; i < array.length; i++) {
+            var item1 = array[i]
+            for (var j in values) {
+                var item2 = values[j]
+                if (iteratee(item1) == iteratee(item2)) {
+                    array.splice(i, 1)
+                    i--
+                }
+            }
+        }
+        return array
+    }
     return {
         chunk: chunk,
         compact: compact,
@@ -817,6 +837,7 @@ var serene_ding = function() {
         nth: nth,
         pull: pull,
         pullAll: pullAll,
+        pullAllBy: pullAllBy,
     }
 
 
