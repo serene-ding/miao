@@ -834,6 +834,29 @@ var serene_ding = function() {
         }
 
     }
+    //binary search
+    function sortedIndexOf(array, value) {
+
+        var len = array.length
+
+        var low = 0
+        var high = len - 1
+        while (low <= high) {
+            var mid = low + ((high - low) >> 1)
+            if (value < array[mid]) {
+                high = mid - 1
+            } else if (value > array[mid]) {
+                low = mid + 1
+            } else {
+                while (array[mid - 1] == array[mid]) {
+                    mid--
+                }
+                return mid
+            }
+        }
+        return -1
+    }
+
     return {
         chunk: chunk,
         compact: compact,
@@ -886,6 +909,7 @@ var serene_ding = function() {
         pullAllWith: pullAllWith,
         sortedIndex: sortedIndex,
         sortedIndexBy: sortedIndexBy,
+        sortedIndexOf: sortedIndexOf,
     }
 
 
