@@ -803,6 +803,15 @@ var serene_ding = function() {
         }
         return array
     }
+
+    function sortedIndex(array, value) {
+        for (var i = 0; i < array.length - 1; i++) {
+            if (value > array[i] && value < array[i + 1]) {
+                return i + 1
+            }
+        }
+
+    }
     return {
         chunk: chunk,
         compact: compact,
@@ -853,6 +862,7 @@ var serene_ding = function() {
         pullAll: pullAll,
         pullAllBy: pullAllBy,
         pullAllWith: pullAllWith,
+        sortedIndex: sortedIndex,
     }
 
 
