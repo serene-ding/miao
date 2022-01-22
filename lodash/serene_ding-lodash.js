@@ -685,6 +685,14 @@ var serene_ding = function() {
         return r
     }
 
+    function lastIndexOf(array, value, fromIndex = array.length - 1) {
+        for (var i = fromIndex; i < array.length; i--) {
+            if (array[i] == value) {
+                return i
+            }
+        }
+        return -1
+    }
     return {
         chunk: chunk,
         compact: compact,
@@ -727,6 +735,7 @@ var serene_ding = function() {
         dropWhile: dropWhile,
         findLastIndex: findLastIndex,
         intersection: intersection,
+        lastIndexOf: lastIndexOf,
     }
 
 
