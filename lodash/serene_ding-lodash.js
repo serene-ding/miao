@@ -701,6 +701,7 @@ var serene_ding = function() {
         isFunction: isFunction,
         isObject: isObject,
         dropWhile: dropWhile,
+        findLastIndex: findLastIndex
     }
 
 
