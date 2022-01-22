@@ -743,6 +743,14 @@ var serene_ding = function() {
         return res
 
     }
+
+    function nth(array, n = 0) {
+        if (n >= 0) {
+            return array[n]
+        } else {
+            return array[array.length + n]
+        }
+    }
     return {
         chunk: chunk,
         compact: compact,
@@ -788,7 +796,7 @@ var serene_ding = function() {
         lastIndexOf: lastIndexOf,
         intersectionBy: intersectionBy,
         intersectionWith: intersectionWith,
-
+        nth: nth,
     }
 
 
