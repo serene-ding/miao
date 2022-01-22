@@ -695,7 +695,7 @@ var serene_ding = function() {
     }
 
     function intersectionBy(arrays, iteratee) {
-        var temp = []
+
         var arguList = Array.prototype.slice.call(arguments)
         var arrays = arguList.slice(0, -1)
         var iteratee = arguList[arguments.length - 1]
@@ -722,6 +722,26 @@ var serene_ding = function() {
             }
         }
         return r
+    }
+
+    function intersectionWith(arrays, comparator) {
+        var arguList = Array.prototype.slice.call(arguments)
+        var arrays = arguList.slice(0, -1)
+        var comparator = arguList[arguments.length - 1]
+        var array1 = arrays[0]
+        var array2 = arrays[1]
+        var res = []
+        for (var i in array1) {
+            var item1 = array1[i]
+            for (var j in array2) {
+                var item2 = array2[j]
+                if (comparator(item1, item2)) {
+                    res.push(item1)
+                }
+            }
+        }
+        return res
+
     }
     return {
         chunk: chunk,
@@ -767,6 +787,7 @@ var serene_ding = function() {
         intersection: intersection,
         lastIndexOf: lastIndexOf,
         intersectionBy: intersectionBy,
+        intersectionWith: intersectionWith,
 
     }
 
