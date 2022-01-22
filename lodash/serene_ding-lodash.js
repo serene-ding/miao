@@ -661,6 +661,30 @@ var serene_ding = function() {
         }
 
     }
+
+    function intersection(arrays) {
+        var temp = []
+        for (var array of arguments) {
+            var temp = temp.concat(array)
+        }
+        var obj = {}
+        for (var i in temp) {
+            var item = temp[i]
+            if (item in obj) {
+                obj[item]++
+            } else {
+                obj[item] = 1
+            }
+        }
+        var r = []
+        for (var entry in obj) {
+            if (obj[entry] == arguments.length) {
+                r.push(Number(entry))
+            }
+        }
+        return r
+    }
+
     return {
         chunk: chunk,
         compact: compact,
@@ -701,7 +725,8 @@ var serene_ding = function() {
         isFunction: isFunction,
         isObject: isObject,
         dropWhile: dropWhile,
-        findLastIndex: findLastIndex
+        findLastIndex: findLastIndex,
+        intersection: intersection,
     }
 
 
