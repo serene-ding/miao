@@ -789,6 +789,20 @@ var serene_ding = function() {
         }
         return array
     }
+
+    function pullAllWith(array, values, comparator) {
+        for (var i = 0; i < array.length; i++) {
+            var item1 = array[i]
+            for (var j in values) {
+                var item2 = values[j]
+                if (comparator(item1, item2)) {
+                    array.splice(i, 1)
+                    i--
+                }
+            }
+        }
+        return array
+    }
     return {
         chunk: chunk,
         compact: compact,
@@ -838,6 +852,7 @@ var serene_ding = function() {
         pull: pull,
         pullAll: pullAll,
         pullAllBy: pullAllBy,
+        pullAllWith: pullAllWith,
     }
 
 
