@@ -751,6 +751,24 @@ var serene_ding = function() {
             return array[array.length + n]
         }
     }
+
+    function pull(array, ...values) {
+        for (var i = 0; i < array.length; i++) {
+            var item1 = array[i]
+            for (var j in values) {
+                var item2 = values[j]
+                if (item1 == item2) {
+                    array.splice(i, 1)
+                    i--
+                }
+            }
+        }
+        return array
+    }
+
+    function pullAll(array, values) {
+        return pull(array, ...values)
+    }
     return {
         chunk: chunk,
         compact: compact,
@@ -797,6 +815,8 @@ var serene_ding = function() {
         intersectionBy: intersectionBy,
         intersectionWith: intersectionWith,
         nth: nth,
+        pull: pull,
+        pullAll: pullAll,
     }
 
 
