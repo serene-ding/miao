@@ -693,6 +693,36 @@ var serene_ding = function() {
         }
         return -1
     }
+
+    function intersectionBy(arrays, iteratee) {
+        var temp = []
+        var arguList = Array.prototype.slice.call(arguments)
+        var arrays = arguList.slice(0, -1)
+        var iteratee = arguList[arguments.length - 1]
+        if (typeof iteratee == 'string') {
+            var str = iteratee
+            iteratee = function(obj) {
+                return property(obj, str)
+            }
+        }
+        var map = new Map()
+        var array1 = arrays[0]
+        for (var i in array1) {
+            var item = array1[i]
+            var ratee = iteratee(item)
+            map.set(ratee, item)
+        }
+        var r = []
+        var array2 = arrays[1]
+        for (var j in array2) {
+            var item = array2[j]
+            var ratee = iteratee(item)
+            if (map.has(ratee)) {
+                r.push(map.get(ratee))
+            }
+        }
+        return r
+    }
     return {
         chunk: chunk,
         compact: compact,
@@ -736,6 +766,8 @@ var serene_ding = function() {
         findLastIndex: findLastIndex,
         intersection: intersection,
         lastIndexOf: lastIndexOf,
+        intersectionBy: intersectionBy,
+
     }
 
 
