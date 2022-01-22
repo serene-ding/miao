@@ -623,9 +623,9 @@ var serene_ding = function() {
 
     }
 
-    function findLastIndex(array, f, fromIndex) {
+    function findLastIndex(array, f, fromIndex = array.length - 1) {
         if (typeof f == 'function') {
-            for (var i = fromIndex; i >= 0; i++) {
+            for (var i = fromIndex; i >= 0; i--) {
                 var item = array[i]
                 if (f(item)) {
                     return i
