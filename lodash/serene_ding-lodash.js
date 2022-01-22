@@ -805,8 +805,30 @@ var serene_ding = function() {
     }
 
     function sortedIndex(array, value) {
+        if (value <= array[0]) {
+            return 0
+        }
         for (var i = 0; i < array.length - 1; i++) {
-            if (value > array[i] && value < array[i + 1]) {
+            if (value > array[i] && value <= array[i + 1]) {
+                return i + 1
+            }
+        }
+
+    }
+
+    function sortedIndexBy(array, value, iteratee) {
+        if (typeof iteratee == 'string') {
+            var str = iteratee
+            iteratee = function(obj) {
+                return property(obj, str)
+            }
+        }
+        if (iteratee(value) <= iteratee(array[0])) {
+            return 0
+        }
+        for (var i = 0; i < array.length - 1; i++) {
+            if (iteratee(value) > iteratee(array[i]) &&
+                iteratee(value) <= iteratee(array[i + 1])) {
                 return i + 1
             }
         }
@@ -863,6 +885,7 @@ var serene_ding = function() {
         pullAllBy: pullAllBy,
         pullAllWith: pullAllWith,
         sortedIndex: sortedIndex,
+        sortedIndexBy: sortedIndexBy,
     }
 
 
