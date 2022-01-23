@@ -877,6 +877,34 @@ var serene_ding = function() {
         }
         return -1
     }
+
+    function sortedLastIndex(array, value) {
+        if (value < array[0]) {
+            return 0
+        }
+        for (var i = 0; i < array.length - 1; i++) {
+            if (value >= array[i] && value < array[i + 1]) {
+                return i + 1
+            }
+        }
+    }
+
+    function sortedLastIndexBy(array, value, iteratee) {
+        if (typeof iteratee == 'string') {
+            var str = iteratee
+            iteratee = function(obj) {
+                return property(obj, str)
+            }
+        }
+        if (iteratee(value) < iteratee(array[0])) {
+            return 0
+        }
+        for (var i = 0; i < array.length - 1; i++) {
+            if (iteratee(value) >= iteratee(array[i]) && iteratee(value) < iteratee(array[i + 1])) {
+                return i + 1
+            }
+        }
+    }
     return {
         chunk: chunk,
         compact: compact,
@@ -931,6 +959,8 @@ var serene_ding = function() {
         sortedIndexBy: sortedIndexBy,
         sortedIndexOf: sortedIndexOf,
         sortedLastIndexOf: sortedLastIndexOf,
+        sortedLastIndex: sortedLastIndex,
+        sortedLastIndexBy: sortedLastIndexBy,
     }
 
 
