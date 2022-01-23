@@ -905,6 +905,16 @@ var serene_ding = function() {
             }
         }
     }
+
+    function sortedUniq(array) {
+        var res = []
+        for (var item in array) {
+            if (res.length == 0 || res[res.length - 1] != item) {
+                res.push(item)
+            }
+        }
+        return res
+    }
     return {
         chunk: chunk,
         compact: compact,
