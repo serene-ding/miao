@@ -908,7 +908,7 @@ var serene_ding = function() {
 
     function sortedUniq(array) {
         var res = []
-        for (var item in array) {
+        for (var item of array) {
             if (res.length == 0 || res[res.length - 1] != item) {
                 res.push(item)
             }
