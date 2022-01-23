@@ -915,6 +915,16 @@ var serene_ding = function() {
         }
         return res
     }
+
+    function sortedUniqBy(array, iteratee) {
+        var res = []
+        for (var item of array) {
+            if (res.length == 0 || iteratee(res[res.length - 1]) != iteratee(item)) {
+                res.push(item)
+            }
+        }
+        return res
+    }
     return {
         chunk: chunk,
         compact: compact,
@@ -972,6 +982,7 @@ var serene_ding = function() {
         sortedLastIndex: sortedLastIndex,
         sortedLastIndexBy: sortedLastIndexBy,
         sortedUniq: sortedUniq,
+        sortedUniqBy: sortedUniqBy,
     }
 
 
