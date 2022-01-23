@@ -970,12 +970,38 @@ var serene_ding = function() {
             n++
         }
         //i = len
-        if (i == -1) {
-            n = len
-        }
+
         var res = array.slice(len - n, len)
         return res
 
+    }
+
+    function takeWhile(array, predicate) {
+        var len = array.length
+        var n = 0
+        var i = 0
+        if (typeof predicate == 'string') {
+            var p = predicate
+            predicate = function(obj) {
+                return property(obj, p)
+            }
+        } else if (isArray(predicate)) {
+            var a = predicate
+            predicate = function(obj) {
+                return matchProperty(obj, a)
+            }
+        } else if (isObject(predicate)) {
+            var obj1 = predicate
+            predicate = function(obj2) {
+                return isEqual(obj1, obj2)
+            }
+        }
+
+        while (i < len && predicate(array[i])) {
+            i++
+            n++
+        }
+        return array.slice(0, n)
     }
     return {
         chunk: chunk,
@@ -1039,6 +1065,7 @@ var serene_ding = function() {
         take: take,
         takeRight: takeRight,
         takeRightWhile: takeRightWhile,
+        takeWhile: takeWhile,
 
 
 
