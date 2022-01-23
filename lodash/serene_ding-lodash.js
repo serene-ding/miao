@@ -161,12 +161,12 @@ var serene_ding = function() {
                 return isEqual(obj1, obj2)
             }
         }
-        while (predicate(array[i]) && (i >= -1)) {
+        while ((i >= 0) && predicate(array[i])) {
             i--
             n++
         }
         //i = len
-        if (i == -2) {
+        if (i == -1) {
             n = len
         }
         var res = array.slice(0, len - n)
