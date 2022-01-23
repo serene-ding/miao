@@ -933,6 +933,17 @@ var serene_ding = function() {
     function take(array, n = 1) {
         return array.slice(0, n)
     }
+
+    function takeRight(array, n = 1) {
+
+        var len = array.length
+        if (n <= len) {
+            return array.slice(len - n)
+        } else {
+            return array.slice()
+        }
+
+    }
     return {
         chunk: chunk,
         compact: compact,
@@ -993,7 +1004,7 @@ var serene_ding = function() {
         sortedUniqBy: sortedUniqBy,
         tail: tail,
         take: take,
-
+        takeRight: takeRight,
 
 
 
