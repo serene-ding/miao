@@ -971,6 +971,7 @@ var serene_ding = function() {
         sortedLastIndexOf: sortedLastIndexOf,
         sortedLastIndex: sortedLastIndex,
         sortedLastIndexBy: sortedLastIndexBy,
+        sortedUniq: sortedUniq,
     }
 
 
