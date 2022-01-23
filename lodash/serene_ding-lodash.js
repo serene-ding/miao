@@ -925,6 +925,14 @@ var serene_ding = function() {
         }
         return res
     }
+
+    function tail(array) {
+        return array.slice(1)
+    }
+
+    function take(array, n = 1) {
+        return array.slice(0, n)
+    }
     return {
         chunk: chunk,
         compact: compact,
@@ -983,6 +991,12 @@ var serene_ding = function() {
         sortedLastIndexBy: sortedLastIndexBy,
         sortedUniq: sortedUniq,
         sortedUniqBy: sortedUniqBy,
+        tail: tail,
+        take: take,
+
+
+
+
     }
 
 
