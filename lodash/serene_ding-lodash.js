@@ -102,39 +102,11 @@ var serene_ding = function() {
     }
     //Array.isArray()
     function findIndex(array, f, fromIndex = 0) {
-        if (typeof f == 'function') {
-            for (var i = fromIndex; i < array.length; i++) {
-                var item = array[i]
-                if (f(item)) {
-                    return i
-                }
-            }
 
-        } else if (typeof f == 'string') {
-            var property = f
-
-            for (var i = fromIndex; i < array.length; i++) {
-                var item = array[i]
-                if (serene_ding.property(item, property)) {
-                    return i
-                }
-            }
-        } else if (Array.isArray(f)) {
-            var ary = f
-
-            for (var i = fromIndex; i < array.length; i++) {
-                var item = array[i]
-                if (serene_ding.matchProperty(item, ary)) {
-                    return i
-                }
-            }
-        } else {
-            var obj = f
-            for (var i = fromIndex; i < array.length; i++) {
-                var item = array[i]
-                if (serene_ding.isEqual(item, obj)) {
-                    return i
-                }
+        f = iteratee(f)
+        for (var i = fromIndex; i < array.length; i++) {
+            if (f(array[i])) {
+                return i
             }
         }
 
@@ -145,22 +117,7 @@ var serene_ding = function() {
         var len = array.length
         var n = 0
         var i = len - 1
-        if (typeof predicate == 'string') {
-            var p = predicate
-            predicate = function(obj) {
-                return property(obj, p)
-            }
-        } else if (isArray(predicate)) {
-            var a = predicate
-            predicate = function(obj) {
-                return matchProperty(obj, a)
-            }
-        } else if (isObject(predicate)) {
-            var obj1 = predicate
-            predicate = function(obj2) {
-                return isEqual(obj1, obj2)
-            }
-        }
+        predicate = iteratee(predicate)
         while ((i >= 0) && predicate(array[i])) {
             i--
             n++
@@ -174,14 +131,41 @@ var serene_ding = function() {
 
     }
 
-    function property(obj, str) {
-        return obj[str]
+    function property(str) {
+        return function(obj) {
+            return obj[str]
+        }
+    }
+    //matchProperty [array]
+    function matchesProperty(array) {
+
+        return function(obj) {
+            return isEqual(obj[array[0]], array[1])
+        }
     }
 
-    function matchProperty(obj, array) {
-        var property = array[0]
-        var value = array[1]
-        return serene_ding.isEqual(obj[property], value)
+    function matches(source) {
+        return function(obj) {
+            for (var pro in source) {
+                if (!isEqual(source[pro], obj[pro])) {
+                    return false
+                }
+            }
+            return true
+        }
+    }
+
+    function iteratee(predicate) {
+        if (typeof predicate == 'string') {
+
+            return property(predicate)
+        } else if (isArray(predicate)) {
+            return matchesProperty(predicate)
+        } else if (isObject(predicate)) {
+            return matches(predicate)
+        } else {
+            return predicate
+        }
     }
 
     function flatten(array) {
@@ -316,46 +300,39 @@ var serene_ding = function() {
 
     }
 
-    function differenceBy(array, values, f) {
+    function identity(p) {
+        return p
+    }
+
+    function differenceBy(array, values, f = identity) {
         var res = []
         var all_array = true
-        for (item of arguments) {
-            if (!Array.isArray(item)) {
+        var valuesList = []
+        for (var i = 0; i < arguments.length; i++) {
+            var item = arguments[i]
+            if (!isArray(item)) {
                 all_array = false
             }
+            if (i > 0 && isArray(item)) {
+                valuesList = valuesList.concat(item)
+            }
+
         }
         var arguList = Array.prototype.slice.call(arguments)
+
         if (all_array) {
-            var pula = arguList.slice(1)
-            var values = []
-            for (i in pula) {
-                values = values.concat(pula[i])
-            }
-            f = function(i) {
-                return i
-            }
-        }
-        if (isFunction(last(arguList))) {
-            var pula = arguList.slice(1, -1)
-            var values = []
-            for (i in pula) {
-                values = values.concat(pula[i])
-            }
-            f = last(arguList)
+
+            f = identity
+        } else {
+            f = arguList[arguList.length - 1]
+            f = iteratee(f)
         }
 
-        if (typeof f == 'string') {
-            var prop = f
-            f = function(obj) {
-                return serene_ding.property(obj, prop)
-            }
-
-        }
         for (var i = 0; i < array.length; i++) {
             var item = array[i]
             var ok = true
-            for (var j = 0; j < values.length; j++) {
-                var value = values[j]
+            for (var j = 0; j < valuesList.length; j++) {
+                var value = valuesList[j]
                 if (f(item) == f(value)) {
                     ok = false
                 }
@@ -409,12 +386,7 @@ var serene_ding = function() {
     }
     // what is the optimal solution
     function uniqBy(array, f) {
-        if (typeof f == 'string') {
-            var property = f
-            f = function(obj) {
-                return serene_ding.property(obj, property)
-            }
-        }
+        f = iteratee(f)
         var obj = {}
         res = []
         for (i of array) {
@@ -468,12 +440,7 @@ var serene_ding = function() {
 
     function map(collection, f) {
         var res = []
-        if (typeof f == 'string') {
-            var prop = f
-            f = function(obj) {
-                return serene_ding.property(obj, prop)
-            }
-        }
+        f = iteratee(f)
         for (i in collection) {
             res.push(f(collection[i]))
         }
@@ -485,22 +452,7 @@ var serene_ding = function() {
         for (var i = 0; i < 2; i++) {
             res[i] = []
         }
-        if (typeof predicate == 'string') {
-            var prop = predicate
-            predicate = function(obj) {
-                return serene_ding.property(obj, prop)
-            }
-        } else if (Array.isArray(predicate)) {
-            var ary = predicate
-            predicate = function(obj) {
-                return serene_ding.matchProperty(obj, ary)
-            }
-        } else if (typeof predicate == 'object') {
-            var obj1 = predicate
-            predicate = function(obj2) {
-                return serene_ding.isParitiallyEqual(obj1, obj2)
-            }
-        }
+        predicate = iteratee(predicate)
         for (i in collection) {
             var obj = collection[i]
             if (predicate(obj)) {
@@ -538,12 +490,7 @@ var serene_ding = function() {
 
     function countBy(collection, f) {
         var res = {}
-        if (typeof f == 'string') {
-            var prop = f
-            f = function(obj) {
-                return serene_ding.property(obj, prop)
-            }
-        }
+        f = iteratee(f)
         for (item of collection) {
             var p = f(item)
             if (p in res) {
@@ -557,12 +504,7 @@ var serene_ding = function() {
 
     function keyBy(collection, f) {
         var res = {}
-        if (typeof f == 'string') {
-            var prop = f
-            f = function(obj) {
-                return serene_ding.property(obj, prop)
-            }
-        }
+        f = iteratee(f)
         for (item of collection) {
 
             var pName = f(item)
@@ -595,22 +537,7 @@ var serene_ding = function() {
         var len = array.length
         var n = 0
         var i = 0
-        if (typeof predicate == 'string') {
-            var p = predicate
-            predicate = function(obj) {
-                return property(obj, p)
-            }
-        } else if (isArray(predicate)) {
-            var a = predicate
-            predicate = function(obj) {
-                return matchProperty(obj, a)
-            }
-        } else if (isObject(predicate)) {
-            var obj1 = predicate
-            predicate = function(obj2) {
-                return isEqual(obj1, obj2)
-            }
-        }
+        predicate = iteratee(predicate)
         while ((i <= len - 1) && predicate(array[i])) {
             i++
             n++
@@ -624,41 +551,14 @@ var serene_ding = function() {
     }
 
     function findLastIndex(array, f, fromIndex = array.length - 1) {
-        if (typeof f == 'function') {
-            for (var i = fromIndex; i >= 0; i--) {
-                var item = array[i]
-                if (f(item)) {
-                    return i
-                }
-            }
+        f = iteratee(f)
 
-        } else if (typeof f == 'string') {
-            var property = f
-
-            for (var i = fromIndex; i >= 0; i--) {
-                var item = array[i]
-                if (serene_ding.property(item, property)) {
-                    return i
-                }
-            }
-        } else if (Array.isArray(f)) {
-            var ary = f
-
-            for (var i = fromIndex; i >= 0; i--) {
-                var item = array[i]
-                if (serene_ding.matchProperty(item, ary)) {
-                    return i
-                }
-            }
-        } else {
-            var obj = f
-            for (var i = fromIndex; i >= 0; i--) {
-                var item = array[i]
-                if (serene_ding.isEqual(item, obj)) {
-                    return i
-                }
+        for (var i = fromIndex; i >= 0; i--) {
+            if (f(array[i])) {
+                return i
             }
         }
+
 
     }
 
@@ -1003,6 +903,8 @@ var serene_ding = function() {
         }
         return array.slice(0, n)
     }
+
+
     return {
         chunk: chunk,
         compact: compact,
@@ -1014,7 +916,8 @@ var serene_ding = function() {
         findIndex: findIndex,
         dropRightWhile: dropRightWhile,
         property: property,
-        matchProperty: matchProperty,
+        matchesProperty: matchesProperty,
+        iteratee: iteratee,
         flatten: flatten,
         flattenDeep: flattenDeep,
         head: head,
