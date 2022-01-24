@@ -922,6 +922,17 @@ var serene_ding = function() {
         return res2
     }
 
+    function filter(collection, predicate = _.identity) {
+        var res = []
+        predicate = iteratee(predicate)
+        for (var i of collection) {
+            if (predicate(i)) {
+                res.push(i)
+            }
+        }
+        return res
+    }
+
 
 
     return {
@@ -994,6 +1005,7 @@ var serene_ding = function() {
         flatMap: flatMap,
         flatMapDeep: flatMapDeep,
         flatMapDeepth: flatMapDeepth,
+        filter: filter,
 
     }
 
