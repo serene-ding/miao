@@ -904,6 +904,26 @@ var serene_ding = function() {
         return uniqWith(arrays_, comparator)
     }
 
+    function flatMap(collection, predicate = serene_ding.identity) {
+        var res1 = map(collection, predicate)
+        var res2 = flatten(res1)
+        return res2
+    }
+
+    function flatMapDeep(collection, predicate = serene_ding.identity) {
+        var res1 = map(collection, predicate)
+        var res2 = flattenDeep(res1)
+        return res2
+    }
+
+    function flatMapDeepth(collection, predicate = serene_ding.identity, n = 1) {
+        var res1 = map(collection, predicate)
+        var res2 = flattenDepth(res1, n)
+        return res2
+    }
+
+
+
     return {
         chunk: chunk,
         compact: compact,
@@ -971,7 +991,9 @@ var serene_ding = function() {
         union: union,
         unionBy: unionBy,
         unionWith: unionWith,
-
+        flatMap: flatMap,
+        flatMapDeep: flatMapDeep,
+        flatMapDeepth: flatMapDeepth,
 
     }
 
