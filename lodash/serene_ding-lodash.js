@@ -849,22 +849,7 @@ var serene_ding = function() {
         var len = array.length
         var n = 0
         var i = len - 1
-        if (typeof predicate == 'string') {
-            var p = predicate
-            predicate = function(obj) {
-                return property(obj, p)
-            }
-        } else if (isArray(predicate)) {
-            var a = predicate
-            predicate = function(obj) {
-                return matchProperty(obj, a)
-            }
-        } else if (isObject(predicate)) {
-            var obj1 = predicate
-            predicate = function(obj2) {
-                return isEqual(obj1, obj2)
-            }
-        }
+        predicate = iteratee(predicate)
         while ((i >= 0) && predicate(array[i])) {
             i--
             n++
@@ -880,23 +865,7 @@ var serene_ding = function() {
         var len = array.length
         var n = 0
         var i = 0
-        if (typeof predicate == 'string') {
-            var p = predicate
-            predicate = function(obj) {
-                return property(obj, p)
-            }
-        } else if (isArray(predicate)) {
-            var a = predicate
-            predicate = function(obj) {
-                return matchProperty(obj, a)
-            }
-        } else if (isObject(predicate)) {
-            var obj1 = predicate
-            predicate = function(obj2) {
-                return isEqual(obj1, obj2)
-            }
-        }
-
+        predicate = iteratee(predicate)
         while (i < len && predicate(array[i])) {
             i++
             n++
