@@ -790,6 +790,7 @@ var serene_ding = function() {
     }
 
     function sortedLastIndexBy(array, value, iteratee) {
+
         if (typeof iteratee == 'string') {
             var str = iteratee
             iteratee = function(obj) {
@@ -873,6 +874,35 @@ var serene_ding = function() {
         return array.slice(0, n)
     }
 
+    function union(...arrays) {
+        var arrays_ = []
+        for (var array of arrays) {
+            arrays_ = arrays_.concat(array)
+        }
+        return uniq(arrays_)
+    }
+
+    function unionBy(arrays, predicate) {
+        var arguList = Array.prototype.slice.call(arguments)
+        var Arrays = arguList.slice(0, -1)
+        var predicate = arguList[arguList.length - 1]
+        var arrays_ = []
+        for (var array of Arrays) {
+            arrays_ = arrays_.concat(array)
+        }
+        return uniqBy(arrays_, predicate)
+    }
+
+    function unionWith(arrays, comparator) {
+        var arguList = Array.prototype.slice.call(arguments)
+        var Arrays = arguList.slice(0, -1)
+        var comparator = arguList[arguList.length - 1]
+        var arrays_ = []
+        for (var array of Arrays) {
+            arrays_ = arrays_.concat(array)
+        }
+        return uniqWith(arrays_, comparator)
+    }
 
     return {
         chunk: chunk,
@@ -938,7 +968,9 @@ var serene_ding = function() {
         takeRight: takeRight,
         takeRightWhile: takeRightWhile,
         takeWhile: takeWhile,
-
+        union: union,
+        unionBy: unionBy,
+        unionWith: unionWith,
 
 
     }
