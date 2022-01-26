@@ -599,12 +599,7 @@ var serene_ding = function() {
         var arguList = Array.prototype.slice.call(arguments)
         var arrays = arguList.slice(0, -1)
         var iteratee = arguList[arguments.length - 1]
-        if (typeof iteratee == 'string') {
-            var str = iteratee
-            iteratee = function(obj) {
-                return property(obj, str)
-            }
-        }
+        iteratee = serene_ding.iteratee(iteratee)
         var map = new Map()
         var array1 = arrays[0]
         for (var i in array1) {
@@ -671,12 +666,7 @@ var serene_ding = function() {
     }
 
     function pullAllBy(array, values, iteratee) {
-        if (typeof iteratee == 'string') {
-            var str = iteratee
-            iteratee = function(obj) {
-                return property(obj, str)
-            }
-        }
+        iteratee = serene_ding.iteratee(iteratee)
         for (var i = 0; i < array.length; i++) {
             var item1 = array[i]
             for (var j in values) {
@@ -791,12 +781,7 @@ var serene_ding = function() {
 
     function sortedLastIndexBy(array, value, iteratee) {
 
-        if (typeof iteratee == 'string') {
-            var str = iteratee
-            iteratee = function(obj) {
-                return property(obj, str)
-            }
-        }
+        iteratee = serene_ding.iteratee(iteratee)
         if (iteratee(value) < iteratee(array[0])) {
             return 0
         }
