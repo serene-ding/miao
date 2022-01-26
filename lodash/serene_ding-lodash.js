@@ -933,6 +933,13 @@ var serene_ding = function() {
         return res
     }
 
+    function forEach(collection, predicate = _.identity) {
+        predicate = iteratee(predicate)
+        for (var i in collection) {
+            predicate(collection[i], i, collection)
+        }
+    }
+
 
 
     return {
@@ -1006,8 +1013,11 @@ var serene_ding = function() {
         flatMapDeep: flatMapDeep,
         flatMapDeepth: flatMapDeepth,
         filter: filter,
+        forEach: forEach,
 
     }
+
+
 
 
 
