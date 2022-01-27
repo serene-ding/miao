@@ -925,6 +925,66 @@ var serene_ding = function() {
         }
     }
 
+    function unzip(array) {
+        var res = []
+        var N = array[0].length
+
+        for (var i = 0; i < N; i++) {
+            res[i] = []
+            res[i][0] = array[0][i]
+            res[i][1] = array[1][i]
+        }
+        return res
+    }
+
+    function add(a, b) {
+        return a + b
+    }
+
+    function unzipWith(array, predicate) {
+        var res = []
+        var temp = unzip(array)
+        for (i of temp) {
+            res.push([predicate(i[0], i[1])])
+        }
+        return res
+    }
+
+    function without(array, ...values) {
+        var res = []
+        for (var a of array) {
+            var ok = true
+            for (var v of values) {
+                if (a == v) {
+                    ok = false
+                }
+            }
+            if (ok) {
+                res.push(a)
+            }
+        }
+        return res
+    }
+
+    function includes(collection, value, fromIndex = 0) {
+        // object string array
+        if (typeof collection == "string") {
+
+        } else {
+            for (var i in collection) {
+                var item = collection[i]
+                if (isEqual(item, value)) {
+                    return true
+                }
+            }
+            return false
+        }
+
+    }
+
+    function xor() {
+
+    }
 
 
     return {
@@ -999,7 +1059,12 @@ var serene_ding = function() {
         flatMapDeepth: flatMapDeepth,
         filter: filter,
         forEach: forEach,
-
+        unzip: unzip,
+        unzipWith: unzipWith,
+        add: add,
+        without: without,
+        xor: xor,
+        includes: includes,
     }
 
 
