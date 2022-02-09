@@ -1250,11 +1250,18 @@ var serene_ding = function() {
 
     }
 
-    function reduce(collection, iteratee = identity, accumulator) {
+    function reduce(collection, iteratee = identity, accumulator = collection[0]) {
         var cur = accumulator
-        for (var i in collection) {
-            cur = iteratee(cur, collection[i], i)
+        if (arguments.length == 3) {
+            for (var i in collection) {
+                cur = iteratee(cur, collection[i], i)
+            }
+        } else {
+            for (let i = 1; i < collection.length; i++) {
+                cur = iteratee(cur, collection[i], i)
+            }
         }
+
         return cur
     }
 
