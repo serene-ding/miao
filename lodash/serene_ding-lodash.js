@@ -901,7 +901,7 @@ var serene_ding = function() {
         return res2
     }
 
-    function flatMapDeepth(collection, predicate = serene_ding.identity, n = 1) {
+    function flatMapDepth(collection, predicate = serene_ding.identity, n = 1) {
         var res1 = map(collection, predicate)
         var res2 = flattenDepth(res1, n)
         return res2
@@ -1492,7 +1492,7 @@ var serene_ding = function() {
         unionWith: unionWith,
         flatMap: flatMap,
         flatMapDeep: flatMapDeep,
-        flatMapDeepth: flatMapDeepth,
+        flatMapDepth: flatMapDepth,
         filter: filter,
         forEach: forEach,
         unzip: unzip,
