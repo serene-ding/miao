@@ -969,11 +969,30 @@ var serene_ding = function() {
     function includes(collection, value, fromIndex = 0) {
         // object string array
         if (typeof collection == "string") {
+            for (var i = fromIndex; i < collection.length; i++) {
+                var s = collection[i]
+                if (s == value[0]) {
+                    for (var j = 1; j < value.length; j++) {
+                        s += collection[i + j]
+                    }
+                    if (s == value) {
+                        return true
+                    }
+                }
 
-        } else {
-            for (var i in collection) {
+            }
+            return false
+        } else if (Array.isArray(collection)) {
+            for (var i = fromIndex; i < collection.length; i++) {
                 var item = collection[i]
-                if (isEqual(item, value)) {
+                if (item == value) {
+                    return true
+                }
+            }
+            return false
+        } else {
+            for (var prop in collection) {
+                if (collection[prop] == value) {
                     return true
                 }
             }
@@ -981,10 +1000,427 @@ var serene_ding = function() {
         }
 
     }
+    //splice()
+    function remove(array, predicate) {
+        var deleted = []
+        for (var index = 0; index < array.length; index++) {
+            if (predicate(array[index], index, array)) {
+                deleted.push(array[index])
+                array.splice(index, 1)
+                index--
+            }
+        }
+        return deleted
+    }
 
-    function xor() {
+    function pullAt(array, indexes) {
+        var deleted = []
+        for (var i in indexes) {
+            var index = indexes[i] - i
+            var temp = (remove(array, function(_, i) {
+                return i == index
+            }))
+            deleted = deleted.concat(temp)
+        }
+        return deleted
+    }
+
+    function xor(...Arrays) {
+        var array1 = Arrays[0].slice()
+        var array2 = Arrays[1].slice()
+        return xorBy(array1, array2)
+    }
+
+    function xorBy(array1, array2, predicate = identity) {
+        predicate = iteratee(predicate)
+
+
+        var res = []
+        for (var i1 = 0; i1 < array1.length; i1++) {
+
+            for (var i2 = 0; i2 < array2.length; i2++) {
+                if (predicate(array1[i1]) == predicate(array2[i2])) {
+
+                    pullisEqual(array2, array2[i2])
+                    pullisEqual(array1, array1[i1])
+                    i1--
+                    i2--
+                }
+
+            }
+        }
+        var res = array1.concat(array2)
+        return res
+    }
+
+
+
+    function xorWith(array1, array2, comparator) {
+        var res = []
+        for (var i1 = 0; i1 < array1.length; i1++) {
+            for (var i2 = 0; i2 < array2.length; i2++) {
+                if (comparator(array1[i1], array2[i2])) {
+                    pull(array1, array1[i1])
+                    pull(array2, array2[i2])
+                    i1--
+                    i2--
+                }
+            }
+        }
+        var res = array1.concat(array2)
+        return res
+    }
+
+    function pullisEqual(array, ...values) {
+        for (var i = 0; i < array.length; i++) {
+            var item1 = array[i]
+            for (var j in values) {
+                var item2 = values[j]
+                if (isEqual(item1, item2)) {
+                    array.splice(i, 1)
+                    i--
+                }
+            }
+        }
+        return array
+    }
+
+    function slice(array, start = 0, end = array.length) {
+        var res = []
+        if (start < 0) {
+            start = start + array.length
+        }
+        if (end < 0) {
+            end = end + array.length
+        }
+        for (var i = start; i < end; i++) {
+            res.push(array[i])
+        }
+        return res
+    }
+
+    function countBy(collection, predicate = identity) {
+        predicate = iteratee(predicate)
+        var res = {}
+        for (var item of collection) {
+            var prop = predicate(item)
+            if (prop in res) {
+                res[prop]++
+            } else {
+                res[prop] = 1
+            }
+        }
+        return res
+    }
+
+    function forEach(collection, iteratee = identity) {
+        for (var prop in collection) {
+            iteratee(collection[prop], prop)
+        }
+    }
+
+    function forEachRight(collection, iteratee = identity) {
+        for (var i = collection.length - 1; i >= 0; i--) {
+            iteratee(collection[i], i)
+        }
+    }
+
+    function every(collection, predicate = identity) {
+        predicate = iteratee(predicate)
+        for (var i of collection) {
+            if (!predicate(i)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    function filter(collection, predicate = identity) {
+        predicate = iteratee(predicate)
+        var passed = []
+        for (var i = 0; i < collection.length; i++) {
+            if (predicate(collection[i])) {
+                passed.push(collection[i])
+
+            }
+        }
+        return passed
+    }
+
+    function find(collection, predicate = identity, fromIndex = 0) {
+        predicate = iteratee(predicate)
+        for (var i = 0; i < collection.length; i++) {
+            if (predicate(collection[i])) {
+                return collection[i]
+
+            }
+        }
+    }
+
+    function findLast(collection, predicate = identity, fromIndex = 0) {
+        predicate = iteratee(predicate)
+        for (var i = collection.length - 1; i >= 0; i--) {
+            if (predicate(collection[i])) {
+                return collection[i]
+
+            }
+        }
+    }
+
+    function groupBy(collection, iteratee = identity) {
+        var res = {}
+        iteratee = serene_ding.iteratee(iteratee)
+        for (var i of collection) {
+            if (iteratee(i) in res) {
+                res[iteratee(i)].push(i)
+            } else {
+                res[iteratee(i)] = [i]
+            }
+        }
+        return res
+    }
+
+    function invokeMap(collection, path, args) {
+        if (typeof path == "string") {
+            path = collection[0][path]
+        }
+        //
+        for (var i = 0; i < collection.length; i++) {
+
+            collection[i] = path.call(collection[i], args)
+
+
+
+        }
+        return collection
+    }
+
+    function keyBy(collection, iteratee = identity) {
+        var res = {}
+        iteratee = serene_ding.iteratee(iteratee)
+        for (var i of collection) {
+            if (iteratee(i) in res) {
+                res[iteratee(i)].push(i)
+            } else {
+                res[iteratee(i)] = [i]
+            }
+        }
+        return res
+    }
+
+    function sortBy(collection, iteratees = identity) {
+
+        for (var i = 0; i < iteratees.length; i++) {
+            iteratees[i] = serene_ding.iteratee(iteratees[i])
+        }
+        //这道题写得不完全。。。。
+        function compare(predicate) { //这是比较函数
+            return function(m, n) {
+                var a = predicate(m);
+                var b = predicate(n);
+                if (typeof a == "string") {
+                    return a.charCodeAt(0) - b.charCodeAt(0)
+                } else {
+                    return a - b;
+                }
+                //升序
+            }
+        }
+
+        function compare1(iteratee1, iteratee2) {
+            return function(a, b) {
+                if (iteratee1(a) == iteratee1(b)) {
+                    return (iteratee2(a) - iteratee2(b));
+                } else {
+                    return iteratee1(a).charCodeAt(0) - iteratee1(b).charCodeAt(0)
+                }
+            }
+
+        }
+
+
+        if (isArray(iteratees)) {
+            collection.sort(compare1(...iteratees))
+        } else {
+            collection.sort(compare(iteratees))
+        }
+
+        return collection
+    }
+
+    function orderBy(collection, iteratees = identity, orders) {
 
     }
+
+    function reduce(collection, iteratee = identity, accumulator) {
+        var cur = accumulator
+        for (var i in collection) {
+            cur = iteratee(cur, collection[i], i)
+        }
+        return cur
+    }
+
+    function reduceRight(collection, iteratee = identity, accumulator) {
+        if (isArray(collection)) {
+            collection.reverse()
+        }
+        return reduce(collection, iteratee, accumulator)
+    }
+
+    function reject(collection, predicate = identity) {
+        predicate = iteratee(predicate)
+        var not_passed = []
+        for (var i = 0; i < collection.length; i++) {
+            if (!predicate(collection[i])) {
+                not_passed.push(collection[i])
+
+            }
+        }
+        return not_passed
+    }
+
+    function size(collection) {
+        return Object.keys(collection).length
+    }
+
+    function some(collection, predicate = identity) {
+        predicate = iteratee(predicate)
+        for (var i of collection) {
+            if (predicate(i)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    function shuffle(array) {
+        var newArray = array
+        for (var i = newArray.length - 1; i >= 0; i--) {
+            var randomIndex = Math.floor(Math.random() * (i + 1))
+            var randomValue = newArray[randomIndex]
+            newArray[randomIndex] = newArray[i]
+            newArray[i] = randomValue
+        }
+        return newArray
+    }
+
+    function checkShuffle(num, array) {
+        var count = 0
+        for (var j = 0; j <= 1000000; j++) {
+            var newArray = shuffle(array)
+            if (array[0] == num) {
+                count++
+            }
+        }
+        return count / 1000000
+    }
+
+    function before(n, func) {
+        let result
+        if (typeof func !== 'function') {
+            throw new TypeError('Expected a function')
+        }
+        return function(...args) {
+            if (--n > 0) {
+                result = func.apply(this, args)
+            }
+            if (n <= 1) {
+                func = undefined
+            }
+            return result
+        }
+    }
+
+    function after(n, func) {
+        let result
+        if (typeof func !== 'function') {
+            throw new TypeError('Expected a function')
+        }
+        return function(...args) {
+            if (n > 1) {
+                n--
+            } else {
+                return func(...args)
+            }
+
+        }
+    }
+
+    function ary(func, n = func.length) {
+        return function(...args) {
+            new_args = args.slice(0, n)
+            return func(...new_args)
+        }
+    }
+
+    function bind(func, thisArg, ...partials) {
+        return partial(func.bind(thisArg), ...partials)
+    }
+
+    function bindKey(object, key, ...partials) {
+        return function func(...args) {
+            var res = []
+            for (var i of partials) {
+                if (i == "_") {
+                    res.push(args.shift())
+
+                } else {
+                    res.push(i)
+                }
+            }
+            if (args.length) {
+                res = res.concat(args)
+            }
+            return object[key](...res)
+        }
+    }
+
+
+    function partial(func, ...partials) {
+        return function(...args) {
+            var res = []
+            for (var i of partials) {
+                if (i == "_") {
+                    res.push(args.shift())
+
+                } else {
+                    res.push(i)
+                }
+            }
+            if (args.length) {
+                res = res.concat(args)
+            }
+            return func(...res)
+        }
+    }
+
+
+
+    function curry(func, ...args1) {
+
+        return function wrapper(...args2) {
+            temp = args1.slice()
+            for (var i = 0; i < temp.length; i++) {
+                if (args1[i] == "_") {
+                    temp[i] = args2.shift()
+
+
+                }
+            }
+            if (args2.length) {
+
+                temp = args1.concat(args2)
+            }
+            if (temp.filter(i => i != '_').length >= func.length) {
+                return func.apply(null, temp)
+            }
+            return curry(func, ...temp)
+        }
+    }
+
+
+
+
 
 
     return {
@@ -1065,6 +1501,40 @@ var serene_ding = function() {
         without: without,
         xor: xor,
         includes: includes,
+        remove: remove,
+        pullAt: pullAt,
+        xorBy: xorBy,
+        xorWith: xorWith,
+        slice: slice,
+        countBy: countBy,
+        forEach: forEach,
+        forEachRight: forEachRight,
+        every: every,
+        filter: filter,
+        find: find,
+        findLast: findLast,
+        groupBy: groupBy,
+        invokeMap: invokeMap,
+        keyBy: keyBy,
+        sortBy: sortBy,
+        orderBy: orderBy,
+        reduce: reduce,
+        reduceRight: reduceRight,
+        reject: reject,
+        size: size,
+        some: some,
+        shuffle: shuffle,
+        checkShuffle: checkShuffle,
+        before: before,
+        after: after,
+        ary: ary,
+        bind: bind,
+        partial: partial,
+        curry: curry,
+
+        bindKey: bindKey,
+
+
     }
 
 
