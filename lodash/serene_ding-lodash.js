@@ -1199,11 +1199,9 @@ var serene_ding = function() {
         var res = {}
         iteratee = serene_ding.iteratee(iteratee)
         for (var i of collection) {
-            if (iteratee(i) in res) {
-                res[iteratee(i)].push(i)
-            } else {
-                res[iteratee(i)] = [i]
-            }
+
+            res[iteratee(i)] = i
+
         }
         return res
     }
