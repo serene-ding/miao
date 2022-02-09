@@ -945,7 +945,7 @@ var serene_ding = function() {
         var res = []
         var temp = unzip(array)
         for (i of temp) {
-            res.push([predicate(i[0], i[1])])
+            res.push(predicate(i[0], i[1]))
         }
         return res
     }
