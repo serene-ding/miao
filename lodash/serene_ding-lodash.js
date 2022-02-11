@@ -1026,49 +1026,17 @@ var serene_ding = function() {
     }
 
     function xor(...Arrays) {
-        var array1 = Arrays[0].slice()
-        var array2 = Arrays[1].slice()
-        return xorBy(array1, array2)
+
     }
 
     function xorBy(array1, array2, predicate = identity) {
-        predicate = iteratee(predicate)
 
-
-        var res = []
-        for (var i1 = 0; i1 < array1.length; i1++) {
-
-            for (var i2 = 0; i2 < array2.length; i2++) {
-                if (predicate(array1[i1]) == predicate(array2[i2])) {
-
-                    pullisEqual(array2, array2[i2])
-                    pullisEqual(array1, array1[i1])
-                    i1--
-                    i2--
-                }
-
-            }
-        }
-        var res = array1.concat(array2)
-        return res
     }
 
 
 
     function xorWith(array1, array2, comparator) {
-        var res = []
-        for (var i1 = 0; i1 < array1.length; i1++) {
-            for (var i2 = 0; i2 < array2.length; i2++) {
-                if (comparator(array1[i1], array2[i2])) {
-                    pull(array1, array1[i1])
-                    pull(array2, array2[i2])
-                    i1--
-                    i2--
-                }
-            }
-        }
-        var res = array1.concat(array2)
-        return res
+
     }
 
     function pullisEqual(array, ...values) {
