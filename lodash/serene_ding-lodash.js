@@ -1044,8 +1044,34 @@ var serene_ding = function() {
         return res
     }
 
-    function xorBy(array1, array2, predicate = identity) {
+    function xorBy(arrays, predicate = identity) {
+        var arguList = Array.prototype.slice.call(arguments)
+        arrays = arguList.slice(0, -1)
+        predicate = iteratee(arguList[arguList.length - 1])
+        var ary = [].concat(...arrays)
+        var map = new Map()
 
+        for (let i = 0; i < ary.length; i++) {
+            var flag = true
+            for (let key of map.keys()) {
+                if (predicate(ary[i]) == predicate(key)) {
+                    var old = map.get(key)
+                    map.set(key, old + 1)
+                    var flag = false
+                }
+            }
+            if (flag) {
+                map.set(ary[i], 1)
+            }
+
+        }
+        var res = []
+        for (let key of map.keys()) {
+            if (map.get(key) == 1) {
+                res.push(key)
+            }
+        }
+        return res
     }
 
 
