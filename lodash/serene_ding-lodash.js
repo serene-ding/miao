@@ -1432,6 +1432,34 @@ var serene_ding = function() {
         }
     }
 
+    function get(object, path, [defaultValue]) {
+
+    }
+
+    function split(string, separator) {
+        var res = []
+        var len = separator.length
+        var index = 0
+        var i = 0
+        var s = 0
+        while (i <= string.length) {
+            var str = string.slice(i, i + len)
+            if (str == separator || i == string.length) {
+                res[index] = ''
+                    // start  item of result
+                    // end is i - 1
+                for (let start = s; start < i; start++) {
+                    res[index] += string[start]
+                }
+                s = i + len
+                index++
+            }
+            i++
+
+        }
+        return res
+    }
+
 
 
 
@@ -1547,6 +1575,7 @@ var serene_ding = function() {
         curry: curry,
 
         bindKey: bindKey,
+        split: split,
 
 
     }
