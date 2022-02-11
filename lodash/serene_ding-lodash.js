@@ -1026,7 +1026,22 @@ var serene_ding = function() {
     }
 
     function xor(...Arrays) {
-
+        var ary = [].concat(...Arrays)
+        var map = {}
+        for (let i = 0; i < ary.length; i++) {
+            if (ary[i] in map) {
+                map[ary[i]]++
+            } else {
+                map[ary[i]] = 1
+            }
+        }
+        var res = []
+        for (var key in map) {
+            if (map[key] == 1) {
+                res.push(Number(key))
+            }
+        }
+        return res
     }
 
     function xorBy(array1, array2, predicate = identity) {
