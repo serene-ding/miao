@@ -1432,9 +1432,7 @@ var serene_ding = function() {
         }
     }
 
-    function get(object, path, [defaultValue]) {
 
-    }
 
     function split(string, separator) {
         var res = []
@@ -1453,14 +1451,91 @@ var serene_ding = function() {
                 }
                 s = i + len
                 index++
+                i += len
+            } else {
+                i++
             }
-            i++
+
 
         }
         return res
     }
 
+    function toPath(value) {
+        var res = []
+        if (typeof value == "string") {
+            for (let i = 0; i < value.length; i++) {
+                if (value[i] == '[' || value[i] == ']' || value[i] == ".") {
 
+                } else {
+                    res.push(value[i])
+                }
+            }
+            return res
+        } else {
+            return value
+        }
+    }
+
+    function get(object, path, defaultValue) {
+        path = toPath(path)
+        var obj = object
+        for (let i = 0; i < path.length; i++) {
+            var obj = obj[path[i]]
+            if (obj == undefined) {
+                return defaultValue
+            }
+        }
+        return obj
+    }
+
+    function pad(string = '', length = 0, chars = ' ') {
+        function getPadString(len, s) {
+            var res = ''
+            var times = Math.floor(len / s.length)
+            var remainder = len % s.length
+            for (let i = 0; i < times; i++) {
+                res += s
+            }
+            res += s.slice(0, remainder)
+            return res
+        }
+        var diff = length - string.length
+        if (diff % 2 == 0) {
+            var pad_len_left = diff / 2
+            var pad_len_right = (diff) / 2
+        } else {
+            var pad_len_left = (diff - 1) / 2
+            var pad_len_right = (diff + 1) / 2
+        }
+        var left_string = getPadString(pad_len_left, chars)
+        var right_string = getPadString(pad_len_right, chars)
+        var res = ''
+        res = left_string + string + right_string
+        return res
+
+
+
+    }
+
+
+
+    function forEach(collection, iteratee = identity) {
+        iteratee = serene_ding.iteratee(iteratee)
+        var keys = Object.keys(collection)
+        for (let i = 0; i < keys.length; i++) {
+            iteratee(collection[keys[i]], keys[i])
+        }
+    }
+
+    function forEachRight(collection, iteratee = identity) {
+        iteratee = serene_ding.iteratee(iteratee)
+        var keys = Object.keys(collection)
+        keys = reverse(keys)
+        for (let i = 0; i < keys.length; i++) {
+            iteratee(collection[keys[i]], keys[i])
+        }
+    }
 
 
 
@@ -1576,8 +1651,11 @@ var serene_ding = function() {
 
         bindKey: bindKey,
         split: split,
-
-
+        toPath: toPath,
+        get: get,
+        pad,
+        forEach,
+        forEachRight,
     }
 
 
