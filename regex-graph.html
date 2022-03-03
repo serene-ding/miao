@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reg Parser</title>
+</head>
+
+<body>
+
+    <input type="text" id="regInput" style="width: 500px" value="f[\d](s)?(d){2,5}(?=a)">
+    <button>draw the graph</button>
+    <ul>
+        <li>please do not enter whitespace</li>
+        <li>the escape characters can not be parsed</li>
+        <li>please make sure that the regular expression you enter is correct</li>
+        <li>enjoy drawing the graph :)</li>
+    </ul>
+
+    <svg width="5000px" height="5000px"></svg>
+</body>
+<script>
+    var button = document.querySelector("button")
+    button.addEventListener("click", draw)
+
+    function draw() {
+
+        var svg = document.querySelector("svg")
+        svg.innerHTML = ""
+        var reInput = regInput.value
+        var regNode = parseRegularExpression(reInput)
+        var graph = drawRegExpressionGraph(regNode)
+    }
+    //the data structures for regular expression parts
+    // var characterClass = {
+    //     type: "characterClass",
+    //     revert: false,
+    //     //character group 
+    //     //character
+    //     //revert
+    //     //character range
+    //     elements_in_characterClass: []
+    // }
+    // var characterRange = {
+    //     type: "characterRange",
+    //     start: 0,
+    //     end: 0,
+    //     value: 0,
+    //     raw: ""
+    // }
+    // var character = {
+    //     type: "character",
+    //     start: 0,
+    //     end: 0,
+    //     raw: 's',
+    //     value: 's',
+    // }
+    // var Quantifier = {
+    //     type: "Quantifier",
+    //     element_to_be_repeated: null,
+    //     //character
+    //     //group
+    //     repeat_time_min: 0,
+    //     reapeat_time_max: 0,
+    //     greedy: true,
+    // }
+    // var CapturingGroup = {
+    //     type: "CapturingGroup",
+    //     start: 0,
+    //     end: 0,
+    //     raw: "",
+    //     branches: [bran1, bran2],
+    //     isAssertion: false,
+    //     lookAhead: false,
+    //     Positive: false,
+    //     index: 0,
+    // }
+    // var Branch = {
+    //     type: "Branch",
+    //     start: 0,
+    //     end: 0,
+    //     raw: "",
+    //     elements_on_the_branch: []
+    // }
+    // var Branches = [bran1, bran2, "..."]
+</script>
+<script>
+    var str
+    var i
+    var groupIndex
+        // [part] is one of the parts of the branch
+    var parseOnePart = function() {
+        if (str[i] == "[") {
+            return parseCharacterClass()
+        } else if (str[i] == "(") {
+            return parseCapturingGroup()
+        } else if (str[i] == "{" || str[i] == "?" || str[i] == "*" || str[i] == "+") {
+            return parseQuantifier()
+        } else if (str[i] == "$" || str[i] == "^") {
+            return parseEndandStart()
+        } else {
+            return parseCharacter()
+        }
+    }
+    var parseEscapeCharacter = function() {
+        var start = i
+        i++ //skip "//"
+        //i point to ? * ( ) { } [ ]
+        var escapeCharacter_node = {
+            type: "escapeCharacter",
+            start: start,
+            end: i + 1,
+            value: str[i],
+            raw: str.slice(start, i + 1)
+        }
+        i++ //i skip ? * ( ) { } [ ]
+        return escapeCharacter_node
+    }
+
+    //nodes in CharacterCLass
+    var parseCharacterGroup = function() {
+        var start = i
+        i++ //skip "//"
+        //i point to ? d w 
+        var characterGroup_node = {
+            type: "escapeCharacter",
+            start: start,
+            end: i + 1,
+            value: "",
+            raw: str.slice(start, i + 1)
+        }
+        if (str[i] == 'd') {
+            characterGroup_node.value = "digit"
+        } else if (str[i] == "w") {
+            characterGroup_node.value = "word"
+        } else {
+            characterGroup_node.value = str[i]
+        }
+        i++ //i skip d w
+        return characterGroup_node
+    }
+    var parseCharacter = function() {
+        var character_node = {
+            type: "character",
+            start: i,
+            end: i + 1,
+            raw: str.slice(i, i + 1),
+            value: str[i],
+        }
+        i++
+        return character_node
+    }
+    var parseEndandStart = function() {
+        var start = i
+        var node = {
+            type: "endAndStart",
+            start: start,
+            end: 0,
+            sign: "",
+            raw: ""
+        }
+
+        node.sign = str[i]
+
+        i++
+        node.end = i
+        node.raw = str.slice(node.start, node.end)
+        return node
+    }
+    var parseCharacterClass = function() {
+        var node = {
+            type: "characterClass",
+            revert: false,
+            in_charClass: []
+        }
+        i++ //skip [
+        if (str[i] == "^") {
+            node.revert = true
+        }
+        while (str[i] != "]") {
+            if (str[i] == "\\") {
+                var charG = parseCharacterGroup()
+                node.in_charClass.push(charG)
+            } else {
+                var character = parseCharacter()
+                if (str[i] == "-") {
+                    i++ // skip -
+                    if (str[i] == ']') {
+                        node.in_charClass.push(character)
+                        i-- //i point to -
+                        var dash = parseCharacter()
+                        node.in_charClass.push(dash)
+
+                    } else {
+                        var start_char = character
+                        var end_char = parseCharacter()
+                        var charRange_node = {
+                            type: "charRange",
+                            start_char: start_char,
+                            end_char: end_char,
+                            raw: str.slice(start_char.start, end_char.end),
+                            value: str.slice(start_char.start, end_char.end)
+                        }
+                        node.in_charClass.push(charRange_node)
+                    }
+                } else {
+                    var ok = true
+                    for (var char of node.in_charClass) {
+                        if (char.type == "character") {
+                            if (char.value == character.value) {
+                                ok = false
+                            }
+                        }
+                    }
+                    if (ok) {
+                        node.in_charClass.push(character)
+                    }
+
+                }
+            }
+
+
+        }
+        i++
+        return node
+    }
+    var parseQuantifier = function() {
+        var node = {
+            type: "Quantifier",
+            min: 0,
+            max: 0,
+            times: false,
+            sign: '',
+            ele: null,
+            greedy: true
+        }
+        if (str[i] == "*") {
+            node.sign = "*"
+            node.min = 0
+            node.max = Infinity
+            i++
+        } else if (str[i] == "+") {
+            node.sign = "+"
+            node.min = 1
+            node.max = Infinity
+            i++
+        } else if (str[i] == "?") {
+            node.sign = "?"
+            node.min = 0
+            node.max = 1
+            i++
+        } else if (str[i] == "{") {
+            node.sign = "{"
+            i++ // skip {
+            // var a = str[i]
+            node.min = parseInteger()
+                // var b = str[i]
+            if (str[i] == "}") {
+                node.times = true
+                node.max = node.min
+                i++ //skip }
+            } else {
+                i++ //skip ,
+                node.max = parseInteger()
+                i++
+            } //skip }
+        }
+        if (str[i] == "?") {
+            node.greedy = false
+            i++ //skip ?
+        }
+        return node
+    }
+
+    var parseInteger = function() {
+        var res = ""
+        while (str[i] <= '9' && str[i] >= "0") {
+            var c = str[i]
+            res += str[i]
+            i++
+        }
+        return Number(res)
+    }
+    var parseBranch = function() {
+        var start = i
+        var branch = {
+            type: "branch",
+            start: start,
+            end: 0,
+            raw: "",
+            eles: []
+        }
+        while (str[i] != '|' && str[i] != ")" && (i < str.length)) {
+            var p = parseOnePart()
+            if (p.type == "Quantifier") {
+                var eleRep = branch.eles.pop()
+                p.ele = eleRep
+            }
+            branch.eles.push(p)
+        }
+        end = i
+        branch.end = end
+        branch.raw = str.slice(start, end)
+
+        return branch
+    }
+    var parseBranches = function() {
+
+        var Branches = {
+                type: "Branches",
+
+                bs: []
+            }
+            // the branches could be in () 
+        while (i < str.length && str[i] != ")") {
+            if (str[i] == "|") {
+                i++
+                continue
+            } else {
+                var b = parseBranch()
+                Branches.bs.push(b)
+            }
+        }
+        return Branches
+
+    }
+
+    var parseCapturingGroup = function() {
+
+        var node = {
+            type: "CapturingGroup",
+            // type: branch
+            isAssertion: false,
+            lookahead: false,
+            positive: false,
+            bs: [],
+            index: 0
+        }
+
+        i++ //skip (
+
+        if (str[i] == "?") {
+            node.isAssertion = true
+            i++ //skip ?
+            if (str[i] == "=") {
+                node.lookahead = true
+                node.positive = true
+                i++ //skip =
+            } else if (str[i] == "!") {
+                node.lookahead = true
+                node.positive = false
+                i++ //skip 
+            } else if (str[i] == "<") {
+                node.lookahead = false
+                i++ //skip 
+                if (str[i] == "=") {
+                    node.positive = true
+                } else if (str[i] == "!") {
+                    node.positive = false
+                }
+                i++
+            }
+        } else {
+
+
+            node.index = groupIndex
+            groupIndex++
+        }
+
+        var bs_in_G = parseBranches().bs
+        node.bs = bs_in_G
+        i++ // skip )
+        return node
+
+
+    }
+    var parseRegularExpression = function(input) {
+        str = input
+        i = 0
+        groupIndex = 1
+        var reg_node = {
+            type: "regExp",
+            b_obj: null
+        }
+        reg_node.b_obj = parseBranches()
+        return reg_node
+    }
+
+    //draw the graph
+
+
+
+    svg = document.querySelector("svg")
+    var elt = function(tagName, attrs, ...children) {
+        var svgN = document.createElementNS("http://www.w3.org/2000/svg", tagName)
+
+        for (var key in attrs) {
+            svgN.setAttribute(key, attrs[key])
+        }
+        for (var child of children) {
+            if (typeof child == "string") {
+                child = document.createTextNode(child)
+            }
+            svgN.appendChild(child)
+        }
+        svg.appendChild(svgN)
+        return svgN
+    }
+    var gap = 20
+    var drawRailGraph = function(node) {
+        if (node.type == "character" || node.type == "charRange" || node.type == "escapeCharacter") {
+            return drawCharacterGraph(node)
+        } else if (node.type == "characterClass") {
+            return drawCharacterClassGraph(node)
+        } else if (node.type == "branch") {
+            return drawBranchGraph(node)
+        } else if (node.type == "Branches") {
+            return drawBranchesGraph(node)
+        } else if (node.type == "CapturingGroup") {
+            return drawCapturingGraph(node)
+        } else if (node.type == "Quantifier") {
+            return drawQuatifierGraph(node)
+        }
+    }
+    var drawCharacterGraph = function(node) {
+        // node is char node
+        // g tag
+        // text rect in g
+        var svgT = elt("text", {
+                "dominant-baseline": "text-before-edge",
+                x: gap,
+                y: gap
+            },
+            node.value)
+        var tBox = svgT.getBBox()
+        var rect = elt("rect", {
+            width: tBox.width + 2 * gap,
+            height: tBox.height + 2 * gap,
+            fill: "rgb(218, 233, 229)"
+        })
+        var g = elt(
+            'g', {},
+
+            rect,
+            svgT,
+
+        )
+        var gBox = g.getBBox()
+        var info = {
+            g: g,
+            gW: gBox.width,
+            gH: gBox.height
+        }
+        return info
+
+    }
+
+    var add = function(a, b) {
+        return a + b
+    }
+    var max = function(a, b) {
+        return Math.max(a, b)
+    }
+    var drawCharacterClassGraph = function(node) {
+        var nodes = node.in_charClass
+        var infos = nodes.map(drawRailGraph)
+        var hArray = infos.map(it => it.gH)
+        var h = hArray.reduce(add)
+        var hPlusG = h + (infos.length + 1) * gap
+        var w = infos.map(it => it.gW).reduce(max)
+        var wMax = w + 2 * gap
+        var rect = elt("rect", {
+            width: wMax,
+            height: hPlusG,
+            fill: "FloralWhite"
+        })
+        var bigG = elt('g', {}, rect)
+        var y = gap
+        for (var info of infos) {
+            var gIn = info.g
+            gIn.setAttribute('transform', `translate(${(wMax-info.gW)/2},${y})`)
+            y += info.gH + gap
+            bigG.appendChild(gIn)
+
+        }
+        var box = bigG.getBBox()
+        return {
+            g: bigG,
+            gW: wMax,
+            gH: hPlusG
+        }
+    }
+    var drawBranchGraph = function(node) {
+        var eles = node.eles
+        var infos = eles.map(drawRailGraph)
+        var w = infos.map(it => it.gW).reduce(add)
+        var wPlusG = w + gap * (infos.length + 1)
+        var hMax = infos.map(it => it.gH).reduce(max) + gap * 2
+        var rect = elt("rect", {
+            width: wPlusG,
+            height: hMax,
+            fill: "Maroon"
+        })
+        var x = gap
+        var bigG = elt("g", {}, rect)
+        for (var info of infos) {
+            var gIn = info.g
+            var line = elt("line", {
+                x1: x,
+                y1: hMax / 2,
+                x2: x - gap,
+                y2: hMax / 2,
+                "stroke-width": 2,
+                stroke: "black"
+            })
+            gIn.setAttribute('transform', `translate(${x},${(hMax-info.gH)/2})`)
+            x += info.gW + gap
+            bigG.appendChild(line)
+            bigG.appendChild(gIn)
+
+        }
+        var endLine = elt("line", {
+            x1: x - gap,
+            y1: hMax / 2,
+            x2: wPlusG,
+            y2: hMax / 2,
+            "stroke-width": 2,
+            stroke: "black"
+        })
+        bigG.appendChild(endLine)
+        var box = bigG.getBBox()
+        return {
+            g: bigG,
+            gW: wPlusG,
+            gH: hMax
+        }
+    }
+    var drawBranchesGraph = function(node) {
+        // infos is the information of branches
+
+        var infos = node.bs.map(drawRailGraph)
+        var hArray = infos.map(it => it.gH)
+        var h = hArray.reduce(add)
+        var hPlusG = h + (infos.length + 1) * gap
+        var w = infos.map(it => it.gW).reduce(max)
+        var wMax = w + 6 * gap
+        var rect = elt("rect", {
+            width: wMax,
+            height: hPlusG,
+            fill: "HotPink"
+        })
+        var bigG = elt('g', {}, rect)
+        var y = gap
+        for (var info of infos) {
+            var gIn = info.g
+            var x = (wMax - info.gW) / 2
+            gIn.setAttribute('transform', `translate(${x},${y})`)
+            var line_for_branches = elt(
+                "path", {
+                    d: `
+                    M ${x} ${y + info.gH/2} 
+                    H ${gap*2}
+                    C ${gap} ${y +info.gH / 2} ${gap} ${hPlusG / 2} 0 ${hPlusG / 2}
+                    
+                    M ${wMax-x} ${y + info.gH/2}
+                    H ${wMax-2*gap}
+                    C ${wMax - gap} ${y + info.gH / 2} ${wMax - gap} ${hPlusG / 2} ${wMax} ${hPlusG / 2}
+                    `,
+
+                    fill: 'none',
+                    stroke: 'black',
+                    'stroke-width': 2,
+                }
+            )
+            y += info.gH + gap
+            bigG.appendChild(line_for_branches)
+            bigG.appendChild(gIn)
+
+        }
+        var box = bigG.getBBox()
+        return {
+            g: bigG,
+            gW: wMax,
+            gH: hPlusG
+        }
+
+
+    }
+
+    var drawCapturingGraph = function(node) {
+        var graph = drawBranchesGraph(node)
+            // var fill = elt('rect', {
+            //     width: graph.gW + 4 * gap,
+            //     height: graph.gH + 4 * gap,
+            //     fill: 'blue',
+            //     'stroke-width': 2,
+            //     rx: 3,
+            // })
+        var fill = elt('rect', {
+            width: graph.gW,
+            height: graph.gH + 4 * gap,
+            fill: "DarkSalmon",
+            'stroke-width': 2,
+            rx: 3,
+        })
+
+        var dottedBorder = elt('rect', {
+            x: 0,
+            y: 2 * gap,
+            width: graph.gW,
+            height: graph.gH,
+            'stroke-dasharray': '7 7 ',
+            fill: 'none',
+            stroke: 'grey',
+            'stroke-width': 2,
+            rx: 3,
+        })
+        var bigG = elt("g", {}, fill)
+        graph.g.setAttribute('transform', `translate(0, ${gap*2})`)
+        bigG.appendChild(graph.g)
+        bigG.appendChild(dottedBorder)
+        if (node.isAssertion) {
+            var title = ""
+            if (node.positive) {
+                title += "positive"
+            } else {
+                title += "negative"
+            }
+            if (node.lookahead) {
+                title += " lookahead"
+            } else {
+                title += " lookbehind"
+            }
+            var text = elt("text", {
+                "dominant-baseline": "text-before-edge",
+                x: 0,
+                y: gap,
+            }, title)
+            bigG.appendChild(text)
+
+        } else {
+            var groupIndex = "Group"
+            groupIndex = groupIndex + "#" + node.index
+            var text = elt("text", {
+                "dominant-baseline": "text-before-edge",
+                x: 0,
+                y: gap,
+            }, groupIndex)
+            bigG.appendChild(text)
+        }
+        var box = bigG.getBBox()
+
+        var info = {
+            g: bigG,
+            gH: box.height,
+            gW: box.width
+        }
+        return info
+
+    }
+    var drawQuatifierGraph = function(node) {
+        var graph = drawRailGraph(node.ele)
+        var width = graph.gW + 4 * gap
+        var height = graph.gH + 4 * gap
+        var fill = elt(
+            "rect", {
+                width: width,
+                height: height,
+                fill: "MediumPurple",
+                rx: 3
+
+            }
+
+        )
+        var g = elt('g')
+        g.appendChild(fill)
+        var line = elt('path', {
+            d: `
+        M 0 ${height / 2}
+        L ${gap * 2} ${height / 2}
+
+        M ${width} ${height / 2}
+        L ${width - gap * 2} ${height / 2}
+      `,
+            fill: 'none',
+            stroke: 'black',
+            'stroke-width': 2,
+        })
+        g.appendChild(line)
+        graph.g.setAttribute("transform", `translate(${(width-graph.gW)/2},${(height-graph.gH)/2})`)
+        g.appendChild(graph.g)
+        if (node.min == 0) {
+            var skipLine = elt('path', {
+                d: `
+          M 0 ${height / 2}
+          a ${gap} ${gap} 0 0 0 ${gap} ${-gap}
+          V ${gap * 2}
+          a ${gap} ${gap} 0 0 1 ${gap} ${-gap}
+          H ${width - gap * 2}
+          a ${gap} ${gap} 0 0 1 ${gap} ${gap}
+          V ${height / 2 - gap}
+          a ${gap} ${gap} 0 0 0 ${gap} ${gap}
+        `,
+                fill: 'none',
+                stroke: 'black',
+                'stroke-width': 2,
+            })
+
+            g.appendChild(skipLine)
+        }
+        if (node.max > 1) {
+            var repeatLine = elt('path', {
+                d: `
+          M ${gap * 2} ${height / 2}
+          a ${gap} ${gap} 0 0 0 ${-gap} ${gap}
+          V ${height - gap * 2}
+          a ${gap} ${gap} 0 0 0 ${gap} ${gap}
+          H ${width - gap * 2}
+          a ${gap} ${gap} 0 0 0 ${gap} ${-gap}
+          V ${height / 2 + gap}
+          a ${gap} ${gap} 0 0 0 ${-gap} ${-gap}
+        `,
+                fill: 'none',
+                stroke: 'black',
+                'stroke-width': 2,
+            })
+
+            g.appendChild(repeatLine)
+        }
+        var title = ""
+        if (node.sign == "{") {
+            if (node.times) {
+                if (node.min != 1) {
+                    title += `repeat ${node.min} times`
+                }
+
+            } else {
+                title += `repeat ${node.min}-${node.max} times`
+            }
+        }
+
+        var text = elt("text", {
+            "dominant-baseline": "text-before-edge",
+            x: gap,
+            y: height - gap,
+        }, title)
+        g.appendChild(text)
+
+        var box = g.getBBox()
+
+        return {
+            g: g,
+            gW: box.width,
+            gH: box.height
+        }
+    }
+    var drawRegExpressionGraph = function(node) {
+        var branchesGraph = drawBranchesGraph(node.b_obj)
+
+        var width = branchesGraph.gW + 6 * gap
+        var height = branchesGraph.gH
+
+        var fill = elt('rect', {
+            width: width,
+            height: height,
+            fill: 'DarkSlateGray',
+        })
+
+        var g = elt('g')
+
+        g.appendChild(fill)
+
+        branchesGraph.g.setAttribute('transform', `translate(${3*gap}, 0)`)
+        g.appendChild(branchesGraph.g)
+        var startCircle = elt('circle', {
+            cx: gap / 2,
+            cy: height / 2,
+            r: gap / 2,
+            fill: '#6b6659',
+            stroke: 'black',
+            'stroke-width': 2,
+        })
+        var startAndEndLine = elt(
+            'path', {
+                d: `
+                M ${gap } ${height/2}
+                L ${3*gap} ${height/2}
+
+                M ${width-3*gap} ${height/2}
+                L ${width-gap} ${height/2}
+                `,
+                fill: 'none',
+                stroke: 'black',
+                'stroke-width': 2,
+            }
+        )
+        g.appendChild(startCircle)
+        g.appendChild(startAndEndLine)
+
+        var endCircle = elt('circle', {
+            cx: width - gap / 2,
+            cy: height / 2,
+            r: gap / 2,
+            fill: '#6b6659',
+            stroke: 'black',
+            'stroke-width': 2,
+        })
+        g.appendChild(endCircle)
+
+        var box = g.getBBox()
+
+        return {
+            g: g,
+            width: box.width,
+            height: box.height,
+        }
+    }
+
+    var node = parseRegularExpression("a{3}")
+</script>
+
+</html>
