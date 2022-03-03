@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mini-regExp</title>
+    <style>
+        strong:nth-child(odd) {
+            background-color: rgb(213, 235, 255);
+        }
+        
+        strong:nth-child(even) {
+            background-color: rgb(159, 207, 255);
+        }
+        
+        strong:empty {
+            display: inline-block;
+            height: 1em;
+            width: 2px;
+            background-color: rgb(171, 40, 196);
+        }
+        
+        em.Group1 {
+            background-color: rgb(196, 232, 172);
+        }
+        
+        em.Group2 {
+            background-color: rgb(224, 191, 139);
+        }
+        
+        em.Group3 {
+            background-color: rgb(200, 200, 255);
+        }
+        
+        em.Group4 {
+            background-color: rgb(229, 196, 241);
+        }
+        
+        div.pre {
+            border: 2px black solid;
+        }
+        
+        pre {
+            word-break: break-all;
+        }
+    </style>
+</head>
+
+<body>
+    <div>Regular Expression</div>
+    <input type="" id="inputReg" oninput="run()" value="f(.)(.)(.)(.)">
+
+    <div>
+        <label onclick="run()" for="global">g<input id="global"type="checkbox"></label>
+        <label onclick="run()" for="multipleLine">m<input id="multipleLine"type="checkbox"></label>
+        <label onclick="run()" for="ignoreCase">i<input id="ignoreCase"type="checkbox"></label>
+        <label onclick="run()" for="getIndices">d<input checked id="getIndices"type="checkbox"></label>
+    </div>
+
+    <div>Test String</div>
+    <pre cols="30" rows="10" oninput="run()" contenteditable="true" id="inputString">fjiwhufriofehfkfjilwqh</pre>
+    <!-- <div>Match Result</div> -->
+    <!-- <div class="pre">
+        <pre cols="30" rows="10" contenteditable="true" id="showResult"></pre>
+    </div> -->
+
+
+    <script>
+        function run() {
+            var regString = inputReg.value
+
+            var testString = inputString.textContent
+            if (regString.length == 0) {
+                showResult.innerHTML = testString
+                return
+            }
+            // var regExp = new RegExp(regString, getFlags())
+            try {
+                var regExp = new RegExp(regString, getFlags())
+            } catch (e) {
+                if (e instanceof SyntaxError) {
+                    showResult.innerHTML = testString
+                } else {
+                    throw e
+                }
+                return
+            }
+
+            var match
+            var startIndex = 0
+            var resultHtml = ""
+            var matchCount = 0
+            while (match = regExp.exec(testString)) {
+                matchCount++
+                resultHtml += testString.slice(startIndex, match.index)
+                resultHtml += `<strong title="match ${matchCount}\n pos ${match.indices[0][0]}-${match.indices[0][1]}">` + hightlightGroups(match, matchCount) + `</strong>`
+
+                startIndex = regExp.lastIndex
+                if (match[0].length == 0) {
+                    regExp.lastIndex++
+                }
+                if (!regExp.global) {
+                    startIndex = match.index + match[0].length
+                    break
+                }
+            }
+            resultHtml += testString.slice(startIndex)
+            inputString.innerHTML = resultHtml
+        }
+
+        function getFlags() {
+            var res = ''
+            if (global.checked) {
+                res += 'g'
+            }
+            if (multipleLine.checked) {
+                res += 'm'
+            }
+            if (ignoreCase.checked) {
+                res += 'i'
+            }
+            if (getIndices.checked) {
+                res += 'd'
+            }
+            return res
+        }
+
+        function hightlightGroups2(matchArray) {
+
+            //where the whole match begins
+            var groupRanges = matchArray.indices.slice(1).map((r) => {
+                // the relative index in the match string
+                rangeStart = r[0] - matchArray.index
+                rangeEnd = r[1] - matchArray.index
+                return [rangeStart, rangeEnd]
+            })
+            var startIndex = 0
+            var res = ''
+            var theWholeString = matchArray[0]
+            for (var groupRange of groupRanges) {
+                res += theWholeString.slice(startIndex, groupRange[0])
+                res += `<em>` + theWholeString.slice(groupRange[0], groupRange[1]) + `</em>`
+                startIndex = groupRange[1]
+            }
+            res += theWholeString.slice(startIndex)
+            return res
+        }
+
+        function hightlightGroups(matchArray, matchCount) {
+
+            var matchCharArray = matchArray[0].split('')
+            var groupRanges = matchArray.indices.slice(1).map((r) => {
+                // the relative index in the match string
+                rangeStart = r[0] - matchArray.index
+                rangeEnd = r[1] - matchArray.index
+                return [rangeStart, rangeEnd]
+            })
+
+
+            // create an array for brackets
+            var brackets = new Array(matchArray[0].length + 1).fill("")
+            var groupCount = 0
+            for (groupRange of groupRanges) {
+                groupCount++
+                var rStart = groupRange[0]
+                var rEnd = groupRange[1]
+                brackets[rStart] += `<em class= "Group${groupCount}" title="Match ${matchCount}\n Group ${groupCount}\n Pos ${rStart}- ${rEnd}" >`
+                brackets[rEnd] += "</em>"
+            }
+            var res = ""
+
+            for (var i = 0; i < matchArray[0].length; i++) {
+                res += brackets[i] + matchCharArray[i]
+            }
+            //the last item of brackets 
+            res += brackets[matchArray[0].length]
+            return res
+        }
+    </script>
+</body>
+
+</html>

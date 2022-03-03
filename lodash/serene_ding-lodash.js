@@ -1520,6 +1520,7 @@ var serene_ding = function() {
 
 
 
+
     function forEach(collection, iteratee = identity) {
         iteratee = serene_ding.iteratee(iteratee)
         var keys = Object.keys(collection)
@@ -1537,6 +1538,38 @@ var serene_ding = function() {
         }
     }
 
+    function camelCase(string = '') {
+        var reg = /(([_]|[^\w])*)([a-z]|[A-Z])/g
+        var midString = string.replace(/(([_]|[^\w])*)([a-z]|[A-Z])(([a-z]|[A-Z])*)/g, function(match, p1, p2, p3, p4, p5) {
+            return p3.toUpperCase() + p4.toLowerCase()
+        })
+        var trim_end = /(([_]|[^\w])*)$/
+        var res = midString.replace(trim_end, "")
+        return res
+    }
+
+    function trim(string = '', chars = " ") {
+        // chars is a string which includes chars to be deleted
+        var charsArray = chars.split("")
+        var stringArray = string.split("")
+        var start = 0
+        while (charsArray.includes(stringArray[start])) {
+            stringArray.shift()
+
+        }
+        var end = stringArray.length - 1
+        while (charsArray.includes(stringArray[end])) {
+            stringArray.pop()
+            end--
+        }
+        return stringArray.join("")
+
+
+    }
+
+    function replace(string = '', pattern, replacement) {
+
+    }
 
 
 
@@ -1656,6 +1689,8 @@ var serene_ding = function() {
         pad,
         forEach,
         forEachRight,
+        camelCase,
+        trim,
     }
 
 

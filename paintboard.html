@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>painter</title>
+    <style>
+        .svg-wrapper {
+            display: inline-block;
+            border: 2px solid black;
+        }
+        
+        svg {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="svg-wrapper">
+        <svg style="width: 500px;height:500px;">
+       
+        </svg>
+    </div>
+
+</body>
+<script>
+    var svg = document.querySelector('svg')
+    var node
+    var shape = "rectangle"
+    var startPos
+
+    function mousePos(node) {
+        var rect = node.getBoundingClientRect()
+        var pos = {
+            x: event.clientX - rect.x,
+            y: event.clientY - rect.y,
+        }
+        return pos
+    }
+
+    function downDraw(event) {
+
+        startPos = mousePos(svg)
+        if (shape == 'line') {
+            node = svgElt("path", {
+                d: `
+            M ${startPos.x} ${startPos.y} L ${startPos.x} ${startPos.y}
+        
+            `,
+                stroke: "lightblue",
+                fill: 'none',
+                'stroke-width': 10,
+                'stroke-linecap': 'round',
+
+            })
+        } else if (shape == "rectangle") {
+            node = svgElt("rect", {
+                x: startPos.x,
+                y: startPos.y,
+                width: 0,
+                height: 0,
+                stroke: "lightblue",
+                fill: 'none',
+                'stroke-width': 10,
+                'stroke-linecap': 'round',
+
+            })
+        } else if (shape == "circle") {
+            node = svgElt('ellipse', {
+                cx: 0,
+                cy: 0,
+                rx: 0,
+                ry: 0,
+                stroke: "lightgreen",
+                fill: 'none',
+                'stroke-width': 10,
+                'stroke-linecap': 'round',
+            })
+        }
+        svg.appendChild(node)
+        addEventListener("mousemove", moveDraw)
+    }
+
+
+
+    function moveDraw(event) {
+        if (!buttonPressed(event)) {
+            removeEventListener("mousemove", moveDraw)
+
+        } else {
+            var currentPos = mousePos(svg)
+            if (shape == "line") {
+
+                var d = node.getAttribute('d')
+                d += ` L ${currentPos.x} ${currentPos.y}`
+                node.setAttribute('d', d)
+            } else if (shape == "rectangle") {
+                var w = currentPos.x - startPos.x
+                var h = currentPos.y - startPos.y
+                if (w > 0) {
+                    if (h > 0) {
+
+                    } else {
+
+                        node.setAttribute("y", `${startPos.y + h}`)
+                        h = -h
+                    }
+
+                } else {
+                    if (h > 0) {
+                        node.setAttribute("x", `${startPos.x+w}`)
+                        w = -w
+                    } else {
+                        node.setAttribute("x", `${currentPos.x}`)
+                        node.setAttribute("y", `${currentPos.y}`)
+                        w = -w
+                        h = -h
+                    }
+
+                }
+                node.setAttribute('width', w)
+                node.setAttribute('height', h)
+
+            } else if (shape == "circle") {
+                centerX = (startPos.x + currentPos.x) / 2
+                centerY = (startPos.y + currentPos.y) / 2
+                radiusX = (currentPos.x - startPos.x) / 2
+                radiusY = (currentPos.y - startPos.y) / 2
+                if (radiusX > 0) {
+                    if (radiusY > 0) {
+                        node.setAttribute('rx', radiusX)
+                        node.setAttribute('ry', radiusY)
+                    } else if (radiusY < 0) {
+                        node.setAttribute('rx', radiusX)
+                        node.setAttribute('ry', -radiusY)
+                    }
+
+                } else {
+                    if (radiusY > 0) {
+                        node.setAttribute('rx', -radiusX)
+                        node.setAttribute('ry', radiusY)
+                    } else if (radiusY < 0) {
+                        node.setAttribute('rx', -radiusX)
+                        node.setAttribute('ry', -radiusY)
+                    }
+
+                }
+                node.setAttribute('cx', centerX)
+                node.setAttribute('cy', centerY)
+            }
+
+
+        }
+
+
+    }
+
+    function svgElt(tagName, attrs, ...children) {
+        var svgN = document.createElementNS("http://www.w3.org/2000/svg", tagName)
+        for (var key in attrs) {
+            svgN.setAttribute(key, attrs[key])
+        }
+        for (var child of children) {
+            if (typeof child == "string") {
+                child = document.createTextNode(child)
+            }
+            svgN.appendChild(child)
+        }
+
+        return svgN
+    }
+
+    function buttonPressed(event) {
+        if (event.buttons == null) {
+            return event.which !== 0
+        } else {
+            return event.buttons !== 0
+        }
+    }
+    svg.addEventListener("mousedown", downDraw)
+</script>
+
+</html>
