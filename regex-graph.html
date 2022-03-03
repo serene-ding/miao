@@ -5,21 +5,61 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy&display=swap" rel="stylesheet">
+
     <title>Reg Parser</title>
+    <style>
+        header {
+            text-align: center;
+            font-family: 'Sorts Mill Goudy', serif;
+            font-size: 56px;
+            background-color: #F1C0E8;
+            border-radius: 20px;
+        }
+        
+        .wrapper {
+            margin-top: 20px;
+        }
+        
+        button {
+            background-color: #457b9d;
+            border: 0px none;
+            border-radius: 10px;
+            height: 30px;
+            text-align: center;
+        }
+        
+        input {
+            display: inline-block;
+            height: 30px;
+        }
+        
+        div {
+            position: relative;
+        }
+    </style>
 </head>
 
 <body>
+    <header>RegexExper
+    </header>
+    <div class="wrapper">
+        <input type="text" id="regInput" style="width: 500px" value="^a[^a-z]|[\d\}]|asad|(?=as)(?<=ar)(w\))$">
+        <button>Draw</button>
+        <ul>
+            <li>&#9748 please do not enter whitespace</li>
 
-    <input type="text" id="regInput" style="width: 500px" value="^a">
-    <button>draw the graph</button>
-    <ul>
-        <li>please do not enter whitespace</li>
-        <li>the escape characters can not be parsed</li>
-        <li>please make sure that the regular expression you enter is correct</li>
-        <li>enjoy drawing the graph :)</li>
-    </ul>
+            <li>&#127775 please make sure that the regular expression you enter is correct</li>
+            <li>&#127773 enjoy drawing the graph :)</li>
+        </ul>
+        <div class="svg">
+            <svg width="2000px" height="2000px"></svg>
+        </div>
 
-    <svg width="5000px" height="5000px"></svg>
+    </div>
+
 </body>
 <script>
     var button = document.querySelector("button")
@@ -89,13 +129,13 @@
 <script>
     var charGroup = {
         d: "digit",
-        w: "words",
+        w: "word",
         S: "non-white space",
         D: "none_digit",
         W: "none_word"
 
     }
-    var str = "^aqdjxh"
+    var str = "[\\d]\\}[\\]]"
     var i = 0
 
     var groupIndex
@@ -224,8 +264,8 @@
                     node.in_charClass.push(dash)
 
                 } else {
-                    var start_char = character
-                    var end_char = parseCharacter()
+                    var start_char = character.value
+                    var end_char = parseCharacter().value
                     var charRange_node = {
                         type: "charRange",
                         start_char: start_char,
@@ -447,6 +487,7 @@
     }
     var gap = 20
     var drawRailGraph = function(node) {
+        debugger;
         if (node.type == "character" || node.type == "charRange" || node.type == "escapeCharacter") {
             return drawCharacterGraph(node)
         } else if (node.type == "characterClass") {
@@ -480,7 +521,7 @@
         var rect = elt("rect", {
             width: tBox.width + 2 * gap,
             height: tBox.height + 2 * gap,
-            fill: "DarkSlateBlue",
+            fill: "#e76f51",
             rx: gap,
             ry: gap,
         })
@@ -501,9 +542,20 @@
         var nodeV
 
         if (node.type == "character") {
-            nodeV = "\"" + node.value + "\""
+            if (node.value == '.') {
+                nodeV = "any character"
+            } else {
+                nodeV = "\"" + node.value + "\""
+            }
+
+        } else if (node.type == "charRange") {
+            nodeV = "\"" + node.start_char + "\"" + "-" + "\"" + node.end_char + "\""
         } else {
-            nodeV = node.value
+            if (!node.isCharGroup) {
+                nodeV = "\"" + node.value + "\""
+            } else {
+                nodeV = node.value
+            }
         }
 
         var svgT = elt("text", {
@@ -513,7 +565,8 @@
             },
             nodeV)
         var tBox = svgT.getBBox()
-        if (node.type != "escapeCharacter") {
+
+        if (!node.isCharGroup) {
             var rect = elt("rect", {
                 width: tBox.width + 2 * gap,
                 height: tBox.height + 2 * gap,
@@ -525,7 +578,7 @@
             var rect = elt("rect", {
                 width: tBox.width + 2 * gap,
                 height: tBox.height + 2 * gap,
-                fill: "crimson",
+                fill: "#cdb4db",
                 rx: gap,
                 ry: gap,
             })
@@ -565,7 +618,7 @@
         var rect = elt("rect", {
             width: wMax,
             height: hPlusG,
-            fill: "FloralWhite"
+            fill: "#e9c46a"
         })
         var bigG = elt('g', {}, rect)
         var y = gap
@@ -577,6 +630,19 @@
 
         }
 
+
+        if (!node.revert) {
+            var title = "one of"
+        } else {
+            var title = "none of"
+        }
+        var text = elt("text", {
+            x: 0,
+            y: 0,
+            "dominant-baseline": "text-before-edge",
+
+        }, title)
+        bigG.appendChild(text)
 
         var box = bigG.getBBox()
         return {
@@ -596,7 +662,7 @@
         var rect = elt("rect", {
             width: wPlusG,
             height: hMax,
-            fill: "Maroon"
+            fill: 'none'
         })
         var x = gap
         var bigG = elt("g", {}, rect)
@@ -611,20 +677,7 @@
                 stroke: "black"
             })
             gIn.setAttribute('transform', `translate(${x},${(hMax-info.gH)/2})`)
-            if (info.type == "charClassGraph") {
-                if (!info.revert) {
-                    var title = "one of"
-                } else {
-                    var title = "none of"
-                }
-                var text = elt("text", {
-                    x: x,
-                    y: (hMax - info.gH) / 2 - gap,
-                    "dominant-baseline": "text-before-edge",
 
-                }, title)
-                bigG.appendChild(text)
-            }
             x += info.gW + gap
 
             bigG.appendChild(line)
@@ -659,7 +712,7 @@
         var rect = elt("rect", {
             width: wMax,
             height: hPlusG,
-            fill: "HotPink"
+            fill: "none"
         })
         var bigG = elt('g', {}, rect)
         var y = gap
@@ -711,7 +764,7 @@
         var fill = elt('rect', {
             width: graph.gW,
             height: graph.gH + 4 * gap,
-            fill: "DarkSalmon",
+            fill: "none",
             'stroke-width': 2,
             rx: 3,
         })
@@ -876,7 +929,7 @@
         var fill = elt('rect', {
             width: width,
             height: height,
-            fill: 'DarkSlateGray',
+            fill: 'none',
         })
 
         var g = elt('g')
@@ -928,6 +981,9 @@
             height: box.height,
         }
     }
+</script>
+<script>
+    draw()
 </script>
 
 </html>
