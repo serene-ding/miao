@@ -10,7 +10,7 @@
 
 <body>
 
-    <input type="text" id="regInput" style="width: 500px" value="f[\d](s)?(d){2,5}(?=a)">
+    <input type="text" id="regInput" style="width: 500px" value="^a">
     <button>draw the graph</button>
     <ul>
         <li>please do not enter whitespace</li>
@@ -87,8 +87,17 @@
     // var Branches = [bran1, bran2, "..."]
 </script>
 <script>
-    var str
-    var i
+    var charGroup = {
+        d: "digit",
+        w: "words",
+        S: "non-white space",
+        D: "none_digit",
+        W: "none_word"
+
+    }
+    var str = "^aqdjxh"
+    var i = 0
+
     var groupIndex
         // [part] is one of the parts of the branch
     var parseOnePart = function() {
@@ -100,6 +109,8 @@
             return parseQuantifier()
         } else if (str[i] == "$" || str[i] == "^") {
             return parseEndandStart()
+        } else if (str[i] == "\\") {
+            return parseEscapeCharacter()
         } else {
             return parseCharacter()
         }
@@ -107,16 +118,27 @@
     var parseEscapeCharacter = function() {
         var start = i
         i++ //skip "//"
-        //i point to ? * ( ) { } [ ]
-        var escapeCharacter_node = {
+
+        var node = {
             type: "escapeCharacter",
+            isCharGroup: false,
             start: start,
-            end: i + 1,
-            value: str[i],
-            raw: str.slice(start, i + 1)
+            end: 0,
+            value: "",
+            raw: ""
         }
-        i++ //i skip ? * ( ) { } [ ]
-        return escapeCharacter_node
+
+        if (str[i] in charGroup) {
+            node.isCharGroup = true
+            node.value = charGroup[str[i]]
+        } else {
+            node.value = str[i]
+        }
+        i++ //skip the char after \\
+        node.end = i
+        node.raw = str.slice(node.start, node.end)
+
+        return node
     }
 
     //nodes in CharacterCLass
@@ -142,15 +164,25 @@
         return characterGroup_node
     }
     var parseCharacter = function() {
-        var character_node = {
+        var start = i
+        var node = {
             type: "character",
-            start: i,
-            end: i + 1,
-            raw: str.slice(i, i + 1),
-            value: str[i],
+            start: start,
+            end: 0,
+            raw: "",
+            value: "",
         }
+
+
+        node.value = str[i]
         i++
-        return character_node
+
+        node.end = i
+        node.raw = str.slice(node.start, node.end)
+
+
+
+        return node
     }
     var parseEndandStart = function() {
         var start = i
@@ -178,48 +210,46 @@
         i++ //skip [
         if (str[i] == "^") {
             node.revert = true
+            i++
         }
         while (str[i] != "]") {
-            if (str[i] == "\\") {
-                var charG = parseCharacterGroup()
-                node.in_charClass.push(charG)
-            } else {
-                var character = parseCharacter()
-                if (str[i] == "-") {
-                    i++ // skip -
-                    if (str[i] == ']') {
-                        node.in_charClass.push(character)
-                        i-- //i point to -
-                        var dash = parseCharacter()
-                        node.in_charClass.push(dash)
 
-                    } else {
-                        var start_char = character
-                        var end_char = parseCharacter()
-                        var charRange_node = {
-                            type: "charRange",
-                            start_char: start_char,
-                            end_char: end_char,
-                            raw: str.slice(start_char.start, end_char.end),
-                            value: str.slice(start_char.start, end_char.end)
-                        }
-                        node.in_charClass.push(charRange_node)
-                    }
+            var character = parseOnePart()
+            if (str[i] == "-") {
+                i++ // skip -
+                if (str[i] == ']') {
+                    node.in_charClass.push(character)
+                    i-- //i point to -
+                    var dash = parseCharacter()
+                    node.in_charClass.push(dash)
+
                 } else {
-                    var ok = true
-                    for (var char of node.in_charClass) {
-                        if (char.type == "character") {
-                            if (char.value == character.value) {
-                                ok = false
-                            }
+                    var start_char = character
+                    var end_char = parseCharacter()
+                    var charRange_node = {
+                        type: "charRange",
+                        start_char: start_char,
+                        end_char: end_char,
+                        raw: str.slice(start_char.start, end_char.end),
+                        value: str.slice(start_char.start, end_char.end)
+                    }
+                    node.in_charClass.push(charRange_node)
+                }
+            } else {
+                var ok = true
+                for (var char of node.in_charClass) {
+                    if (char.type == "character") {
+                        if (char.value == character.value) {
+                            ok = false
                         }
                     }
-                    if (ok) {
-                        node.in_charClass.push(character)
-                    }
-
                 }
+                if (ok) {
+                    node.in_charClass.push(character)
+                }
+
             }
+
 
 
         }
@@ -294,9 +324,16 @@
         }
         while (str[i] != '|' && str[i] != ")" && (i < str.length)) {
             var p = parseOnePart()
+            var eles = branch.eles
             if (p.type == "Quantifier") {
                 var eleRep = branch.eles.pop()
                 p.ele = eleRep
+            } else if (p.type == "character" && eles.length != 0 && eles[eles.length - 1].type == "character") {
+                var lastChar = branch.eles.pop()
+
+                p.value = lastChar.value + p.value
+                p.raw = lastChar.raw + p.raw
+                p.start = lastChar.start
             }
             branch.eles.push(p)
         }
@@ -422,24 +459,78 @@
             return drawCapturingGraph(node)
         } else if (node.type == "Quantifier") {
             return drawQuatifierGraph(node)
+        } else if (node.type = "endAndStart") {
+            return drawEndAndStart(node)
         }
+    }
+    var drawEndAndStart = function(node) {
+        var desc
+        if (node.sign == "^") {
+            desc = "start of line"
+        } else {
+            desc = "end of line"
+        }
+        var text = elt("text", {
+                "dominant-baseline": "text-before-edge",
+                x: gap,
+                y: gap
+            },
+            desc)
+        var tBox = text.getBBox()
+        var rect = elt("rect", {
+            width: tBox.width + 2 * gap,
+            height: tBox.height + 2 * gap,
+            fill: "DarkSlateBlue",
+            rx: gap,
+            ry: gap,
+        })
+        var g = elt("g", {}, rect, text)
+        var gBox = g.getBBox()
+        var info = {
+            g: g,
+            gH: gBox.height,
+            gW: gBox.width
+        }
+        return info
+
     }
     var drawCharacterGraph = function(node) {
         // node is char node
         // g tag
         // text rect in g
+        var nodeV
+
+        if (node.type == "character") {
+            nodeV = "\"" + node.value + "\""
+        } else {
+            nodeV = node.value
+        }
+
         var svgT = elt("text", {
                 "dominant-baseline": "text-before-edge",
                 x: gap,
                 y: gap
             },
-            node.value)
+            nodeV)
         var tBox = svgT.getBBox()
-        var rect = elt("rect", {
-            width: tBox.width + 2 * gap,
-            height: tBox.height + 2 * gap,
-            fill: "rgb(218, 233, 229)"
-        })
+        if (node.type != "escapeCharacter") {
+            var rect = elt("rect", {
+                width: tBox.width + 2 * gap,
+                height: tBox.height + 2 * gap,
+                fill: "rgb(218, 233, 229)",
+                rx: gap,
+                ry: gap,
+            })
+        } else {
+            var rect = elt("rect", {
+                width: tBox.width + 2 * gap,
+                height: tBox.height + 2 * gap,
+                fill: "crimson",
+                rx: gap,
+                ry: gap,
+            })
+        }
+
         var g = elt(
             'g', {},
 
@@ -485,8 +576,12 @@
             bigG.appendChild(gIn)
 
         }
+
+
         var box = bigG.getBBox()
         return {
+            type: "charClassGraph",
+            revert: node.revert,
             g: bigG,
             gW: wMax,
             gH: hPlusG
@@ -516,7 +611,22 @@
                 stroke: "black"
             })
             gIn.setAttribute('transform', `translate(${x},${(hMax-info.gH)/2})`)
+            if (info.type == "charClassGraph") {
+                if (!info.revert) {
+                    var title = "one of"
+                } else {
+                    var title = "none of"
+                }
+                var text = elt("text", {
+                    x: x,
+                    y: (hMax - info.gH) / 2 - gap,
+                    "dominant-baseline": "text-before-edge",
+
+                }, title)
+                bigG.appendChild(text)
+            }
             x += info.gW + gap
+
             bigG.appendChild(line)
             bigG.appendChild(gIn)
 
@@ -615,7 +725,8 @@
             fill: 'none',
             stroke: 'grey',
             'stroke-width': 2,
-            rx: 3,
+            rx: 2 * gap,
+            ry: 2 * gap
         })
         var bigG = elt("g", {}, fill)
         graph.g.setAttribute('transform', `translate(0, ${gap*2})`)
@@ -817,8 +928,6 @@
             height: box.height,
         }
     }
-
-    var node = parseRegularExpression("a{3}")
 </script>
 
 </html>
