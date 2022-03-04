@@ -6,7 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mini-regExp</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya&family=Cookie&family=Hubballi&display=swap" rel="stylesheet">
     <style>
+        body {
+            background-color: #0077B6;
+            font-size: 24px;
+            font-family: 'Alegreya', serif;
+        }
+        
+        header {
+            height: 100px;
+            background-color: #0096c7;
+            border-radius: 10px;
+            font-family: 'Cookie', cursive;
+            font-size: 60px;
+            text-align: left;
+        }
+        
+        .wrapper {
+            margin-top: 20px;
+        }
+        
         strong:nth-child(odd) {
             background-color: rgb(213, 235, 255);
         }
@@ -43,28 +65,72 @@
         }
         
         pre {
-            word-break: break-all;
+            width: 50vw;
+            height: 500px;
+            border: 2px solid black;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+        
+        .regInput {
+            height: 50px;
+            width: 100%;
+            font-size: 24px;
+            font-family: 'Hubballi', cursive;
+        }
+        
+        .wrapper {
+            display: flex;
+        }
+        
+        .leftSection {
+            width: 50vw;
+        }
+        
+        .rightSection {
+            width: 50vw;
+            background-color: white;
+            height: 100%;
         }
     </style>
 </head>
 
 <body>
-    <div>Regular Expression</div>
-    <input type="" id="inputReg" oninput="run()" value="f(.)(.)(.)(.)">
 
-    <div>
-        <label onclick="run()" for="global">g<input id="global"type="checkbox"></label>
-        <label onclick="run()" for="multipleLine">m<input id="multipleLine"type="checkbox"></label>
-        <label onclick="run()" for="ignoreCase">i<input id="ignoreCase"type="checkbox"></label>
-        <label onclick="run()" for="getIndices">d<input checked id="getIndices"type="checkbox"></label>
+    <header>
+        Regular Expression Parser
+    </header>
+    <div class="wrapper">
+        <div class="leftSection">
+            <div class="topSection">
+                <h2>Regular Expression</h2>
+                <input class="regInput" type="" id="inputReg" oninput="run()" value="f(.)(.)(.)(.)">
+
+
+
+                <div>
+                    <label onclick="run()" for="global">g<input id="global"type="checkbox"></label>
+                    <label onclick="run()" for="multipleLine">m<input id="multipleLine"type="checkbox"></label>
+                    <label onclick="run()" for="ignoreCase">i<input id="ignoreCase"type="checkbox"></label>
+                    <label onclick="run()" for="getIndices">d<input checked id="getIndices"type="checkbox"></label>
+                </div>
+            </div>
+            <div class="bottomSection">
+                <div>
+                    <h2>Test String</h2>
+                </div>
+                <pre oninput="run()" contenteditable="true" id="inputString">fjiwhufriofehhjaksjfkfjilwqh</pre>
+            </div>
+
+            <!-- <div>Match Result</div> -->
+            <!-- <div class="pre">
+            <pre cols="30" rows="10" contenteditable="true" id="showResult"></pre>
+        </div> --></div>
+
+        <div class="rightSection"></div>
     </div>
 
-    <div>Test String</div>
-    <pre cols="30" rows="10" oninput="run()" contenteditable="true" id="inputString">fjiwhufriofehfkfjilwqh</pre>
-    <!-- <div>Match Result</div> -->
-    <!-- <div class="pre">
-        <pre cols="30" rows="10" contenteditable="true" id="showResult"></pre>
-    </div> -->
+
 
 
     <script>
@@ -178,6 +244,7 @@
             res += brackets[matchArray[0].length]
             return res
         }
+        run()
     </script>
 </body>
 

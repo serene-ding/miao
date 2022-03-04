@@ -11,6 +11,12 @@
 
     <title>Reg Parser</title>
     <style>
+        html,
+        body {
+            width: 100%;
+            margin: 0px;
+        }
+        
         header {
             text-align: center;
             font-family: 'Sorts Mill Goudy', serif;
@@ -29,15 +35,22 @@
             border-radius: 10px;
             height: 30px;
             text-align: center;
+            margin-top: 20px;
         }
         
         input {
             display: inline-block;
             height: 30px;
+            width: 100% !important;
         }
         
-        div {
-            position: relative;
+        div .svgWrapper {
+            width: 2000px;
+            margin: 0 auto;
+        }
+        
+        svg {
+            display: block;
         }
     </style>
 </head>
@@ -46,7 +59,7 @@
     <header>RegexExper
     </header>
     <div class="wrapper">
-        <input type="text" id="regInput" style="width: 500px" value="^a[^a-z]|[\d\}]|asad|(?=as)(?<=ar)(w\))$">
+        <input type="text" id="regInput" style="width: 500px" value="^a[^a-z]|[\d\}]|asad(ad.)|(?=as)(?<=ar)(w\))$">
         <button>Draw</button>
         <ul>
             <li>&#9748 please do not enter whitespace</li>
@@ -54,7 +67,7 @@
             <li>&#127775 please make sure that the regular expression you enter is correct</li>
             <li>&#127773 enjoy drawing the graph :)</li>
         </ul>
-        <div class="svg">
+        <div class="svgWrapper">
             <svg width="2000px" height="2000px"></svg>
         </div>
 
@@ -132,7 +145,8 @@
         w: "word",
         S: "non-white space",
         D: "none_digit",
-        W: "none_word"
+        W: "none_word",
+        dot: "any character"
 
     }
     var str = "[\\d]\\}[\\]]"
@@ -149,7 +163,7 @@
             return parseQuantifier()
         } else if (str[i] == "$" || str[i] == "^") {
             return parseEndandStart()
-        } else if (str[i] == "\\") {
+        } else if (str[i] == "\\" || str[i] == ".") {
             return parseEscapeCharacter()
         } else {
             return parseCharacter()
@@ -157,7 +171,7 @@
     }
     var parseEscapeCharacter = function() {
         var start = i
-        i++ //skip "//"
+
 
         var node = {
             type: "escapeCharacter",
@@ -167,9 +181,16 @@
             value: "",
             raw: ""
         }
-
+        if (str[i] == ".") {
+            node.isCharGroup = true
+            node.value = charGroup['dot']
+            i++
+            return node
+        }
+        i++ //skip "//"
         if (str[i] in charGroup) {
             node.isCharGroup = true
+
             node.value = charGroup[str[i]]
         } else {
             node.value = str[i]
@@ -369,11 +390,14 @@
                 var eleRep = branch.eles.pop()
                 p.ele = eleRep
             } else if (p.type == "character" && eles.length != 0 && eles[eles.length - 1].type == "character") {
-                var lastChar = branch.eles.pop()
+                if (p.value != "." && eles[eles.length - 1].value != ".") {
+                    var lastChar = branch.eles.pop()
 
-                p.value = lastChar.value + p.value
-                p.raw = lastChar.raw + p.raw
-                p.start = lastChar.start
+                    p.value = lastChar.value + p.value
+                    p.raw = lastChar.raw + p.raw
+                    p.start = lastChar.start
+                }
+
             }
             branch.eles.push(p)
         }
@@ -542,11 +566,9 @@
         var nodeV
 
         if (node.type == "character") {
-            if (node.value == '.') {
-                nodeV = "any character"
-            } else {
-                nodeV = "\"" + node.value + "\""
-            }
+
+            nodeV = "\"" + node.value + "\""
+
 
         } else if (node.type == "charRange") {
             nodeV = "\"" + node.start_char + "\"" + "-" + "\"" + node.end_char + "\""
