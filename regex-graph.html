@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Hubballi&display=swap" rel="stylesheet">
     <title>Reg Parser</title>
     <style>
         html,
@@ -25,23 +25,35 @@
             border-radius: 20px;
         }
         
+        ul li {
+            font-family: 'Hubballi', cursive;
+            font-size: 24px;
+        }
+        
         .wrapper {
             margin-top: 20px;
         }
         
         button {
+            font-family: 'Hubballi', cursive;
+            font-size: 24px;
             background-color: #457b9d;
             border: 0px none;
             border-radius: 10px;
-            height: 30px;
+            height: 50px;
+            width: 100px;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            font-size: 20px;
         }
         
         input {
+            font-family: 'Hubballi', cursive;
+            font-size: 24px;
             display: inline-block;
-            height: 30px;
-            width: 100% !important;
+            height: 50px;
+            width: 100%;
         }
         
         div .svgWrapper {
@@ -50,7 +62,10 @@
         }
         
         svg {
-            display: block;
+            font-family: 'Hubballi', cursive;
+            font-size: 24px;
+            text-align: center;
+            margin-left: 100px;
         }
     </style>
 </head>
@@ -59,7 +74,7 @@
     <header>RegexExper
     </header>
     <div class="wrapper">
-        <input type="text" id="regInput" style="width: 500px" value="^a[^a-z]|[\d\}]|asad(ad.)|(?=as)(?<=ar)(w\))$">
+        <input type="text" id="regInput" value="^a[^a-z][\w]|[\d\}](?!ap)(?<MiddleName>goo)|asad(ad.)(?<!po)|(?=as)(?<=ar)(w\))$">
         <button>Draw</button>
         <ul>
             <li>&#9748 please do not enter whitespace</li>
@@ -68,7 +83,7 @@
             <li>&#127773 enjoy drawing the graph :)</li>
         </ul>
         <div class="svgWrapper">
-            <svg width="2000px" height="2000px"></svg>
+            <svg></svg>
         </div>
 
     </div>
@@ -85,6 +100,8 @@
         var reInput = regInput.value
         var regNode = parseRegularExpression(reInput)
         var graph = drawRegExpressionGraph(regNode)
+        svg.style.width = graph.width + 200
+        svg.style.height = graph.height
     }
     //the data structures for regular expression parts
     // var characterClass = {
@@ -427,7 +444,15 @@
         return Branches
 
     }
-
+    var parseGroupName = function() {
+        //i skipped <
+        var name = ""
+        while (str[i] != '>') {
+            name += str[i]
+            i++
+        }
+        return name
+    }
     var parseCapturingGroup = function() {
 
         var node = {
@@ -437,6 +462,7 @@
             lookahead: false,
             positive: false,
             bs: [],
+            name: "",
             index: 0
         }
 
@@ -452,15 +478,27 @@
             } else if (str[i] == "!") {
                 node.lookahead = true
                 node.positive = false
-                i++ //skip 
+                i++ //skip =
             } else if (str[i] == "<") {
-                node.lookahead = false
-                i++ //skip 
+
+                i++ //skip <
                 if (str[i] == "=") {
+                    node.lookahead = false
                     node.positive = true
                 } else if (str[i] == "!") {
+                    node.lookahead = false
                     node.positive = false
+                } else {
+                    node.isAssertion = false
+                    node.name = parseGroupName()
+
+                    node.index = groupIndex
+                    groupIndex++
+
+
                 }
+                i++ //skip >
+            } else if (str[i] == ":") {
                 i++
             }
         } else {
@@ -829,6 +867,9 @@
         } else {
             var groupIndex = "Group"
             groupIndex = groupIndex + "#" + node.index
+            if (node.name != "") {
+                groupIndex += " " + node.name
+            }
             var text = elt("text", {
                 "dominant-baseline": "text-before-edge",
                 x: 0,
