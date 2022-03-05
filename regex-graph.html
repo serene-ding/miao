@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy&display=swap" rel="stylesheet">
@@ -166,8 +167,8 @@
         dot: "any character"
 
     }
-    var str = "[\\d]\\}[\\]]"
-    var i = 0
+    var str
+    var i
 
     var groupIndex
         // [part] is one of the parts of the branch
@@ -186,6 +187,7 @@
             return parseCharacter()
         }
     }
+
     var parseEscapeCharacter = function() {
         var start = i
 

@@ -60,14 +60,11 @@
             background-color: rgb(229, 196, 241);
         }
         
-        div.pre {
-            border: 2px black solid;
-        }
-        
         pre {
-            width: 50vw;
+            width: 100%;
             height: 500px;
             border: 2px solid black;
+            box-sizing: border-box;
             word-wrap: break-word;
             white-space: pre-wrap;
         }
@@ -84,13 +81,32 @@
         }
         
         .leftSection {
-            width: 50vw;
+            width: 50%;
+            overflow: hidden;
+        }
+        
+        .leftSection div[class$="Section"] {
+            margin-right: 10px;
         }
         
         .rightSection {
-            width: 50vw;
-            background-color: white;
-            height: 100%;
+            width: 50%;
+        }
+        
+        .rightSection textarea {
+            width: 100%;
+        }
+        
+        .rightSection div[class$="Section"] textarea {
+            font-size: 24px;
+            font-family: 'Hubballi', cursive;
+            line-height: 1.5;
+        }
+        
+        header div {
+            float: right;
+            width: 100px;
+            height: 90px;
         }
     </style>
 </head>
@@ -99,6 +115,9 @@
 
     <header>
         Regular Expression Parser
+        <div class="imgHolder">
+            <img src="icons/book.png" alt="" width="90px">
+        </div>
     </header>
     <div class="wrapper">
         <div class="leftSection">
@@ -127,7 +146,21 @@
             <pre cols="30" rows="10" contenteditable="true" id="showResult"></pre>
         </div> --></div>
 
-        <div class="rightSection"></div>
+        <div class="rightSection">
+            <div class="explanationSection">
+                <h2>Explanation</h2>
+                <textarea name="" id="" cols="60" rows="10">
+
+                </textarea>
+            </div>
+            <div class="matchSection">
+                <h2>Match Information</h2>
+                <textarea name="" id="" cols="60" rows="10">
+
+                </textarea>
+            </div>
+
+        </div>
     </div>
 
 
