@@ -6,28 +6,249 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>painter</title>
+    <script src="https://kit.fontawesome.com/1f7837984b.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300&display=swap" rel="stylesheet">
     <style>
-        .svg-wrapper {
-            display: inline-block;
-            border: 2px solid black;
+        div {
+        font-size: 8px;
+        font-family: 'Fredoka', sans-serif;
         }
+        .outside-wrapper{
+            width: 1000px;
+            margin: auto;
+            border: 1px solid rgb(165, 157, 157);
+        }
+       .main-menu {
+           height:30px;
+           background-color: beige;
+           display: flex;
+       }
+       .main-menu .selectColor {
+        display: flex;
+       }
+       .main-menu .selectColor .colorsWrapper{
+           width: 40px;
+           height: 100%;
+           display: flex;
+           flex-wrap: wrap;
+       }
+       .main-menu .selectColor .colorsWrapper span {
+        display: block;
+        height: 10px;
+        width: 10px;
+        border-radius: 10px;
+    }
+    .main-menu .selectColor .selectButton{
+        xbackground-color: rgb(110, 77, 77);
+        display: flex;
+    }
+    .main-menu .selectColor .selectButton [class$=Color] {
+        height: 30px;
+        width: 60px;
+    }
+    .main-menu .selectColor .selectButton [class$=Color] .square{
+        height: 20px;
+        width: 20px;
+        margin: auto;
         
-        svg {
+        
+    }
+    
+    .main-menu .drawShapes{
+        width: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .main-menu .drawShapes div {
+        height: 20px;
+        width: 20px;
+        background-color: rgb(161, 67, 67);
+    }
+    .main-menu .drawShapes .rectangle {
+        background: url(icons/rectangle.png) no-repeat;
+        background-size: contain;
+    }
+    .main-menu .drawShapes .circle {
+        background: url(icons/circle.png) no-repeat;
+        background-size: contain;
+    }
+    .main-menu .drawShapes .line {
+        background: url(icons/line.png) no-repeat;
+        background-size: 16px;
+       background-position: right 2px top 2px;
+        
+    }
+    svg#paint-board {
             display: block;
         }
+    svg#svg-icon {
+        width: 100%;
+        height: 100%;
+        
+    }    
     </style>
 </head>
 
 <body>
+    
+    <div class="outside-wrapper">
+    <div class="main-menu">
+       <div class="selectColor">
+           <div class="colorsWrapper">
+            <span style="background-color: darkturquoise;"></span>
+            <span style="background-color: Crimson;"></span>
+            <span style="background-color: DarkOrange;"></span>
+            <span style="background-color: DarkSalmon;"></span>
+            <span style="background-color: DarkSeaGreen;"></span>
+            <span style="background-color: FireBrick;"></span>
+            <span style="background-color: LightSkyBlue;"></span>
+            <span style="background-color: MediumSeaGreen;"></span>
+           </div>
+           <input type="color" id="colorSelector">
+           <div class="selectButton">
+            <div class="foregroudColor">
+                <div class="square" >
+                    <svg id= 'svg-icon' version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+               <circle style="fill:rgb(81, 142, 212);" cx="256" cy="256" r="256"/>
+               <path style="fill:rgb(81, 142, 212);" d="M306.045,507.095c96.434-19.113,173.378-92.375,197.806-186.785L309.544,126.005L182.718,242.483
+                   l25.941,46.559l-50.424,70.246L306.045,507.095z"/>
+               <path style="fill:#FFFFFF;" d="M361.794,227.102c-3.17,0.465-6.456,0.581-9.814,0.307c-20.575-1.676-37.245-18.322-38.943-38.896
+                   c-0.681-8.247,0.986-16.053,4.406-22.823c8.868-17.558,0.814-39.081-17.91-45.109c-15.089-4.858-31.28-7.261-48.107-6.732
+                   c-76.674,2.412-138.138,66.372-137.647,143.082c0.505,78.615,64.793,142.095,143.715,141.283
+                   c75.524-0.776,137.871-61.478,140.631-136.954c0.019-0.503,0.034-1.005,0.047-1.505C398.688,240.04,381.307,224.239,361.794,227.102
+                   z M268.067,274.101c-15.71,0-28.444-12.734-28.444-28.444s12.734-28.444,28.444-28.444s28.444,12.734,28.444,28.444
+                   S283.776,274.101,268.067,274.101z"/>
+               <path style="fill:#D0D1D3;" d="M361.794,227.102c-3.17,0.465-6.456,0.581-9.814,0.307c-20.575-1.676-37.245-18.322-38.943-38.896
+                   c-0.681-8.247,0.986-16.053,4.406-22.823c8.868-17.558,0.814-39.081-17.91-45.109c-13.715-4.417-28.348-6.777-43.536-6.777v106.122
+                   c3.667-1.724,7.747-2.715,12.067-2.715c15.71,0,28.444,12.734,28.444,28.444c0,15.71-12.734,28.444-28.444,28.444
+                   c-4.32,0-8.399-0.991-12.067-2.715v126.805c0.5,0,0.993,0.028,1.495,0.022c75.524-0.776,137.871-61.478,140.631-136.954
+                   c0.019-0.503,0.034-1.005,0.047-1.505C398.688,240.04,381.307,224.239,361.794,227.102z"/>
+               <circle style="fill:#FF7F4F;" cx="243.778" cy="173.528" r="20.704"/>
+               <circle style="fill:#EAA22F;" cx="178.941" cy="207.748" r="20.704"/>
+               <circle style="fill:#8BC180;" cx="167.236" cy="282.479" r="20.704"/>
+               <circle style="fill:#71E2EF;" cx="208.662" cy="341.919" r="20.704"/>
+               <circle style="fill:#02B2B2;" cx="286.099" cy="341.919" r="20.704"/>
+               <circle style="fill:#59595B;" cx="333.576" cy="282.479" r="20.704"/>
+               </svg></div>
+                <div class="text" ">foregroudColor</div>
+            </div>
+            <!-- backgroudColor is the fill color -->
+            <div class="backgroudColor">
+                <div class="square">
+                    <svg id= 'svg-icon' version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+               <circle style="fill:rgb(118, 163, 112);" cx="256" cy="256" r="256"/>
+               <path style="fill:rgb(118, 163, 112);" d="M306.045,507.095c96.434-19.113,173.378-92.375,197.806-186.785L309.544,126.005L182.718,242.483
+                   l25.941,46.559l-50.424,70.246L306.045,507.095z"/>
+               <path style="fill:#FFFFFF;" d="M361.794,227.102c-3.17,0.465-6.456,0.581-9.814,0.307c-20.575-1.676-37.245-18.322-38.943-38.896
+                   c-0.681-8.247,0.986-16.053,4.406-22.823c8.868-17.558,0.814-39.081-17.91-45.109c-15.089-4.858-31.28-7.261-48.107-6.732
+                   c-76.674,2.412-138.138,66.372-137.647,143.082c0.505,78.615,64.793,142.095,143.715,141.283
+                   c75.524-0.776,137.871-61.478,140.631-136.954c0.019-0.503,0.034-1.005,0.047-1.505C398.688,240.04,381.307,224.239,361.794,227.102
+                   z M268.067,274.101c-15.71,0-28.444-12.734-28.444-28.444s12.734-28.444,28.444-28.444s28.444,12.734,28.444,28.444
+                   S283.776,274.101,268.067,274.101z"/>
+               <path style="fill:#D0D1D3;" d="M361.794,227.102c-3.17,0.465-6.456,0.581-9.814,0.307c-20.575-1.676-37.245-18.322-38.943-38.896
+                   c-0.681-8.247,0.986-16.053,4.406-22.823c8.868-17.558,0.814-39.081-17.91-45.109c-13.715-4.417-28.348-6.777-43.536-6.777v106.122
+                   c3.667-1.724,7.747-2.715,12.067-2.715c15.71,0,28.444,12.734,28.444,28.444c0,15.71-12.734,28.444-28.444,28.444
+                   c-4.32,0-8.399-0.991-12.067-2.715v126.805c0.5,0,0.993,0.028,1.495,0.022c75.524-0.776,137.871-61.478,140.631-136.954
+                   c0.019-0.503,0.034-1.005,0.047-1.505C398.688,240.04,381.307,224.239,361.794,227.102z"/>
+               <circle style="fill:#FF7F4F;" cx="243.778" cy="173.528" r="20.704"/>
+               <circle style="fill:#EAA22F;" cx="178.941" cy="207.748" r="20.704"/>
+               <circle style="fill:#8BC180;" cx="167.236" cy="282.479" r="20.704"/>
+               <circle style="fill:#71E2EF;" cx="208.662" cy="341.919" r="20.704"/>
+               <circle style="fill:#02B2B2;" cx="286.099" cy="341.919" r="20.704"/>
+               <circle style="fill:#59595B;" cx="333.576" cy="282.479" r="20.704"/>
+               </svg></div>
+                <div class="text">backgroudColor</div>
+            </div>
+           </div>
+
+       </div>
+       <div class="drawShapes">
+           <div class="line"></div>
+           <div class="rectangle"></div>
+           <div class="circle"></div>
+       </div>
+    </div>
     <div class="svg-wrapper">
-        <svg style="width: 500px;height:500px;">
+        <svg id = "paint-board"style="width: 1000px;height:500px;">
        
         </svg>
     </div>
+</div>
 
+<!-- 201,224,247 -->
 </body>
 <script>
-    var svg = document.querySelector('svg')
+    var fill = false
+    
+    var beingPressed
+    var foreSquare = document.querySelector(".foregroudColor .square")
+    var backSquare = document.querySelector(".backgroudColor .square")
+    var foreButton = document.querySelector(".foregroudColor")
+    var backButton = document.querySelector(".backgroudColor")
+    var currentBC = backSquare.style.backgroundColor
+    var currentFC =foreSquare.style.backgroundColor
+    var twoButtons =  document.querySelectorAll(".main-menu .selectColor .selectButton [class$=Color]")
+    var ColorSpans = document.querySelectorAll(".colorsWrapper span")
+    var shapeButtons = document.querySelectorAll(".drawShapes div")
+    var palette = document.querySelector("#svg-icon")
+
+    for(let span of ColorSpans){
+        span.addEventListener('click',function(){
+        clickColorspan(span)
+    })
+    }
+    for(let  button of twoButtons){
+        
+        button.addEventListener('click',function(){
+        clickColorButton(button)
+    })
+    }
+    for (let  shapeButton of shapeButtons){
+        shapeButton.addEventListener('click',function(){
+        clickShapeButton(shapeButton)
+    })
+    }
+    function clickColorspan(span){
+       
+       palette = beingPressed.querySelector("#svg-icon")
+        var circle = palette.querySelector('circle')
+        var path = palette.querySelector('path')
+        
+        circle.style.fill = span.style.backgroundColor
+        path.style.fill = span.style.backgroundColor
+    }
+    function clickColorButton(b){
+        console.log('yes',b)
+        beingPressed = b 
+        b.style.backgroundColor = "rgb(201,224,247)"
+        b.style.outline = "solid lightblue 1px"
+        for(var button of twoButtons){
+        if(button!=b){
+            console.log('no',button)
+            button.style.backgroundColor = ""
+            
+            button.style.outline = ""
+        }
+    }
+    }
+    function clickShapeButton(shapeButton){
+        shape = shapeButton.className
+        shapeButton.style.backgroundColor="rgb(201,224,247)"
+        for(var button of shapeButtons){
+        if(button!=shapeButton){
+            console.log('no',button)
+            button.style.backgroundColor = ""
+            
+           
+        }
+        console.log(shape)
+    }}
+    var svg = document.querySelector('#paint-board')
     var node
     var shape = "rectangle"
     var startPos
@@ -40,9 +261,10 @@
         }
         return pos
     }
-
+    svg.addEventListener("mousedown",downDraw)
     function downDraw(event) {
-
+        console.log('downdraw')
+        currentFC = foreSquare.style.backgroundColor
         startPos = mousePos(svg)
         if (shape == 'line') {
             node = svgElt("path", {
@@ -50,7 +272,7 @@
             M ${startPos.x} ${startPos.y} L ${startPos.x} ${startPos.y}
         
             `,
-                stroke: "lightblue",
+                stroke: `${currentFC}`,
                 fill: 'none',
                 'stroke-width': 10,
                 'stroke-linecap': 'round',
@@ -62,7 +284,7 @@
                 y: startPos.y,
                 width: 0,
                 height: 0,
-                stroke: "lightblue",
+                stroke: `${currentFC}`,
                 fill: 'none',
                 'stroke-width': 10,
                 'stroke-linecap': 'round',
@@ -74,14 +296,14 @@
                 cy: 0,
                 rx: 0,
                 ry: 0,
-                stroke: "lightgreen",
+                stroke: `${currentFC}`,
                 fill: 'none',
                 'stroke-width': 10,
                 'stroke-linecap': 'round',
             })
         }
         svg.appendChild(node)
-        addEventListener("mousemove", moveDraw)
+        svg.addEventListener("mousemove", moveDraw)
     }
 
 
@@ -181,6 +403,8 @@
         }
     }
     svg.addEventListener("mousedown", downDraw)
+    foreButton.click()
+    
 </script>
 
 </html>
