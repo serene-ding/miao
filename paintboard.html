@@ -16,12 +16,12 @@
         font-family: 'Fredoka', sans-serif;
         }
         .outside-wrapper{
-            width: 1000px;
+            width: 1500px;
             margin: auto;
             border: 1px solid rgb(165, 157, 157);
         }
        .main-menu {
-           height:30px;
+           height:100px;
            background-color: beige;
            display: flex;
        }
@@ -29,58 +29,51 @@
         display: flex;
        }
        .main-menu .selectColor .colorsWrapper{
-           width: 40px;
+           width: 120px;
            height: 100%;
            display: flex;
            flex-wrap: wrap;
        }
        .main-menu .selectColor .colorsWrapper span {
         display: block;
-        height: 10px;
-        width: 10px;
-        border-radius: 10px;
+        height: 30px;
+        width:30px;
+        border-radius: 30px;
     }
     .main-menu .selectColor .selectButton{
         xbackground-color: rgb(110, 77, 77);
         display: flex;
+        width: 250px;
+        justify-content: space-between;
     }
     .main-menu .selectColor .selectButton [class$=Color] {
-        height: 30px;
-        width: 60px;
+        height: 100%;
+        width: 100px;
     }
     .main-menu .selectColor .selectButton [class$=Color] .square{
-        height: 20px;
-        width: 20px;
+        height: 80px;
+        width: 80px;
         margin: auto;
         
         
     }
+    .text{
+        font-size: 20px;
+        text-align: center;
+    }
     
     .main-menu .drawShapes{
-        width: 90px;
+        width: 300px;
         display: flex;
         align-items: center;
         justify-content: space-between;
     }
     .main-menu .drawShapes div {
-        height: 20px;
-        width: 20px;
-        background-color: rgb(161, 67, 67);
+        height: 80px;
+        width: 80px;
+        xbackground-color: #a14343;
     }
-    .main-menu .drawShapes .rectangle {
-        background: url(icons/rectangle.png) no-repeat;
-        background-size: contain;
-    }
-    .main-menu .drawShapes .circle {
-        background: url(icons/circle.png) no-repeat;
-        background-size: contain;
-    }
-    .main-menu .drawShapes .line {
-        background: url(icons/line.png) no-repeat;
-        background-size: 16px;
-       background-position: right 2px top 2px;
-        
-    }
+    
     svg#paint-board {
             display: block;
         }
@@ -88,7 +81,15 @@
         width: 100%;
         height: 100%;
         
-    }    
+    }   
+    svg#bucket {
+        width: 80px;
+        height: 80px;
+    } 
+    svg.shape {
+        width: 80px;
+        height: 80px;
+    }
     </style>
 </head>
 
@@ -134,7 +135,7 @@
                <circle style="fill:#02B2B2;" cx="286.099" cy="341.919" r="20.704"/>
                <circle style="fill:#59595B;" cx="333.576" cy="282.479" r="20.704"/>
                </svg></div>
-                <div class="text" ">foregroudColor</div>
+                <div class="text" ">color1</div>
             </div>
             <!-- backgroudColor is the fill color -->
             <div class="backgroudColor">
@@ -162,19 +163,64 @@
                <circle style="fill:#02B2B2;" cx="286.099" cy="341.919" r="20.704"/>
                <circle style="fill:#59595B;" cx="333.576" cy="282.479" r="20.704"/>
                </svg></div>
-                <div class="text">backgroudColor</div>
+                <div class="text">color2</div>
             </div>
            </div>
 
        </div>
        <div class="drawShapes">
-           <div class="line"></div>
-           <div class="rectangle"></div>
-           <div class="circle"></div>
+           <div class="line">
+            <svg class="shape line" width="80px" height="80px" viewBox="0 0 76 76" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" enable-background="new 0 0 76.00 76.00" xml:space="preserve">
+                <path d="M 10 70 C 20 70 60 60 70 10" stroke="black" stroke-width="5" fill="none" />
+            </svg>
+           </div>
+           <div class="rectangle"><svg class="shape rect" width="512px" height="512px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+            <path  d="M 50 100 h 400 v 300 h -400 v -320" fill='none' stroke="black" stroke-width="40"/>
+          </svg></div>
+           <div class="circle">
+            <svg class="shape circle" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            width="100px" height="100px" style="enable-background:new 0 0 31.424 31.425;"
+            xml:space="preserve">
+       
+            <circle cx="40" cy="40" r="30" fill = "none" stroke="black" stroke-width="10"/>
+       
+       
+       </svg>
+       
+           </div>
+       </div>
+       <div class="fillBucket">
+        <svg version="1.1" id="bucket" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+        viewBox="0 0 473.931 473.931" style="enable-background:new 0 0 473.931 473.931;" xml:space="preserve">
+   <circle  cx="236.966" cy="236.966" r="236.966"/>
+   <g>
+       <path style="fill:#F5D8A4;" d="M330.764,359.534c0,9.403-7.622,17.036-17.029,17.036H152.885c-9.407,0-17.033-7.633-17.033-17.036
+           l-22.234-202.699c0-9.407,239.387-9.407,239.387,0L330.764,359.534z"/>
+       <path style="fill:#F5D8A4;" d="M123.572,163.545c0,0,3.113-95.493,109.66-95.493c106.55,0,109.821,95.493,109.821,95.493
+           l9.953-6.709c0,0,4.09-107.07-119.781-107.07c-123.867,0-119.605,107.07-119.605,107.07L123.572,163.545z"/>
+   </g>
+   <g>
+       <path style="fill:#E9CA92;" d="M233.224,68.051V49.765c-123.867,0-119.605,107.07-119.605,107.07l22.234,202.699
+           c0,9.403,7.626,17.036,17.032,17.036h80.339l-0.427-227.926c-44.224,0-88.01,2.425-108.04,5.003
+           C128.937,129.248,147.908,68.051,233.224,68.051z"/>
+       <path style="fill:#E9CA92;" d="M127.669,159.343c0,2.739-1.283,4.954-2.87,4.954h-10.29c-1.587,0-2.866-2.215-2.866-4.954v-8.464
+           c0-2.731,1.28-4.954,2.866-4.954h10.29c1.587,0,2.87,2.223,2.87,4.954V159.343z"/>
+   </g>
+   <g>
+       <path style="fill:#F5D8A4;" d="M355.16,159.343c0,2.739-1.283,4.954-2.87,4.954h-10.29c-1.583,0-2.87-2.215-2.87-4.954v-8.464
+           c0-2.731,1.287-4.954,2.87-4.954h10.29c1.587,0,2.87,2.223,2.87,4.954V159.343z"/>
+       <path style="fill:#EDC92C;" d="M131.976,152.959c0,0,34.697,91.77,74.323,32.314c0,0,14.945-18.088,30.649,0.864
+           c15.704,18.956,11.977,41.979,14.956,53.417c2.241,8.625,20.598,28.056,26.544-10.342c7.472-48.25,22.802-44.366,31.027-38.772
+           c8.221,5.601,18.249,2.26,21.68-13.785c3.431-16.06,4.397-23.813,4.397-23.813S228.423,143.474,131.976,152.959z"/>
+       <path style="fill:#DBB626;" d="M131.976,152.959c0,0,34.697,91.77,74.323,32.314c0,0,12.61-15.266,26.828-3.064l0.636-33.564
+           C205.628,148.806,161.595,150.041,131.976,152.959z"/>
+   </g></svg>
+   <div class="text">
+       fill color   </div>
        </div>
     </div>
     <div class="svg-wrapper">
-        <svg id = "paint-board"style="width: 1000px;height:500px;">
+        <svg id = "paint-board"style="width: 1200px;height:800px;">
        
         </svg>
     </div>
@@ -190,16 +236,22 @@
     var backSquare = document.querySelector(".backgroudColor .square")
     var foreButton = document.querySelector(".foregroudColor")
     var backButton = document.querySelector(".backgroudColor")
-    var currentBC = backSquare.style.backgroundColor
-    var currentFC =foreSquare.style.backgroundColor
+    var currentBC = "rgb(118, 163, 112)"
+    var currentFC = "rgb(81, 142, 212)"
     var twoButtons =  document.querySelectorAll(".main-menu .selectColor .selectButton [class$=Color]")
     var ColorSpans = document.querySelectorAll(".colorsWrapper span")
     var shapeButtons = document.querySelectorAll(".drawShapes div")
     var palette = document.querySelector("#svg-icon")
+    var circle = document.querySelector("svg.circle")
+    var rect = document.querySelector("svg.rect")
+    var line = document.querySelector("svg.line")
+    var bucket = document.querySelector("svg#bucket")
+    var colorSelector = document.querySelector("#colorSelector")
+
 
     for(let span of ColorSpans){
         span.addEventListener('click',function(){
-        clickColorspan(span)
+            clickColorSpan_Input(span)
     })
     }
     for(let  button of twoButtons){
@@ -213,14 +265,29 @@
         clickShapeButton(shapeButton)
     })
     }
-    function clickColorspan(span){
-       
+    colorSelector.addEventListener("change",function(){
+        clickColorSpan_Input(colorSelector)   
+    })
+    function clickColorSpan_Input(node){
+        console.log(node.value)
+       var color
        palette = beingPressed.querySelector("#svg-icon")
         var circle = palette.querySelector('circle')
         var path = palette.querySelector('path')
-        
-        circle.style.fill = span.style.backgroundColor
-        path.style.fill = span.style.backgroundColor
+        if(node.localName=="span"){
+            color = node.style.backgroundColor
+        }else{
+            color = node.value
+        }
+        if(beingPressed==foreButton){
+            currentFC = color
+            changeShapeColor()
+        }else{
+            currentBC = color
+            fillBucket()
+        }
+        circle.style.fill = color
+        path.style.fill = color
     }
     function clickColorButton(b){
         console.log('yes',b)
@@ -264,7 +331,7 @@
     svg.addEventListener("mousedown",downDraw)
     function downDraw(event) {
         console.log('downdraw')
-        currentFC = foreSquare.style.backgroundColor
+        
         startPos = mousePos(svg)
         if (shape == 'line') {
             node = svgElt("path", {
@@ -291,6 +358,7 @@
 
             })
         } else if (shape == "circle") {
+            console.log(currentFC)
             node = svgElt('ellipse', {
                 cx: 0,
                 cy: 0,
@@ -402,9 +470,24 @@
             return event.buttons !== 0
         }
     }
-    svg.addEventListener("mousedown", downDraw)
-    foreButton.click()
     
+    foreButton.click()
+    changeShapeColor()
+    fillBucket
+    function changeShapeColor(){
+        var c = circle.querySelector("circle")
+        c.setAttribute("stroke",`${currentFC}`)
+        var rP = rect.querySelector("path")
+        var lP = line.querySelector("path")
+        rP.setAttribute("stroke",`${currentFC}`)
+        lP.setAttribute("stroke",`${currentFC}`)
+    }
+    function fillBucket(){
+        console.log("fill bucket")
+        var bC = bucket.querySelector("circle")
+        bC.setAttribute("fill",`${currentBC}`)
+    }
+    fillBucket()
 </script>
 
 </html>
