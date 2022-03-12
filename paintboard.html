@@ -63,7 +63,7 @@
     }
     
     .main-menu .drawShapes{
-        width: 300px;
+        width: 350px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -188,6 +188,14 @@
        </svg>
        
            </div>
+           <div class="beizer">
+            <svg class="shape beizer" width="190" height="190" viewBox="0 0 190 190" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80" stroke="rgb(81, 142, 212)" stroke-width="20" fill="transparent"></path><text x="0" y="190" font-family="Verdana" font-size="50">
+                    beizer
+                  </text>
+                  
+                </svg>
+           </div>
        </div>
        <div class="fillBucket">
         <svg version="1.1" id="bucket" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -245,9 +253,20 @@
     var circle = document.querySelector("svg.circle")
     var rect = document.querySelector("svg.rect")
     var line = document.querySelector("svg.line")
+    var beizer = document.querySelector("svg.beizer")
     var bucket = document.querySelector("svg#bucket")
     var colorSelector = document.querySelector("#colorSelector")
-
+    // variable about bezier line
+  
+    var bSx //beizer start x
+    var bSy //beizer start y
+   
+    var bEx
+    var bEY
+    var stages  // 0 represents that beizer line has not been drawn
+    window.addEventListener("click",function(){
+        stages = 0
+    })
 
     for(let span of ColorSpans){
         span.addEventListener('click',function(){
@@ -304,6 +323,7 @@
     }
     }
     function clickShapeButton(shapeButton){
+        stages = 0
         shape = shapeButton.className
         shapeButton.style.backgroundColor="rgb(201,224,247)"
         for(var button of shapeButtons){
@@ -369,6 +389,31 @@
                 'stroke-width': 10,
                 'stroke-linecap': 'round',
             })
+        }else if(shape=="beizer"){
+            if(stages==0){
+                bSx = startPos.x
+                bSy = startPos.y
+                node = svgElt("path", {
+                d: `
+            M ${startPos.x} ${startPos.y} L ${startPos.x} ${startPos.y}
+                
+            `,
+                stroke: `${currentFC}`,
+                fill: 'none',
+                'stroke-width': 10,
+                'stroke-linecap': 'round',
+
+            })
+            console.log(stages)
+            stages += 1 //1 represent the beizer curve node has been created
+            console.log(stages)    
+        }else{
+            console.log("q beizer")
+            node.setAttribute('d',`M ${bSx} ${bSy} Q ${startPos.x} ${startPos.y} ${bEx} ${bEy}`  )
+            stages++
+        }
+            
+            
         }
         svg.appendChild(node)
         svg.addEventListener("mousemove", moveDraw)
@@ -440,6 +485,19 @@
                 }
                 node.setAttribute('cx', centerX)
                 node.setAttribute('cy', centerY)
+            }else if(shape=="beizer"){
+                console.log("mousemove beizer")
+                
+                if(stages == 1){
+                    bEx = currentPos.x
+                    bEy = currentPos.y
+                    node.setAttribute("d",`M ${bSx} ${bSy} L ${currentPos.x} ${currentPos.y}`)
+                    
+
+                }else{
+                    node.setAttribute('d',`M ${bSx} ${bSy} Q ${currentPos.x} ${currentPos.y} ${bEx} ${bEy}`  )
+                }
+                
             }
 
 
@@ -479,8 +537,11 @@
         c.setAttribute("stroke",`${currentFC}`)
         var rP = rect.querySelector("path")
         var lP = line.querySelector("path")
+        var bP = beizer.querySelector("path")
         rP.setAttribute("stroke",`${currentFC}`)
         lP.setAttribute("stroke",`${currentFC}`)
+        bP.setAttribute("stroke",`${currentFC}`)
+
     }
     function fillBucket(){
         console.log("fill bucket")

@@ -1,0 +1,8 @@
+<svg width="190px" height="190px" xmlns="http://www.w3.org/2000/svg">
+<text x="16" y="16"
+        font-family="Verdana"
+        font-size="16">
+    Cubic
+  </text>
+  <path d="M 10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80" stroke="black" strole-width="10" fill="transparent"/>
+</svg>
