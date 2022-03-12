@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>painter</title>
-    <script src="https://kit.fontawesome.com/1f7837984b.js" crossorigin="anonymous"></script>
+   
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300&display=swap" rel="stylesheet">
@@ -73,7 +73,18 @@
         width: 80px;
         xbackground-color: #a14343;
     }
-    
+    .main-menu .button {
+        height: 80px;
+        width: 80px;
+    }
+    .main-menu .button svg {
+        height: 80px;
+        width: 80px;
+    }
+    .main-menu .button.edit{
+        width: 160px;
+        display: flex;
+    }
     svg#paint-board {
             display: block;
         }
@@ -177,12 +188,12 @@
            <div class="rectangle"><svg class="shape rect" width="512px" height="512px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
             <path  d="M 50 100 h 400 v 300 h -400 v -320" fill='none' stroke="black" stroke-width="40"/>
           </svg></div>
-           <div class="circle">
-            <svg class="shape circle" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-            width="100px" height="100px" style="enable-background:new 0 0 31.424 31.425;"
+           <div class="ellipse">
+            <svg class="shape ellipse" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            width="100px" height="100px" viewbox = "0 0 100 100"style="enable-background:new 0 0 31.424 31.425;"
             xml:space="preserve">
        
-            <circle cx="40" cy="40" r="30" fill = "none" stroke="black" stroke-width="10"/>
+            <ellipse cx="50" cy="50" rx="40" ry="20" fill = "none" stroke="black" stroke-width="10"/>
        
        
        </svg>
@@ -226,9 +237,104 @@
    <div class="text">
        fill color   </div>
        </div>
+       <div class="button eraser">
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+        viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+   <circle style="fill:#FFEDB5;" cx="256" cy="256" r="256"/>
+   <path style="fill:#FEE187;" d="M158.02,359.152l147.956,147.956c101.29-20.047,181.081-99.837,201.132-201.125l-127.56-127.559
+       L158.02,359.152z"/>
+   <path style="fill:#366796;" d="M190.986,392.12l-71.106-71.108c-13.69-13.69-13.69-35.883,0-49.573L271.441,119.88
+       c13.69-13.69,35.883-13.69,49.573,0l71.108,71.108c13.69,13.69,13.69,35.883,0,49.573L240.561,392.12
+       C226.871,405.809,204.676,405.809,190.986,392.12z"/>
+   <path style="fill:#273B7A;" d="M392.12,190.988l-37.995-37.997L152.991,354.125l37.995,37.995c13.69,13.69,35.883,13.69,49.573,0
+       L392.12,240.559C405.809,226.871,405.809,204.676,392.12,190.988z"/>
+   <path style="fill:#FF6262;" d="M392.12,240.559c13.69-13.69,13.69-35.883,0-49.573l-71.108-71.106
+       c-13.69-13.69-35.883-13.69-49.573,0l-70.904,70.904l120.68,120.68L392.12,240.559z"/>
+   <path style="fill:#E03A00;" d="M392.12,190.988l-37.995-37.997l-95.691,95.691l62.781,62.781l70.904-70.904
+       C405.809,226.871,405.809,204.676,392.12,190.988z"/>
+       </svg>
+       </div>
+       <div class="button save">
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+        viewBox="0 0 451.296 451.296" style="enable-background:new 0 0 451.296 451.296;" xml:space="preserve">
+   <circle style="fill:#45B39C;" cx="225.648" cy="225.638" r="225.638"/>
+   <path style="opacity:0.1;enable-background:new    ;" d="M450.855,239.322l-99.451-99.451c-0.076-0.08-0.13-0.176-0.209-0.255
+       l-39.537-39.491c-2.398-2.398-5.641-3.76-9.026-3.76H109.178c-7.052,0-12.834,5.735-12.834,12.834v232.898
+       c0,3.672,1.566,6.958,4.035,9.295l98.236,98.236c8.87,1.06,17.878,1.668,27.034,1.668
+       C345.677,451.296,443.775,357.572,450.855,239.322z"/>
+   <path style="fill:#64798A;" d="M351.176,139.612l-39.501-39.501c-2.405-2.404-5.665-3.755-9.066-3.755H109.186
+       c-7.081,0-12.821,5.74-12.821,12.821V342.1c0,7.082,5.74,12.822,12.821,12.822H342.11c7.081,0,12.821-5.74,12.821-12.822V148.678
+       C354.931,145.277,353.58,142.016,351.176,139.612z"/>
+   <path style="fill:#FFFFFF;" d="M310.065,212.47H141.231c-6.129,0-11.098,4.969-11.098,11.098v88.637
+       c0,6.129,4.969,11.098,11.098,11.098h168.833c6.129,0,11.098-4.969,11.098-11.098v-88.637
+       C321.162,217.439,316.194,212.47,310.065,212.47z"/>
+   <g>
+       <rect x="149.565" y="233.626" style="fill:#EBF0F3;" width="152.177" height="9.4"/>
+       <rect x="149.565" y="263.168" style="fill:#EBF0F3;" width="152.177" height="9.4"/>
+       <rect x="149.565" y="292.762" style="fill:#EBF0F3;" width="152.177" height="9.4"/>
+       <path style="fill:#EBF0F3;" d="M156.714,96.355v58.059c0,5.443,4.413,9.856,9.856,9.856h118.156c5.443,0,9.856-4.413,9.856-9.856
+           V96.355H156.714z"/>
+   </g>
+   <rect x="259.491" y="107.622" style="fill:#3A556A;" width="15.698" height="44.022"/>
+</svg>       
+
+</div>
+       <div class="button edit">
+        <div class="back">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<g>
+
+<circle style="fill:#61ACD2;" cx="256" cy="256" r="243.81"/>
+<path style="fill:#EFEFEF;" d="M256,60.952c107.549,0,195.048,87.498,195.048,195.048S363.549,451.048,256,451.048
+	S60.952,363.549,60.952,256S148.451,60.952,256,60.952z"/>
+<polygon style="fill:#F4A026;" points="138.299,256 248.686,349.87 241.371,291.352 374.248,291.352 374.248,218.21 241.371,218.21 
+	248.686,162.13 "/>
+<path d="M256,0C114.842,0,0,114.842,0,256s114.842,256,256,256s256-114.842,256-256S397.158,0,256,0z M256,487.619
+	C128.284,487.619,24.381,383.716,24.381,256S128.284,24.381,256,24.381S487.619,128.284,487.619,256S383.716,487.619,256,487.619z"
+	/>
+<path d="M256,48.762C141.729,48.762,48.762,141.729,48.762,256S141.729,463.238,256,463.238S463.238,370.271,463.238,256
+	S370.271,48.762,256,48.762z M256,438.857c-100.827,0-182.857-82.03-182.857-182.857S155.173,73.143,256,73.143
+	S438.857,155.173,438.857,256S356.827,438.857,256,438.857z"/>
+<path d="M374.248,206.019H255.255l5.519-42.313c0.652-4.998-1.838-9.88-6.266-12.288c-4.426-2.405-9.879-1.841-13.719,1.424
+	l-110.387,93.87c-2.723,2.316-4.293,5.711-4.293,9.287c0,3.575,1.57,6.971,4.293,9.287l110.387,93.87
+	c2.255,1.918,5.065,2.904,7.899,2.904c1.98,0,3.972-0.482,5.79-1.464c4.423-2.389,6.927-7.25,6.302-12.238l-5.6-44.815h119.067
+	c6.733,0,12.19-5.458,12.19-12.19V218.21C386.438,211.477,380.98,206.019,374.248,206.019z M362.057,279.162H241.371
+	c-3.496,0-6.825,1.501-9.139,4.123c-2.314,2.621-3.391,6.11-2.957,9.579l3.427,27.412L157.116,256l75.394-64.115l-3.227,24.747
+	c-0.453,3.479,0.613,6.984,2.927,9.621c2.315,2.636,5.654,4.147,9.161,4.147h120.686V279.162z"/>
+</g>
+</svg>
+        </div>
+        <div class="forward">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<g style="transform: rotate(180deg);" transform-origin = "250 250">
+
+<circle style="fill:#61ACD2;" cx="256" cy="256" r="243.81"/>
+<path style="fill:#EFEFEF;" d="M256,60.952c107.549,0,195.048,87.498,195.048,195.048S363.549,451.048,256,451.048
+	S60.952,363.549,60.952,256S148.451,60.952,256,60.952z"/>
+<polygon style="fill:#F4A026;" points="138.299,256 248.686,349.87 241.371,291.352 374.248,291.352 374.248,218.21 241.371,218.21 
+	248.686,162.13 "/>
+<path d="M256,0C114.842,0,0,114.842,0,256s114.842,256,256,256s256-114.842,256-256S397.158,0,256,0z M256,487.619
+	C128.284,487.619,24.381,383.716,24.381,256S128.284,24.381,256,24.381S487.619,128.284,487.619,256S383.716,487.619,256,487.619z"
+	/>
+<path d="M256,48.762C141.729,48.762,48.762,141.729,48.762,256S141.729,463.238,256,463.238S463.238,370.271,463.238,256
+	S370.271,48.762,256,48.762z M256,438.857c-100.827,0-182.857-82.03-182.857-182.857S155.173,73.143,256,73.143
+	S438.857,155.173,438.857,256S356.827,438.857,256,438.857z"/>
+<path d="M374.248,206.019H255.255l5.519-42.313c0.652-4.998-1.838-9.88-6.266-12.288c-4.426-2.405-9.879-1.841-13.719,1.424
+	l-110.387,93.87c-2.723,2.316-4.293,5.711-4.293,9.287c0,3.575,1.57,6.971,4.293,9.287l110.387,93.87
+	c2.255,1.918,5.065,2.904,7.899,2.904c1.98,0,3.972-0.482,5.79-1.464c4.423-2.389,6.927-7.25,6.302-12.238l-5.6-44.815h119.067
+	c6.733,0,12.19-5.458,12.19-12.19V218.21C386.438,211.477,380.98,206.019,374.248,206.019z M362.057,279.162H241.371
+	c-3.496,0-6.825,1.501-9.139,4.123c-2.314,2.621-3.391,6.11-2.957,9.579l3.427,27.412L157.116,256l75.394-64.115l-3.227,24.747
+	c-0.453,3.479,0.613,6.984,2.927,9.621c2.315,2.636,5.654,4.147,9.161,4.147h120.686V279.162z"/>
+</g>
+</svg>
+        </div>
+       </div>
+       
     </div>
     <div class="svg-wrapper">
-        <svg id = "paint-board"style="width: 1200px;height:800px;">
+        <svg id = "paint-board"style="width: 1500px;height:800px;">
        
         </svg>
     </div>
@@ -237,9 +343,11 @@
 <!-- 201,224,247 -->
 </body>
 <script>
-    var fill = false
+   
     
     var beingPressed
+    var svg = document.querySelector("svg#paint-board")
+    var menu = document.querySelector("div.main-menu")
     var foreSquare = document.querySelector(".foregroudColor .square")
     var backSquare = document.querySelector(".backgroudColor .square")
     var foreButton = document.querySelector(".foregroudColor")
@@ -250,12 +358,17 @@
     var ColorSpans = document.querySelectorAll(".colorsWrapper span")
     var shapeButtons = document.querySelectorAll(".drawShapes div")
     var palette = document.querySelector("#svg-icon")
-    var circle = document.querySelector("svg.circle")
+    var ellipse = document.querySelector("svg.ellipse")
     var rect = document.querySelector("svg.rect")
     var line = document.querySelector("svg.line")
     var beizer = document.querySelector("svg.beizer")
     var bucket = document.querySelector("svg#bucket")
     var colorSelector = document.querySelector("#colorSelector")
+    // variables about fill color
+    var fillColor
+    var fill = false
+    var fillButton = document.querySelector("div.fillBucket")
+    
     // variable about bezier line
   
     var bSx //beizer start x
@@ -264,7 +377,8 @@
     var bEx
     var bEY
     var stages  // 0 represents that beizer line has not been drawn
-    window.addEventListener("click",function(){
+    
+    menu.addEventListener("click",function(){
         stages = 0
     })
 
@@ -287,6 +401,8 @@
     colorSelector.addEventListener("change",function(){
         clickColorSpan_Input(colorSelector)   
     })
+    // fill color set up
+    fillButton.addEventListener("click",clickFillButton)
     function clickColorSpan_Input(node){
         console.log(node.value)
        var color
@@ -303,7 +419,7 @@
             changeShapeColor()
         }else{
             currentBC = color
-            fillBucket()
+            fillBucketChange()
         }
         circle.style.fill = color
         path.style.fill = color
@@ -335,7 +451,16 @@
         }
         console.log(shape)
     }}
-    var svg = document.querySelector('#paint-board')
+   function clickFillButton(event){             
+       if(fill){
+        fillButton.style.backgroundColor=""
+        fill = false
+       }else{
+        fillButton.style.backgroundColor="rgb(201,224,247)"
+        fill = true
+       }
+       
+   }
     var node
     var shape = "rectangle"
     var startPos
@@ -350,6 +475,11 @@
     }
     svg.addEventListener("mousedown",downDraw)
     function downDraw(event) {
+        if(fill){
+            fillColor = currentBC
+        }else{
+            fillColor = "none"
+        }
         console.log('downdraw')
         
         startPos = mousePos(svg)
@@ -360,7 +490,7 @@
         
             `,
                 stroke: `${currentFC}`,
-                fill: 'none',
+                fill: `${fillColor}`,
                 'stroke-width': 10,
                 'stroke-linecap': 'round',
 
@@ -372,12 +502,12 @@
                 width: 0,
                 height: 0,
                 stroke: `${currentFC}`,
-                fill: 'none',
+                fill: `${fillColor}`,
                 'stroke-width': 10,
                 'stroke-linecap': 'round',
 
             })
-        } else if (shape == "circle") {
+        } else if (shape == "ellipse") {
             console.log(currentFC)
             node = svgElt('ellipse', {
                 cx: 0,
@@ -385,7 +515,7 @@
                 rx: 0,
                 ry: 0,
                 stroke: `${currentFC}`,
-                fill: 'none',
+                fill: `${fillColor}`,
                 'stroke-width': 10,
                 'stroke-linecap': 'round',
             })
@@ -399,7 +529,7 @@
                 
             `,
                 stroke: `${currentFC}`,
-                fill: 'none',
+                fill: `${fillColor}`,
                 'stroke-width': 10,
                 'stroke-linecap': 'round',
 
@@ -459,7 +589,7 @@
                 node.setAttribute('width', w)
                 node.setAttribute('height', h)
 
-            } else if (shape == "circle") {
+            } else if (shape == "ellipse") {
                 centerX = (startPos.x + currentPos.x) / 2
                 centerY = (startPos.y + currentPos.y) / 2
                 radiusX = (currentPos.x - startPos.x) / 2
@@ -531,9 +661,9 @@
     
     foreButton.click()
     changeShapeColor()
-    fillBucket
+    
     function changeShapeColor(){
-        var c = circle.querySelector("circle")
+        var c = ellipse.querySelector("ellipse")
         c.setAttribute("stroke",`${currentFC}`)
         var rP = rect.querySelector("path")
         var lP = line.querySelector("path")
@@ -543,12 +673,12 @@
         bP.setAttribute("stroke",`${currentFC}`)
 
     }
-    function fillBucket(){
+    function fillBucketChange(){
         console.log("fill bucket")
         var bC = bucket.querySelector("circle")
         bC.setAttribute("fill",`${currentBC}`)
     }
-    fillBucket()
+    fillBucketChange()
 </script>
 
 </html>
