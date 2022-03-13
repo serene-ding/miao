@@ -99,6 +99,7 @@
         var svg = document.querySelector("svg")
         svg.innerHTML = ""
         var reInput = regInput.value
+        
         var regNode = parseRegularExpression(reInput)
         var graph = drawRegExpressionGraph(regNode)
         svg.style.width = graph.width + 200

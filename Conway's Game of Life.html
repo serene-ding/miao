@@ -177,14 +177,19 @@
                 }
             }
         }
+        var allDead = true
         for(let j = 0; j < rows; j++){
             for(let i = 0; i < rows; i++){
                 if(newState[i][j]){
+                    allDead = false
                     tds[i][j].style.backgroundColor = blue
                 }else{
                     tds[i][j].style.backgroundColor = lightBlue
                 }
             }
+        }
+        if(allDead){
+            clearInterval(id)
         }
     
     }
@@ -195,7 +200,7 @@
     }
     stop.addEventListener("click",stopAnim)
     function stopAnim(){
-        
+        console.log("i am trying to stop anim!")
         clearInterval(id)
     }
     random.addEventListener("click",randomPopulate)
