@@ -4,9 +4,236 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hubballi&family=Open+Sans:wght@300&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <title>Conway's Game of Life</title>
+    <style>
+        body{
+            margin: 0;
+            background-color: #ADE8F4;
+        }
+        header{
+            background-color: #0077B6;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 50px;
+            height: 100px;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        td {
+            
+            box-sizing: border-box;
+        }
+        .tableWrapper {
+            
+            
+            background-color: lightpink;
+            margin: auto;
+        }
+        .menu {
+            position: absolute;
+            left:50px;
+            display: flex;
+            flex-direction: column;
+            top:150px;
+            height: 600px;
+            justify-content: space-between;
+        }
+        .menu button {
+            height: 100px;
+            width: 200px;
+            background-color: rgb(202, 240, 248);
+            border-radius: 50px 50px;
+            border: none;
+            font-size: 24px;
+             font-family: 'Hubballi', cursive;
+        }
+        
+    </style>
 </head>
 <body>
-    
+    <header>
+        Conway's Game of Life
+    </header>
+    <div class="menu">
+        <button id = "nextGeneration">next generation</button>
+        <button id="randomPoPulate">random populate</button>
+        <button id="evolve">evolve</button>
+        <button id="stop">stop</button>
+        <button id="reset">reset</button>
+    </div>
+    <div class="tableWrapper" style="width: 800px;
+    height: 800px;">
+        <table>
+           
+              
+           
+        </table>
+        
+    </div>
 </body>
+<script>
+    var tableWrapper = document.querySelector(".tableWrapper")
+    var rows = 60
+    var cols = 60
+    var tds = []
+    var lightBlue = "rgb(202, 240, 248)"
+    var blue = "rgb(0, 150, 199)"
+    var divW = parseInt(tableWrapper.style.width)
+    var divH = parseInt(tableWrapper.style.height)
+    var table = document.querySelector("table")
+    var tdWidth
+    var tdHeight
+    var buttons = document.querySelectorAll(".menu button")
+    var nextGeneration = document.querySelector("#nextGeneration")
+    var random = document.querySelector("#randomPoPulate")
+    var evolve = document.querySelector("#evolve")
+    var stop = document.querySelector("#stop")
+    var reset = document.querySelector("#reset")
+    var node
+    var newState = []
+    var id
+    function createTable(){
+       
+        tdWidth = divW/ cols
+        console.log(tdWidth)
+        tdHeight =divH / rows
+        for (let i = 0; i < rows; i++) {
+            tds[i] = []
+            newState[i] = []
+            var tr = document.createElement("tr")
+            for (let j = 0; j <cols; j++){
+                var td = document.createElement("td")
+
+                td.style.backgroundColor = "#CAF0F8"
+                td.style.height = tdHeight + "px"
+                td.style.width = tdWidth + "px"
+                td.style.border = "1px solid white"
+                td.className = "td"
+                tds[i].push(td)
+                newState[i][j] = false
+                
+                //    { let text = document.createTextNode(`${j}`+ "|")
+                //     td.appendChild(text)
+                // }
+                // {
+                //     let text = document.createTextNode(`${i}`)
+                //     td.appendChild(text)
+                // }
+                tr.appendChild(td)
+            }
+
+            table.appendChild(tr)
+    }}
+    createTable()
+    
+    table.addEventListener("click",activate)
+    function activate(event){
+        console.log('hello')
+        node = event.target
+        if(node.matches('.td')){
+            if(node.style.backgroundColor == lightBlue){
+                node.style.backgroundColor = blue
+            }else{
+                console.log("lightBlue")
+                node.style.backgroundColor = lightBlue
+            }
+            
+        }
+    }
+    nextGeneration.addEventListener('click',next)
+    function countNeightbors(row,col){
+        var count = 0
+        for (let i = Math.max(0,row-1); i <= Math.min(row+1,rows-1); i++) {
+            for (let j = Math.max(0,col-1); j <= Math.min(col+1,rows-1); j++) {
+                if(tds[i][j].style.backgroundColor==blue&&!(i==row&&j==col)){
+                    count++
+                }
+            }
+        }
+        return count
+    }
+    function next(event){
+        
+        // console.log("next")
+        for (let i = 0; i < rows; i++){
+            for (let j = 0; j < rows; j++){
+                var lives = countNeightbors(i,j)
+                if(tds[i][j].style.backgroundColor==blue){
+                    if(lives==2||lives==3){
+                        newState[i][j] = true
+                    }else{
+                        newState[i][j] = false
+                    }
+                }else{
+                    if(lives==3){
+                        newState[i][j] = true
+                    }else{
+                        newState[i][j] = false
+                    }
+                }
+            }
+        }
+        for(let j = 0; j < rows; j++){
+            for(let i = 0; i < rows; i++){
+                if(newState[i][j]){
+                    tds[i][j].style.backgroundColor = blue
+                }else{
+                    tds[i][j].style.backgroundColor = lightBlue
+                }
+            }
+        }
+    
+    }
+    evolve.addEventListener("click",evolveAnim)
+    function evolveAnim(event){
+
+        id = setInterval(next,200)
+    }
+    stop.addEventListener("click",stopAnim)
+    function stopAnim(){
+        
+        clearInterval(id)
+    }
+    random.addEventListener("click",randomPopulate)
+    function randomPopulate(){
+        
+        
+        for(let i = 0; i < 1500; i++){
+            var c = Math.floor(Math.random() * rows)
+            var r = Math.floor(Math.random() * cols)
+            tds[r][c].style.backgroundColor = blue
+        }
+    }
+    reset.addEventListener("click",resetTable)
+    function resetTable(){
+       
+
+        clearInterval(id)
+    for(let i = 0; i < rows; i++){
+        for(let j = 0; j < cols; j++){
+            tds[i][j].style.backgroundColor = lightBlue
+        }
+    }
+    }
+    function onlyOne(){
+        for(var button of buttons){
+            
+            if(button!=event.target){
+                console.log("notMatch")
+                button.style.backgroundColor = "rgb(202, 240, 248)"
+                
+                
+            }else{
+                console.log("button")
+                button.style.backgroundColor = "rgb(72, 202, 228)"
+            }}
+    }
+
+
+
+</script>
 </html>
