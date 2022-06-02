@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="icons/bombIcon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <title>MineSweeper</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            background-color: rgb(189, 224, 254);
+            font-family: 'Pacifico', cursive;
+        }
+        
+        header {
+            height: 100px;
+            background-color: rgb(205, 180, 219);
+            font-family: 'Pacifico', cursive;
+            font-size: 60px;
+        }
+        
+        .wrapper {
+            width: 880px;
+            margin: auto;
+        }
+        
+        .topBar {
+            height: 100px;
+            width: 100%;
+            background-color: #A2D2FF;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .start {
+            width: 60%;
+            display: flex;
+        }
+        
+        .topBar .flag {
+            display: flex;
+            align-items: center;
+            font-size: 50px;
+            font-family: 'Pacifico', cursive;
+            margin-right: 20px;
+            margin-left: 20px
+        }
+        
+        .topBar .flag .redFlagImage {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .topBar .flag .redFlagImage img {
+            height: 50px;
+            vertical-align: top;
+        }
+        
+        .topBar .timer {
+            display: flex;
+            align-items: center;
+            font-size: 50px;
+            font-family: 'Pacifico', cursive;
+            width: 500px
+        }
+        
+        .topBar .timer .timerImg {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .topBar .timer .timerImg img {
+            height: 50px;
+            vertical-align: top;
+        }
+        
+        .topBar .smileFace {
+            width: 100px;
+            height: 100%;
+        }
+        
+        .topBar .smileFace .smileIcon {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+        }
+        
+        .topBar .smileFace .smileIcon img {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .grid {
+            width: 880px;
+            height: 880px;
+            display: flex;
+            flex-wrap: wrap;
+            /* background-color: #FFC8DD; */
+        }
+        
+        .grid div {
+            width: 80px;
+            height: 80px;
+            background-size: cover;
+            font-weight: bold;
+            font-size: 50px;
+            line-height: 80px;
+            text-align: center;
+        }
+        /* .grid div.bomb {
+            background-color: #A2D2FF;
+        } */
+        
+        .grid div:nth-child(even) {
+            background-color: #FFC8DD;
+        }
+        
+        .grid div:nth-child(odd) {
+            background-color: #FFAFCC;
+        }
+        
+        .grid div:nth-child(even).checked {
+            background-color: #90E0EF;
+        }
+        
+        .grid div:nth-child(odd).checked {
+            background-color: #48CAE4;
+        }
+        
+        .grid div:nth-child(even).hovered {
+            background-color: rgb(254, 234, 250);
+        }
+        
+        .grid div:nth-child(odd).hovered {
+            background-color: rgb(222, 226, 255);
+        }
+        
+        .overlayLose {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, .8);
+        }
+        
+        .overlayLose .endGame {
+            /* display: flex; */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 500px;
+            height: 500px;
+            transform: translate(-50%, -50%);
+            background-color: rgb(255, 173, 173);
+        }
+        
+        .overlayLose .endGame .emoji {
+            width: 300px;
+            height: 300px;
+            margin: auto;
+        }
+        
+        .overlayLose .endGame .emoji img {
+            width: 100%
+        }
+        
+        .overlayLose .endGame .tryAgain {
+            text-align: center;
+            width: 350px;
+            height: 100px;
+            margin: auto;
+            font-size: 50px;
+            line-height: 100px;
+            font-family: 'Pacifico', cursive;
+            margin-top: 50px;
+            background-color: rgb(160, 196, 255);
+            border-radius: 100px;
+            box-shadow: 10px 5px 5px black;
+            cursor: pointer;
+        }
+        
+        .overlayWin {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, .8);
+        }
+        
+        .overlayWin .endGame {
+            /* display: flex; */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 500px;
+            height: 500px;
+            transform: translate(-50%, -50%);
+            background-color: rgb(255, 173, 173);
+        }
+        
+        .overlayWin .endGame .emoji {
+            width: 300px;
+            height: 300px;
+            margin: auto;
+            text-align: center;
+        }
+        
+        .overlayWin .endGame .emoji img {
+            width: 80%;
+            margin-top: 50px;
+        }
+        
+        .overlayWin .endGame .youWin {
+            text-align: center;
+            width: 350px;
+            height: 100px;
+            margin: auto;
+            font-size: 30px;
+            line-height: 100px;
+            font-family: 'Pacifico', cursive;
+            margin-top: 50px;
+            background-color: rgb(160, 196, 255);
+            border-radius: 100px;
+            box-shadow: 10px 5px 5px black;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlayLose">
+        <div class="endGame">
+            <div class="emoji">
+                <img src="icons/cry.png" alt="">
+            </div>
+            <div class="tryAgain">try agian? &#127773</div>
+        </div>
+    </div>
+    <div class="overlayWin">
+        <div class="endGame">
+            <div class="emoji">
+                <img src="icons/winning.png" alt="">
+            </div>
+            <div class="youWin">YOU WIN! &#129395</div>
+        </div>
+    </div>
+    <header>MineSweeper</header>
+
+    <div class="wrapper">
+        <div class="topBar">
+            <div class="start">
+                <div class="flag">
+                    <div class="redFlagImage">
+                        <img src="icons/red-flag.png" alt="">
+                    </div>
+                    <div class="flagAmount"></div>
+                </div>
+                <div class="timer">
+                    <div class="timerImg">
+                        <img src="icons/stopwatch.png" alt="">
+                    </div>
+                    <div class="elapse">time 0</div>
+                </div>
+            </div>
+            <div class="smileFace">
+                <div class="smileIcon">
+
+                </div>
+
+            </div>
+        </div>
+        <div class="grid"></div>
+    </div>
+
+</body>
+<script>
+    var middleButtonPressed = false
+    let width = 11
+    var height = 11
+    let squares = []
+    let grid = document.querySelector(".grid")
+    let bombAmount = 20
+    let redFlagsAmount = bombAmount
+    var bombsRecorder = []
+    var stateArray = []
+    var checked = []
+    var redFlags = []
+    var flagAmount = document.querySelector(".flagAmount")
+    var firstClick = true
+    var overlayLose = document.querySelector(".overlayLose")
+    var overlayWin = document.querySelector(".overlayWin")
+    var smileIcon = document.querySelector(".smileIcon")
+    smileIcon.style.backgroundImage = "url('icons/smile.png')"
+    smileIcon.addEventListener("click", function() {
+        newGame()
+        smileIcon.style.backgroundImage = "url('icons/smile.png')"
+    })
+
+    function createEmptyBoard() {
+        flagAmount.textContent = redFlagsAmount
+
+
+        for (let i = 0; i < width; i++) {
+            squares[i] = []
+            checked[i] = []
+            redFlags[i] = []
+            for (let j = 0; j < width; j++) {
+                checked[i][j] = false
+                redFlags[i][j] = false
+                let square = document.createElement("div")
+                grid.appendChild(square)
+                squares[i].push(square)
+                    // square.addEventListener("click", function(e) {
+
+                //     clickSquare(i, j)
+                // })
+                square.addEventListener("mousedown", function(event) {
+                    if (event.button == 2) {
+                        addRedFlags(i, j)
+
+                    }
+                    if (event.button == 0) {
+                        clickSquare(i, j)
+
+                    }
+                    if (event.button == 1) {
+                        event.preventDefault()
+                        console.log("mousedown middle button")
+                        console.log(square)
+                        middleButtonPressed = true
+                        console.log(middleButtonPressed)
+                        mouseOver(i, j)
+                            // middleButton(i, j)
+
+                    }
+                })
+                square.addEventListener("mouseover", function(event) {
+                    if (middleButtonPressed) {
+                        mouseOver(i, j)
+                    }
+
+
+                })
+                square.addEventListener("mouseout", function(event) {
+                    console.log("mouseout ")
+                    mouseOut(i, j)
+
+                })
+                square.addEventListener("mouseup", function(event) {
+                    if (event.button == 0) {
+                        console.log(0)
+                    }
+                    if (event.button == 1) {
+                        middleButtonPressed = false
+                        mouseOut(i, j)
+                        middleButton(i, j)
+                            // square.removeEventListener("mouseover", mouseOver)
+                    }
+                    if (event.button == 2) {
+                        console.log(2)
+                    }
+                })
+                square.addEventListener("contextmenu", function(event) {
+                    event.preventDefault()
+                })
+
+            }
+        }
+    }
+
+    function initializeBoard(i, j) {
+        console.log(i, j)
+        const bombsArray = Array(bombAmount).fill("bomb")
+        const emptyArray = Array(width * width - bombAmount - 1).fill("valid")
+        const gameArray = emptyArray.concat(bombsArray)
+
+        var shuffledArray = gameArray.sort(() => Math.random() - 0.5)
+        var partBeforeClick = shuffledArray.slice(0, i * width + j)
+        var partAfterClick = shuffledArray.slice(i * width + j)
+        var iAndj = ["valid"]
+        shuffledArray = partBeforeClick.concat(iAndj).concat(partAfterClick)
+        for (let i = 0; i < height; i++) {
+            stateArray[i] = []
+            for (let j = 0; j < width; j++) {
+                stateArray[i][j] = shuffledArray[i * width + j]
+
+            }
+        }
+        console.log(i, j)
+    }
+
+    function countBombs(row, col) {
+        var count = 0
+
+        for (let r = Math.max(0, row - 1); r <= Math.min(height - 1, row + 1); r++) {
+
+            for (let c = Math.max(0, col - 1); c <= Math.min(width - 1, col + 1); c++) {
+
+
+                if (stateArray[r][c] == "bomb") {
+                    count++
+
+                }
+
+            }
+        }
+        return count
+    }
+
+    function createBombsRecorder() {
+
+        for (let i = 0; i < height; i++) {
+            bombsRecorder[i] = []
+
+
+            for (let j = 0; j < width; j++) {
+                if (stateArray[i][j] == "bomb") {
+                    bombsRecorder[i][j] = "isBomb"
+                } else {
+                    bombsRecorder[i][j] = countBombs(i, j)
+                }
+
+
+            }
+        }
+    }
+
+
+    function clickSquare(row, col) {
+
+        if (checked[row][col]) {
+            return
+        }
+        if (redFlags[row][col]) {
+            return
+        }
+        if (firstClick) {
+            firstClick = false
+            initializeBoard(row, col)
+            createBombsRecorder()
+        }
+        if (stateArray[row][col] == "bomb") {
+            checked[row][col] = true
+            squares[row][col].style.backgroundImage = "url('icons/malware.png')"
+            showAllBombs()
+            smileIcon.style.backgroundImage = "url('icons/cry.png')"
+                setTimeout(showOverlayLose, 200)
+        } else {
+            checkValidSquares(row, col)
+            if (countChecked() == (width * height - bombAmount)) {
+
+                setTimeout(showOverlayWin, 1000)
+            }
+
+        }
+
+    }
+
+    function checkValidSquares(row, col) {
+        if (checked[row][col]) {
+            return
+        }
+        if (redFlags[row][col]) {
+            return
+        }
+        checked[row][col] = true
+            // console.log(row, col, stateArray[row][col])
+
+
+        if (bombsRecorder[row][col] != 0) {
+            squares[row][col].classList.add("checked")
+            squares[row][col].textContent = bombsRecorder[row][col]
+
+            return
+        } else {
+            squares[row][col].classList.add("checked")
+            if (bombsRecorder[row][col] > 0) {
+                squares[row][col].textContent = bombsRecorder[row][col]
+            }
+
+            for (let r = Math.max(0, row - 1); r <= Math.min(height - 1, row + 1); r++) {
+                for (let c = Math.max(0, col - 1); c <= Math.min(width - 1, col + 1); c++) {
+                    if (!(r == row && c == col) && !checked[r][c]) {
+                        checkValidSquares(r, c)
+
+                    }
+                }
+            }
+        }
+
+
+    }
+    createEmptyBoard()
+
+    console.log("bombsRecorder", bombsRecorder)
+
+    function countChecked() {
+        var sum = 0
+        for (let i = 0; i < height; i++) {
+            for (let j = 0; j < width; j++) {
+                if (checked[i][j]) {
+                    sum++
+                }
+            }
+        }
+        return sum
+
+    }
+    // check Red flags
+    function addRedFlags(i, j) {
+        if (!checked[i][j]) {
+            if (!redFlags[i][j]) {
+                squares[i][j].style.backgroundImage = "url(icons/red-flag.png)"
+                redFlags[i][j] = true
+                redFlagsAmount--
+                if (!firstClick && checkRedflags()) {
+                    showOverlayWin()
+                }
+
+            } else {
+                squares[i][j].style.backgroundImage = ""
+                redFlags[i][j] = false
+                redFlagsAmount++
+
+            }
+            flagAmount.textContent = redFlagsAmount
+        }
+
+    }
+    // check if the red flags have been in the correct position and meet the amount
+    function checkRedflags() {
+        var sum = 0
+        for (let i = 0; i < height; i++) {
+            for (let j = 0; j < width; j++) {
+                if (redFlags[i][j]) {
+                    sum++
+                    if (stateArray[i][j] != "bomb") {
+                        return false
+                    }
+                }
+            }
+        }
+        if (sum == bombAmount) {
+            return true
+        }
+    }
+
+    function middleButton(i, j) {
+        console.log("middleButton")
+        if (!checked[i][j]) {
+            return
+        }
+        var needFlags = bombsRecorder[i][j]
+        var checkNearFlags = function(i, j) {
+            var res = 0
+
+            for (let r = Math.max(0, i - 1); r <= Math.min(height - 1, i + 1); r++) {
+                for (let c = Math.max(0, j - 1); c <= Math.min(width - 1, j + 1); c++) {
+
+                    if (redFlags[r][c]) {
+                        res++
+                    }
+                }
+            }
+            return res
+        }
+        console.log(checkNearFlags(i, j))
+        var hasBomb = []
+
+        for (let r = Math.max(0, i - 1); r <= Math.min(height - 1, i + 1); r++) {
+            for (let c = Math.max(0, j - 1); c <= Math.min(width - 1, j + 1); c++) {
+                if (!redFlags[r][c] && (stateArray[r][c] == "bomb")) {
+                    hasBomb.push([r, c])
+                }
+            }
+        }
+        console.log("has bomb", hasBomb)
+        if ((checkNearFlags(i, j) == needFlags)) {
+            for (let r = Math.max(0, i - 1); r <= Math.min(height - 1, i + 1); r++) {
+                for (let c = Math.max(0, j - 1); c <= Math.min(width - 1, j + 1); c++) {
+                    if (!redFlags[r][c] && (stateArray[r][c] != "bomb")) {
+                        checkValidSquares(r, c)
+                    }
+                    if (redFlags[r][c] && stateArray[r][c] == "valid") {
+                        squares[r][c].style.backgroundImage = "url('icons/cancel.png')"
+                    }
+                }
+            }
+
+            if (hasBomb.length) {
+                for (var coordinate of hasBomb) {
+                    var yCor = coordinate[0]
+                    var xCor = coordinate[1]
+                    checked[yCor][xCor] = true
+                    squares[yCor][xCor].style.backgroundImage = "url('icons/malware.png')"
+
+                }
+                showAllBombs()
+                smileIcon.style.backgroundImage = "url('icons/cry.png')"
+            }
+
+        }
+    }
+
+    function mouseOver(i, j) {
+        for (let r = Math.max(0, i - 1); r <= Math.min(height - 1, i + 1); r++) {
+            for (let c = Math.max(0, j - 1); c <= Math.min(width - 1, j + 1); c++) {
+                squares[r][c].classList.add("hovered")
+            }
+        }
+    }
+
+    function mouseOut(i, j) {
+        for (let r = Math.max(0, i - 1); r <= Math.min(height - 1, i + 1); r++) {
+            for (let c = Math.max(0, j - 1); c <= Math.min(width - 1, j + 1); c++) {
+                squares[r][c].classList.remove("hovered")
+            }
+        }
+    }
+
+
+    function newGame() {
+        redFlagAmount = bombAmount
+        overlayLose.style.display = "none"
+        overlayWin.style.display = "none"
+        grid.innerHTML = ""
+        start = Date.now()
+        createEmptyBoard()
+        firstClick = true
+    }
+    // mask
+    var overlayLose = document.querySelector('.overlayLose');
+    var tryAgain = document.querySelector(".tryAgain")
+    var overlayWin = document.querySelector('.overlayWin');
+    var youWin = document.querySelector(".youWin")
+    tryAgain.addEventListener("click", function() {
+        newGame()
+    })
+    youWin.addEventListener("click", function() {
+        newGame()
+    })
+
+    //mask
+    function showOverlayLose() {
+
+        overlayLose.style.display = "block"
+    }
+
+    function showOverlayWin() {
+        overlayWin.style.display = "block"
+    }
+
+    // time 
+    var start = Date.now()
+    var elapse = document.querySelector(".elapse")
+
+    function getTime() {
+        var cur = Date.now()
+        var time = cur - start
+            // console.log(cur, start)
+
+        elapse.textContent = "time" + " " + Math.floor(time / 1000)
+
+    }
+
+    function countTime() {
+        setInterval(getTime, 1000)
+    }
+    countTime()
+
+    function showAllBombs() {
+        console.log("show all bombs")
+        var c = 0
+        for (let i = 0; i < height; i++) {
+            for (let j = 0; j < width; j++) {
+                if (!checked[i][j] && !redFlags[i][j] && (stateArray[i][j] == "bomb")) {
+                    c++
+                    squares[i][j].style.backgroundImage = "url('icons/bomb.png')"
+                }
+                if (redFlags[i][j] && (stateArray[i][j] == "valid")) {
+                    squares[i][j].style.backgroundImage = "url('icons/cancel.png')"
+                }
+            }
+        }
+
+        console.log(c)
+    }
+    overlayWin.addEventListener("contextmenu", function(){
+        event.preventDefault()
+    })
+    // function testInitalization() {
+    //     for (var i = 0; i < height; i++) {
+    //         for (var j = 0; j < width; j++) {
+
+    //             if (stateArray[i][j] != "valid") {
+    //                 return false
+    //             }
+    //         }
+    //     }
+    //     return true
+    // }
+</script>
+
+</html>

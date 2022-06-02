@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
+    <link rel="icon" href="icons/happy.png">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hubballi&family=Open+Sans:wght@300&family=Permanent+Marker&display=swap" rel="stylesheet">
     <title>Conway's Game of Life</title>
@@ -51,7 +51,9 @@
             font-size: 24px;
              font-family: 'Hubballi', cursive;
         }
-        
+        button.clicked {
+            background-color: #0096C7;
+        }
     </style>
 </head>
 <body>
@@ -93,6 +95,7 @@
     var evolve = document.querySelector("#evolve")
     var stop = document.querySelector("#stop")
     var reset = document.querySelector("#reset")
+    var menu = document.querySelector(".menu")
     var node
     var newState = []
     var id
@@ -190,6 +193,7 @@
         }
         if(allDead){
             clearInterval(id)
+            evolve.classList.remove("clicked")
         }
     
     }
@@ -237,7 +241,16 @@
                 button.style.backgroundColor = "rgb(72, 202, 228)"
             }}
     }
-
+    menu.addEventListener("click", function(e){
+        console.log("hello bgc")
+        var buttons = document.querySelectorAll(".menu button")
+        if(e.target.matches('button')){
+            buttons.forEach(function(button){
+                button.classList.remove("clicked")
+            })
+            e.target.classList.add("clicked")
+        }
+    })
 
 
 </script>
